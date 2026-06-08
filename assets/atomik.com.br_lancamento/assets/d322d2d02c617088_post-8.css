@@ -1,0 +1,39 @@
+.elementor-kit-8{--e-global-color-primary:#faf9f5;--e-global-color-secondary:#f19a09;--e-global-color-text:#b0aea5;--e-global-color-accent:#ffcd81;--e-global-color-d2c2169:#070808;--e-global-color-f364e16:#0f0f10;--e-global-color-618b2f8:#1c1c1d;--e-global-color-57aad7a:#28292a;--e-global-typography-primary-font-family:"Cabin";--e-global-typography-primary-font-size:48px;--e-global-typography-primary-font-weight:600;--e-global-typography-primary-line-height:52.8px;--e-global-typography-primary-letter-spacing:-1.92px;--e-global-typography-secondary-font-family:"Castoro";--e-global-typography-secondary-font-size:48px;--e-global-typography-secondary-font-weight:400;--e-global-typography-secondary-font-style:italic;--e-global-typography-secondary-line-height:52.8px;--e-global-typography-secondary-letter-spacing:-1.92px;--e-global-typography-text-font-family:"Cabin";--e-global-typography-text-font-size:16px;--e-global-typography-text-font-weight:400;--e-global-typography-text-line-height:24px;--e-global-typography-text-letter-spacing:-0.32px;--e-global-typography-accent-font-family:"Cabin";--e-global-typography-accent-font-size:16px;--e-global-typography-accent-font-weight:400;--e-global-typography-accent-line-height:24px;--e-global-typography-accent-letter-spacing:-0.32px;--e-global-typography-e703eb5-font-family:"Castoro";--e-global-typography-e703eb5-font-size:80px;--e-global-typography-e703eb5-font-weight:400;--e-global-typography-e703eb5-font-style:italic;--e-global-typography-e703eb5-line-height:88px;--e-global-typography-e703eb5-letter-spacing:-3.2px;--e-global-typography-e272db4-font-family:"Cabin";--e-global-typography-e272db4-font-size:80px;--e-global-typography-e272db4-font-weight:600;--e-global-typography-e272db4-line-height:88px;--e-global-typography-e272db4-letter-spacing:-3.2px;--e-global-typography-8583c07-font-family:"Cabin";--e-global-typography-8583c07-font-size:32px;--e-global-typography-8583c07-font-weight:600;--e-global-typography-8583c07-line-height:38.4px;--e-global-typography-8583c07-letter-spacing:-1.28px;--e-global-typography-97db71e-font-family:"Cabin";--e-global-typography-97db71e-font-size:20px;--e-global-typography-97db71e-font-weight:600;--e-global-typography-97db71e-line-height:26px;--e-global-typography-97db71e-letter-spacing:-0.8px;--e-global-typography-bf3b27a-font-family:"Cabin";--e-global-typography-bf3b27a-font-size:14px;--e-global-typography-bf3b27a-font-weight:400;--e-global-typography-bf3b27a-line-height:21px;--e-global-typography-7c119f5-font-family:"Cabin";--e-global-typography-7c119f5-font-size:12px;--e-global-typography-7c119f5-font-weight:600;--e-global-typography-7c119f5-text-transform:uppercase;--e-global-typography-7c119f5-line-height:18px;--e-global-typography-7c119f5-letter-spacing:1.2px;--e-global-typography-23bee63-font-family:"Castoro";--e-global-typography-23bee63-font-size:48px;--e-global-typography-23bee63-font-weight:400;--e-global-typography-23bee63-font-style:italic;--e-global-typography-23bee63-line-height:52.8px;--e-global-typography-23bee63-letter-spacing:-1.92px;--e-global-typography-9cc0a9b-font-family:"Cabin";--e-global-typography-9cc0a9b-font-size:48px;--e-global-typography-9cc0a9b-font-weight:600;--e-global-typography-9cc0a9b-line-height:52.8px;--e-global-typography-9cc0a9b-letter-spacing:-1.92px;--e-global-typography-6f37e21-font-family:"Cabin";--e-global-typography-6f37e21-font-size:16px;--e-global-typography-6f37e21-font-weight:400;--e-global-typography-6f37e21-line-height:24px;--e-global-typography-6f37e21-letter-spacing:-0.32px;}.elementor-kit-8 e-page-transition{background-color:#FFBC7D;}.elementor-section.elementor-section-boxed > .elementor-container{max-width:1280px;}.e-con{--container-max-width:1280px;--container-default-padding-top:0px;--container-default-padding-right:0px;--container-default-padding-bottom:0px;--container-default-padding-left:0px;}.elementor-widget:not(:last-child){margin-block-end:20px;}.elementor-element{--widgets-spacing:20px 20px;--widgets-spacing-row:20px;--widgets-spacing-column:20px;}{}h1.entry-title{display:var(--page-title-display);}.site-header .site-branding{flex-direction:column;align-items:stretch;}.site-header{padding-inline-end:0px;padding-inline-start:0px;}.site-footer .site-branding{flex-direction:column;align-items:stretch;}@media(max-width:1024px){.elementor-section.elementor-section-boxed > .elementor-container{max-width:1024px;}.e-con{--container-max-width:1024px;}}@media(max-width:767px){.elementor-section.elementor-section-boxed > .elementor-container{max-width:767px;}.e-con{--container-max-width:767px;}}:root { --e-gv-bba7bb4:#fecc85; --e-gv-f33071c:#8fa4ff; --e-gv-8a5a660:#040506; --e-gv-b1b6ba5:#0b0d14; --e-gv-4399557:#090b11; --e-gv-693589a:#10131e; --e-gv-dece45f:#9dacd2; --e-gv-22cbe32:#f0f6ff; --acento:#ffcd81; --destaque:#f19a09; --fundo:#070808; --fundo-2:#0f0f10; --fundo-3:#1c1c1d; --fundo-4:#28292a; --texto:#b0aea5; --titulo:#faf9f5; }
+/* Start Custom Fonts CSS */@font-face {
+	font-family: 'Cabin';
+	font-style: normal;
+	font-weight: normal;
+	font-display: swap;
+	src: url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-400.eot');
+	src: url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-400.eot?#iefix') format('embedded-opentype'),
+		url("a8cf6528f4988c5a_cabin-400.woff2") format('woff2'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-400.woff') format('woff'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-400.ttf') format('truetype'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-400.svg#Cabin') format('svg');
+}
+@font-face {
+	font-family: 'Cabin';
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-600.eot');
+	src: url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-600.eot?#iefix') format('embedded-opentype'),
+		url("a210a25723c7fd68_cabin-600.woff2") format('woff2'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-600.woff') format('woff'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-600.ttf') format('truetype'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-600.svg#Cabin') format('svg');
+}
+/* End Custom Fonts CSS */
+/* Start Custom Fonts CSS */@font-face {
+	font-family: 'Castoro';
+	font-style: normal;
+	font-weight: normal;
+	font-display: swap;
+	src: url('https://atomik.com.br/wp-content/uploads/2026/06/castoro-400.eot');
+	src: url('https://atomik.com.br/wp-content/uploads/2026/06/castoro-400.eot?#iefix') format('embedded-opentype'),
+		url("10f844d6a4e0e90f_castoro-400.woff2") format('woff2'),
+		url('https://atomik.com.br/wp-content/uploads/2026/06/castoro-400.woff') format('woff'),
+		url('https://atomik.com.br/wp-content/uploads/2026/06/castoro-400.ttf') format('truetype'),
+		url('https://atomik.com.br/wp-content/uploads/2026/06/castoro-400.svg#Castoro') format('svg');
+}
+/* End Custom Fonts CSS */

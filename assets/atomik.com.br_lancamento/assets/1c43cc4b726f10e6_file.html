@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><script>if(navigator.userAgent.match(/MSIE|Internet Explorer/i)||navigator.userAgent.match(/Trident\/7\..*?rv:11/i)){var href=document.location.href;if(!href.match(/[?&]nowprocket/)){if(href.indexOf("?")==-1){if(href.indexOf("#")==-1){document.location.href=href+"?nowprocket=1"}else{document.location.href=href.replace("#","?nowprocket=1#")}}else{if(href.indexOf("#")==-1){document.location.href=href+"&nowprocket=1"}else{document.location.href=href.replace("#","&nowprocket=1#")}}}}</script><script>(()=>{class RocketLazyLoadScripts{constructor(){this.v="2.0.5",this.userEvents=["keydown","keyup","mousedown","mouseup","mousemove","mouseover","mouseout","touchmove","touchstart","touchend","touchcancel","wheel","click","dblclick","input"],this.attributeEvents=["onblur","onclick","oncontextmenu","ondblclick","onfocus","onmousedown","onmouseenter","onmouseleave","onmousemove","onmouseout","onmouseover","onmouseup","onmousewheel","onscroll","onsubmit"]}async t(){this.i(),this.o(),/iP(ad|hone)/.test(navigator.userAgent)&&this.h(),this.u(),this.l(this),this.m(),this.k(this),this.p(this),this._(),await Promise.all([this.R(),this.L()]),this.lastBreath=Date.now(),this.S(this),this.P(),this.D(),this.O(),this.M(),await this.C(this.delayedScripts.normal),await this.C(this.delayedScripts.defer),await this.C(this.delayedScripts.async),await this.T(),await this.F(),await this.j(),await this.A(),window.dispatchEvent(new Event("rocket-allScriptsLoaded")),this.everythingLoaded=!0,this.lastTouchEnd&&await new Promise(t=>setTimeout(t,500-Date.now()+this.lastTouchEnd)),this.I(),this.H(),this.U(),this.W()}i(){this.CSPIssue=sessionStorage.getItem("rocketCSPIssue"),document.addEventListener("securitypolicyviolation",t=>{this.CSPIssue||"script-src-elem"!==t.violatedDirective||"data"!==t.blockedURI||(this.CSPIssue=!0,sessionStorage.setItem("rocketCSPIssue",!0))},{isRocket:!0})}o(){window.addEventListener("pageshow",t=>{this.persisted=t.persisted,this.realWindowLoadedFired=!0},{isRocket:!0}),window.addEventListener("pagehide",()=>{this.onFirstUserAction=null},{isRocket:!0})}h(){let t;function e(e){t=e}window.addEventListener("touchstart",e,{isRocket:!0}),window.addEventListener("touchend",function i(o){o.changedTouches[0]&&t.changedTouches[0]&&Math.abs(o.changedTouches[0].pageX-t.changedTouches[0].pageX)<10&&Math.abs(o.changedTouches[0].pageY-t.changedTouches[0].pageY)<10&&o.timeStamp-t.timeStamp<200&&(window.removeEventListener("touchstart",e,{isRocket:!0}),window.removeEventListener("touchend",i,{isRocket:!0}),"INPUT"===o.target.tagName&&"text"===o.target.type||(o.target.dispatchEvent(new TouchEvent("touchend",{target:o.target,bubbles:!0})),o.target.dispatchEvent(new MouseEvent("mouseover",{target:o.target,bubbles:!0})),o.target.dispatchEvent(new PointerEvent("click",{target:o.target,bubbles:!0,cancelable:!0,detail:1,clientX:o.changedTouches[0].clientX,clientY:o.changedTouches[0].clientY})),event.preventDefault()))},{isRocket:!0})}q(t){this.userActionTriggered||("mousemove"!==t.type||this.firstMousemoveIgnored?"keyup"===t.type||"mouseover"===t.type||"mouseout"===t.type||(this.userActionTriggered=!0,this.onFirstUserAction&&this.onFirstUserAction()):this.firstMousemoveIgnored=!0),"click"===t.type&&t.preventDefault(),t.stopPropagation(),t.stopImmediatePropagation(),"touchstart"===this.lastEvent&&"touchend"===t.type&&(this.lastTouchEnd=Date.now()),"click"===t.type&&(this.lastTouchEnd=0),this.lastEvent=t.type,t.composedPath&&t.composedPath()[0].getRootNode()instanceof ShadowRoot&&(t.rocketTarget=t.composedPath()[0]),this.savedUserEvents.push(t)}u(){this.savedUserEvents=[],this.userEventHandler=this.q.bind(this),this.userEvents.forEach(t=>window.addEventListener(t,this.userEventHandler,{passive:!1,isRocket:!0})),document.addEventListener("visibilitychange",this.userEventHandler,{isRocket:!0})}U(){this.userEvents.forEach(t=>window.removeEventListener(t,this.userEventHandler,{passive:!1,isRocket:!0})),document.removeEventListener("visibilitychange",this.userEventHandler,{isRocket:!0}),this.savedUserEvents.forEach(t=>{(t.rocketTarget||t.target).dispatchEvent(new window[t.constructor.name](t.type,t))})}m(){const t="return false",e=Array.from(this.attributeEvents,t=>"data-rocket-"+t),i="["+this.attributeEvents.join("],[")+"]",o="[data-rocket-"+this.attributeEvents.join("],[data-rocket-")+"]",s=(e,i,o)=>{o&&o!==t&&(e.setAttribute("data-rocket-"+i,o),e["rocket"+i]=new Function("event",o),e.setAttribute(i,t))};new MutationObserver(t=>{for(const n of t)"attributes"===n.type&&(n.attributeName.startsWith("data-rocket-")||this.everythingLoaded?n.attributeName.startsWith("data-rocket-")&&this.everythingLoaded&&this.N(n.target,n.attributeName.substring(12)):s(n.target,n.attributeName,n.target.getAttribute(n.attributeName))),"childList"===n.type&&n.addedNodes.forEach(t=>{if(t.nodeType===Node.ELEMENT_NODE)if(this.everythingLoaded)for(const i of[t,...t.querySelectorAll(o)])for(const t of i.getAttributeNames())e.includes(t)&&this.N(i,t.substring(12));else for(const e of[t,...t.querySelectorAll(i)])for(const t of e.getAttributeNames())this.attributeEvents.includes(t)&&s(e,t,e.getAttribute(t))})}).observe(document,{subtree:!0,childList:!0,attributeFilter:[...this.attributeEvents,...e]})}I(){this.attributeEvents.forEach(t=>{document.querySelectorAll("[data-rocket-"+t+"]").forEach(e=>{this.N(e,t)})})}N(t,e){const i=t.getAttribute("data-rocket-"+e);i&&(t.setAttribute(e,i),t.removeAttribute("data-rocket-"+e))}k(t){Object.defineProperty(HTMLElement.prototype,"onclick",{get(){return this.rocketonclick||null},set(e){this.rocketonclick=e,this.setAttribute(t.everythingLoaded?"onclick":"data-rocket-onclick","this.rocketonclick(event)")}})}S(t){function e(e,i){let o=e[i];e[i]=null,Object.defineProperty(e,i,{get:()=>o,set(s){t.everythingLoaded?o=s:e["rocket"+i]=o=s}})}e(document,"onreadystatechange"),e(window,"onload"),e(window,"onpageshow");try{Object.defineProperty(document,"readyState",{get:()=>t.rocketReadyState,set(e){t.rocketReadyState=e},configurable:!0}),document.readyState="loading"}catch(t){console.log("WPRocket DJE readyState conflict, bypassing")}}l(t){this.originalAddEventListener=EventTarget.prototype.addEventListener,this.originalRemoveEventListener=EventTarget.prototype.removeEventListener,this.savedEventListeners=[],EventTarget.prototype.addEventListener=function(e,i,o){o&&o.isRocket||!t.B(e,this)&&!t.userEvents.includes(e)||t.B(e,this)&&!t.userActionTriggered||e.startsWith("rocket-")||t.everythingLoaded?t.originalAddEventListener.call(this,e,i,o):(t.savedEventListeners.push({target:this,remove:!1,type:e,func:i,options:o}),"mouseenter"!==e&&"mouseleave"!==e||t.originalAddEventListener.call(this,e,t.savedUserEvents.push,o))},EventTarget.prototype.removeEventListener=function(e,i,o){o&&o.isRocket||!t.B(e,this)&&!t.userEvents.includes(e)||t.B(e,this)&&!t.userActionTriggered||e.startsWith("rocket-")||t.everythingLoaded?t.originalRemoveEventListener.call(this,e,i,o):t.savedEventListeners.push({target:this,remove:!0,type:e,func:i,options:o})}}J(t,e){this.savedEventListeners=this.savedEventListeners.filter(i=>{let o=i.type,s=i.target||window;return e!==o||t!==s||(this.B(o,s)&&(i.type="rocket-"+o),this.$(i),!1)})}H(){EventTarget.prototype.addEventListener=this.originalAddEventListener,EventTarget.prototype.removeEventListener=this.originalRemoveEventListener,this.savedEventListeners.forEach(t=>this.$(t))}$(t){t.remove?this.originalRemoveEventListener.call(t.target,t.type,t.func,t.options):this.originalAddEventListener.call(t.target,t.type,t.func,t.options)}p(t){let e;function i(e){return t.everythingLoaded?e:e.split(" ").map(t=>"load"===t||t.startsWith("load.")?"rocket-jquery-load":t).join(" ")}function o(o){function s(e){const s=o.fn[e];o.fn[e]=o.fn.init.prototype[e]=function(){return this[0]===window&&t.userActionTriggered&&("string"==typeof arguments[0]||arguments[0]instanceof String?arguments[0]=i(arguments[0]):"object"==typeof arguments[0]&&Object.keys(arguments[0]).forEach(t=>{const e=arguments[0][t];delete arguments[0][t],arguments[0][i(t)]=e})),s.apply(this,arguments),this}}if(o&&o.fn&&!t.allJQueries.includes(o)){const e={DOMContentLoaded:[],"rocket-DOMContentLoaded":[]};for(const t in e)document.addEventListener(t,()=>{e[t].forEach(t=>t())},{isRocket:!0});o.fn.ready=o.fn.init.prototype.ready=function(i){function s(){parseInt(o.fn.jquery)>2?setTimeout(()=>i.bind(document)(o)):i.bind(document)(o)}return"function"==typeof i&&(t.realDomReadyFired?!t.userActionTriggered||t.fauxDomReadyFired?s():e["rocket-DOMContentLoaded"].push(s):e.DOMContentLoaded.push(s)),this},s("on"),s("one"),s("off"),t.allJQueries.push(o)}e=o}t.allJQueries=[],o(window.jQuery),Object.defineProperty(window,"jQuery",{get:()=>e,set(t){o(t)}})}P(){const t=new Map;document.write=document.writeln=function(e){const i=document.currentScript,o=document.createRange(),s=i.parentElement;let n=t.get(i);void 0===n&&(n=i.nextSibling,t.set(i,n));const c=document.createDocumentFragment();o.setStart(c,0),c.appendChild(o.createContextualFragment(e)),s.insertBefore(c,n)}}async R(){return new Promise(t=>{this.userActionTriggered?t():this.onFirstUserAction=t})}async L(){return new Promise(t=>{document.addEventListener("DOMContentLoaded",()=>{this.realDomReadyFired=!0,t()},{isRocket:!0})})}async j(){return this.realWindowLoadedFired?Promise.resolve():new Promise(t=>{window.addEventListener("load",t,{isRocket:!0})})}M(){this.pendingScripts=[];this.scriptsMutationObserver=new MutationObserver(t=>{for(const e of t)e.addedNodes.forEach(t=>{"SCRIPT"!==t.tagName||!t.src||t.noModule||t.isWPRocket||this.pendingScripts.push({script:t,promise:new Promise(e=>{const i=()=>{const i=this.pendingScripts.findIndex(e=>e.script===t);i>=0&&this.pendingScripts.splice(i,1),e()};t.addEventListener("load",i,{isRocket:!0}),t.addEventListener("error",i,{isRocket:!0}),setTimeout(i,1e3)})})})}),this.scriptsMutationObserver.observe(document,{childList:!0,subtree:!0})}async F(){await this.X(),this.pendingScripts.length?(await this.pendingScripts[0].promise,await this.F()):this.scriptsMutationObserver.disconnect()}D(){this.delayedScripts={normal:[],async:[],defer:[]},document.querySelectorAll("script[type$=rocketlazyloadscript]").forEach(t=>{t.hasAttribute("data-rocket-src")?t.hasAttribute("async")&&!1!==t.async?this.delayedScripts.async.push(t):t.hasAttribute("defer")&&!1!==t.defer||"module"===t.getAttribute("data-rocket-type")?this.delayedScripts.defer.push(t):this.delayedScripts.normal.push(t):this.delayedScripts.normal.push(t)})}async _(){await this.L();let t=[];document.querySelectorAll("script[type$=rocketlazyloadscript][data-rocket-src]").forEach(e=>{let i=e.getAttribute("data-rocket-src");if(i&&!i.startsWith("data:")){i.startsWith("//")&&(i=location.protocol+i);try{const o=new URL(i).origin;o!==location.origin&&t.push({src:o,crossOrigin:e.crossOrigin||"module"===e.getAttribute("data-rocket-type")})}catch(t){}}}),t=[...new Map(t.map(t=>[JSON.stringify(t),t])).values()],this.Y(t,"preconnect")}async G(t){if(await this.K(),!0!==t.noModule||!("noModule"in HTMLScriptElement.prototype))return new Promise(e=>{let i;function o(){(i||t).setAttribute("data-rocket-status","executed"),e()}try{if(navigator.userAgent.includes("Firefox/")||""===navigator.vendor||this.CSPIssue)i=document.createElement("script"),[...t.attributes].forEach(t=>{let e=t.nodeName;"type"!==e&&("data-rocket-type"===e&&(e="type"),"data-rocket-src"===e&&(e="src"),i.setAttribute(e,t.nodeValue))}),t.text&&(i.text=t.text),t.nonce&&(i.nonce=t.nonce),i.hasAttribute("src")?(i.addEventListener("load",o,{isRocket:!0}),i.addEventListener("error",()=>{i.setAttribute("data-rocket-status","failed-network"),e()},{isRocket:!0}),setTimeout(()=>{i.isConnected||e()},1)):(i.text=t.text,o()),i.isWPRocket=!0,t.parentNode.replaceChild(i,t);else{const i=t.getAttribute("data-rocket-type"),s=t.getAttribute("data-rocket-src");i?(t.type=i,t.removeAttribute("data-rocket-type")):t.removeAttribute("type"),t.addEventListener("load",o,{isRocket:!0}),t.addEventListener("error",i=>{this.CSPIssue&&i.target.src.startsWith("data:")?(console.log("WPRocket: CSP fallback activated"),t.removeAttribute("src"),this.G(t).then(e)):(t.setAttribute("data-rocket-status","failed-network"),e())},{isRocket:!0}),s?(t.fetchPriority="high",t.removeAttribute("data-rocket-src"),t.src=s):t.src="data:text/javascript;base64,"+window.btoa(unescape(encodeURIComponent(t.text)))}}catch(i){t.setAttribute("data-rocket-status","failed-transform"),e()}});t.setAttribute("data-rocket-status","skipped")}async C(t){const e=t.shift();return e?(e.isConnected&&await this.G(e),this.C(t)):Promise.resolve()}O(){this.Y([...this.delayedScripts.normal,...this.delayedScripts.defer,...this.delayedScripts.async],"preload")}Y(t,e){this.trash=this.trash||[];let i=!0;var o=document.createDocumentFragment();t.forEach(t=>{const s=t.getAttribute&&t.getAttribute("data-rocket-src")||t.src;if(s&&!s.startsWith("data:")){const n=document.createElement("link");n.href=s,n.rel=e,"preconnect"!==e&&(n.as="script",n.fetchPriority=i?"high":"low"),t.getAttribute&&"module"===t.getAttribute("data-rocket-type")&&(n.crossOrigin=!0),t.crossOrigin&&(n.crossOrigin=t.crossOrigin),t.integrity&&(n.integrity=t.integrity),t.nonce&&(n.nonce=t.nonce),o.appendChild(n),this.trash.push(n),i=!1}}),document.head.appendChild(o)}W(){this.trash.forEach(t=>t.remove())}async T(){try{document.readyState="interactive"}catch(t){}this.fauxDomReadyFired=!0;try{await this.K(),this.J(document,"readystatechange"),document.dispatchEvent(new Event("rocket-readystatechange")),await this.K(),document.rocketonreadystatechange&&document.rocketonreadystatechange(),await this.K(),this.J(document,"DOMContentLoaded"),document.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this.K(),this.J(window,"DOMContentLoaded"),window.dispatchEvent(new Event("rocket-DOMContentLoaded"))}catch(t){console.error(t)}}async A(){try{document.readyState="complete"}catch(t){}try{await this.K(),this.J(document,"readystatechange"),document.dispatchEvent(new Event("rocket-readystatechange")),await this.K(),document.rocketonreadystatechange&&document.rocketonreadystatechange(),await this.K(),this.J(window,"load"),window.dispatchEvent(new Event("rocket-load")),await this.K(),window.rocketonload&&window.rocketonload(),await this.K(),this.allJQueries.forEach(t=>t(window).trigger("rocket-jquery-load")),await this.K(),this.J(window,"pageshow");const t=new Event("rocket-pageshow");t.persisted=this.persisted,window.dispatchEvent(t),await this.K(),window.rocketonpageshow&&window.rocketonpageshow({persisted:this.persisted})}catch(t){console.error(t)}}async K(){Date.now()-this.lastBreath>45&&(await this.X(),this.lastBreath=Date.now())}async X(){return document.hidden?new Promise(t=>setTimeout(t)):new Promise(t=>requestAnimationFrame(t))}B(t,e=window){return e===document&&"readystatechange"===t||(e===document&&"DOMContentLoaded"===t||(e===window&&"DOMContentLoaded"===t||(e===window&&"load"===t||e===window&&"pageshow"===t)))}static run(){(new RocketLazyLoadScripts).t()}}RocketLazyLoadScripts.run()})();
+</script>
+	
+		<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+	<!-- This site is optimized with the Yoast SEO plugin v27.7 - https://yoast.com/product/yoast-seo-wordpress/ -->
+	<title>Política Atomik - Atomik</title>
+<link data-rocket-prefetch href="https://fonts.googleapis.com" rel="dns-prefetch">
+<link data-rocket-prefetch href="" rel="dns-prefetch"><link rel="preload" data-rocket-preload as="image" href="https://atomik.com.br/wp-content/uploads/2026/05/logo-atomik.svg" fetchpriority="high">
+	<link rel="canonical" href="https://atomik.com.br/politica-atomik/" />
+	<meta property="og:locale" content="pt_BR" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Política Atomik - Atomik" />
+	<meta property="og:description" content="Política de Privacidade Data da última atualização: 20/05/2026 1 Visão Geral O Atomik é uma extensão para o Google Chrome que aprimora o editor Elementor no WordPress. Esta Política de Privacidade explica quais dados coletamos, como os utilizamos e quais são os seus direitos em relação a essas informações. Ao instalar e utilizar o Atomik, [&hellip;]" />
+	<meta property="og:url" content="https://atomik.com.br/politica-atomik/" />
+	<meta property="og:site_name" content="Atomik" />
+	<meta property="article:modified_time" content="2026-05-21T12:23:39+00:00" />
+	<meta property="og:image" content="https://atomik.com.br/wp-content/uploads/2026/05/logo-atomik.svg" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Est. tempo de leitura" />
+	<meta name="twitter:data1" content="2 minutos" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https:\/\/schema.org","@graph":[{"@type":"WebPage","@id":"https:\/\/atomik.com.br\/politica-atomik\/","url":"https:\/\/atomik.com.br\/politica-atomik\/","name":"Política Atomik - Atomik","isPartOf":{"@id":"https:\/\/atomik.com.br\/#website"},"primaryImageOfPage":{"@id":"https:\/\/atomik.com.br\/politica-atomik\/#primaryimage"},"image":{"@id":"https:\/\/atomik.com.br\/politica-atomik\/#primaryimage"},"thumbnailUrl":"https:\/\/atomik.com.br\/wp-content\/uploads\/2026\/05\/logo-atomik.svg","datePublished":"2026-05-20T17:51:17+00:00","dateModified":"2026-05-21T12:23:39+00:00","breadcrumb":{"@id":"https:\/\/atomik.com.br\/politica-atomik\/#breadcrumb"},"inLanguage":"pt-BR","potentialAction":[{"@type":"ReadAction","target":["https:\/\/atomik.com.br\/politica-atomik\/"]}]},{"@type":"ImageObject","inLanguage":"pt-BR","@id":"https:\/\/atomik.com.br\/politica-atomik\/#primaryimage","url":"https:\/\/atomik.com.br\/wp-content\/uploads\/2026\/05\/logo-atomik.svg","contentUrl":"https:\/\/atomik.com.br\/wp-content\/uploads\/2026\/05\/logo-atomik.svg"},{"@type":"BreadcrumbList","@id":"https:\/\/atomik.com.br\/politica-atomik\/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https:\/\/atomik.com.br\/"},{"@type":"ListItem","position":2,"name":"Política Atomik"}]},{"@type":"WebSite","@id":"https:\/\/atomik.com.br\/#website","url":"https:\/\/atomik.com.br\/","name":"Atomik","description":"Do átomo ao site, em minutos.","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https:\/\/atomik.com.br\/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"pt-BR"}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<script type="text/rocketlazyloadscript" data-rocket-type='application/javascript'  id='pys-version-script'>console.log('PixelYourSite Free version 11.2.0.6');</script>
+
+<link rel="alternate" type="application/rss+xml" title="Feed para Atomik &raquo;" href="https://atomik.com.br/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Feed de comentários para Atomik &raquo;" href="https://atomik.com.br/comments/feed/" />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://atomik.com.br/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fatomik.com.br%2Fpolitica-atomik%2F" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://atomik.com.br/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fatomik.com.br%2Fpolitica-atomik%2F&#038;format=xml" />
+<style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id="wp-emoji-styles-inline-css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:root { --wp--style--global--content-size: 800px;--wp--style--global--wide-size: 1200px; }:where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.wp-site-blocks) > * { margin-block-start: 24px; margin-block-end: 0; }:where(.wp-site-blocks) > :first-child { margin-block-start: 0; }:where(.wp-site-blocks) > :last-child { margin-block-end: 0; }:root { --wp--style--block-gap: 24px; }:root :where(.is-layout-flow) > :first-child{margin-block-start: 0;}:root :where(.is-layout-flow) > :last-child{margin-block-end: 0;}:root :where(.is-layout-flow) > *{margin-block-start: 24px;margin-block-end: 0;}:root :where(.is-layout-constrained) > :first-child{margin-block-start: 0;}:root :where(.is-layout-constrained) > :last-child{margin-block-end: 0;}:root :where(.is-layout-constrained) > *{margin-block-start: 24px;margin-block-end: 0;}:root :where(.is-layout-flex){gap: 24px;}:root :where(.is-layout-grid){gap: 24px;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:root :where(.wp-block-icon svg){width: 24px;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+<link data-minify="1" rel='stylesheet' id='hello-elementor-css' href='https://atomik.com.br/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/reset.css?ver=1780748474' media='all' />
+<link data-minify="1" rel='stylesheet' id='hello-elementor-theme-style-css' href='https://atomik.com.br/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/theme.css?ver=1780748474' media='all' />
+<link data-minify="1" rel='stylesheet' id='hello-elementor-header-footer-css' href='https://atomik.com.br/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/header-footer.css?ver=1780748474' media='all' />
+<link rel='stylesheet' id='elementor-frontend-css' href='https://atomik.com.br/wp-content/uploads/elementor/css/custom-frontend.min.css?ver=1780748468' media='all' />
+<style id="elementor-frontend-inline-css">
+.e-heading-base a, .e-paragraph-base a { all: unset; cursor: pointer; }form[data-element_type="e-form"].form-state-success [data-element_type="e-form-success-message"],form[data-element_type="e-form"].form-state-error [data-element_type="e-form-error-message"]{ display: block; }
+.e-form-textarea-base:not([data-resizable]) { resize: none; } .e-form-submit-button-base { cursor: pointer; box-sizing: border-box; }
+/*# sourceURL=elementor-frontend-inline-css */
+</style>
+<link rel='stylesheet' id='elementor-post-8-css' href='https://atomik.com.br/wp-content/uploads/elementor/css/post-8.css?ver=1780748468' media='all' />
+<link data-minify="1" rel='stylesheet' id='font-awesome-5-all-css' href='https://atomik.com.br/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=1780748474' media='all' />
+<link rel='stylesheet' id='font-awesome-4-shim-css' href='https://atomik.com.br/wp-content/plugins/elementor/assets/lib/font-awesome/css/v4-shims.min.css?ver=4.1.1' media='all' />
+<link rel='stylesheet' id='widget-divider-css' href='https://atomik.com.br/wp-content/plugins/elementor/assets/css/widget-divider.min.css?ver=4.1.1' media='all' />
+<link rel='stylesheet' id='elementor-post-16-css' href='https://atomik.com.br/wp-content/uploads/elementor/css/post-16.css?ver=1780748811' media='all' />
+<link rel='stylesheet' id='base-desktop-css' href='https://atomik.com.br/wp-content/uploads/elementor/css/base-desktop.css?ver=6a2410b537a36' media='all' />
+<link rel='stylesheet' id='local-16-frontend-desktop-css' href='https://atomik.com.br/wp-content/uploads/elementor/css/local-16-frontend-desktop.css?ver=6a24120b0cdc9' media='all' />
+<link rel='stylesheet' id='local-16-frontend-widescreen-css' href='https://atomik.com.br/wp-content/uploads/elementor/css/local-16-frontend-widescreen.css?ver=6a24120b0cdc9' media='(min-width:2400px)' />
+<link rel='stylesheet' id='local-16-frontend-laptop-css' href='https://atomik.com.br/wp-content/uploads/elementor/css/local-16-frontend-laptop.css?ver=6a24120b0cdc9' media='(max-width:1366px)' />
+<link rel='stylesheet' id='local-16-frontend-tablet-css' href='https://atomik.com.br/wp-content/uploads/elementor/css/local-16-frontend-tablet.css?ver=6a24120b0cdc9' media='(max-width:1024px)' />
+<link rel='stylesheet' id='local-16-frontend-mobile-css' href='https://atomik.com.br/wp-content/uploads/elementor/css/local-16-frontend-mobile.css?ver=6a24120b0cdc9' media='(max-width:767px)' />
+<style id="elementor-pro-custom-fonts-inline-css">
+@font-face {
+	font-family: 'Cabin';
+	font-style: normal;
+	font-weight: normal;
+	font-display: swap;
+	src: url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-400.eot');
+	src: url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-400.eot?#iefix') format('embedded-opentype'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-400.woff2') format('woff2'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-400.woff') format('woff'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-400.ttf') format('truetype'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-400.svg#Cabin') format('svg');
+}
+@font-face {
+	font-family: 'Cabin';
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-600.eot');
+	src: url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-600.eot?#iefix') format('embedded-opentype'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-600.woff2') format('woff2'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-600.woff') format('woff'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-600.ttf') format('truetype'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/cabin-600.svg#Cabin') format('svg');
+}
+
+@font-face {
+	font-family: 'Castoro';
+	font-style: normal;
+	font-weight: normal;
+	font-display: swap;
+	src: url('https://atomik.com.br/wp-content/uploads/2026/06/castoro-400.eot');
+	src: url('https://atomik.com.br/wp-content/uploads/2026/06/castoro-400.eot?#iefix') format('embedded-opentype'),
+		url('https://atomik.com.br/wp-content/uploads/2026/06/castoro-400.woff2') format('woff2'),
+		url('https://atomik.com.br/wp-content/uploads/2026/06/castoro-400.woff') format('woff'),
+		url('https://atomik.com.br/wp-content/uploads/2026/06/castoro-400.ttf') format('truetype'),
+		url('https://atomik.com.br/wp-content/uploads/2026/06/castoro-400.svg#Castoro') format('svg');
+}
+
+@font-face {
+	font-family: 'Plus Jakarta Sans';
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: url('https://atomik.com.br/wp-content/uploads/2026/05/plus-jakarta-sans-600.eot');
+	src: url('https://atomik.com.br/wp-content/uploads/2026/05/plus-jakarta-sans-600.eot?#iefix') format('embedded-opentype'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/plus-jakarta-sans-600.woff2') format('woff2'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/plus-jakarta-sans-600.woff') format('woff'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/plus-jakarta-sans-600.ttf') format('truetype'),
+		url('https://atomik.com.br/wp-content/uploads/2026/05/plus-jakarta-sans-600.svg#PlusJakartaSans') format('svg');
+}
+
+/*# sourceURL=elementor-pro-custom-fonts-inline-css */
+</style>
+<script type="text/rocketlazyloadscript" id="font-awesome-4-shim-js" data-rocket-src="https://atomik.com.br/wp-content/plugins/elementor/assets/lib/font-awesome/js/v4-shims.min.js?ver=4.1.1"></script>
+<script id="jquery-core-js-extra">
+var pysFacebookRest = {"restApiUrl":"https://atomik.com.br/wp-json/pys-facebook/v1/event","debug":""};
+//# sourceURL=jquery-core-js-extra
+</script>
+<script type="text/rocketlazyloadscript" id="jquery-core-js" data-rocket-src="https://atomik.com.br/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
+<script type="text/rocketlazyloadscript" id="jquery-migrate-js" data-rocket-src="https://atomik.com.br/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1"></script>
+<link rel="https://api.w.org/" href="https://atomik.com.br/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://atomik.com.br/wp-json/wp/v2/pages/16" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://atomik.com.br/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 7.0" />
+<link rel='shortlink' href='https://atomik.com.br/?p=16' />
+<meta name="generator" content="Elementor 4.1.1; features: e_font_icon_svg, additional_custom_breakpoints; settings: css_print_method-external, google_font-enabled, font_display-swap">
+<!-- Google Tag Manager -->
+<script type="text/rocketlazyloadscript">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MW3PQX2P');</script>
+<!-- End Google Tag Manager -->
+<link rel="icon" href="https://atomik.com.br/wp-content/uploads/2026/05/cropped-favicon-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://atomik.com.br/wp-content/uploads/2026/05/cropped-favicon-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://atomik.com.br/wp-content/uploads/2026/05/cropped-favicon-180x180.png" />
+<meta name="msapplication-TileImage" content="https://atomik.com.br/wp-content/uploads/2026/05/cropped-favicon-270x270.png" />
+<noscript><style id="rocket-lazyload-nojs-css">.rll-youtube-player, [data-lazy-src]{display:none !important;}</style></noscript>	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" /><style id="wpr-lazyload-bg-container"></style><style id="wpr-lazyload-bg-exclusion"></style>
+<noscript>
+<style id="wpr-lazyload-bg-nostyle"></style>
+</noscript>
+<script type="application/javascript">const rocket_pairs = []; const rocket_excluded_pairs = [];</script><meta name="generator" content="WP Rocket 3.21.3" data-wpr-features="wpr_lazyload_css_bg_img wpr_delay_js wpr_minify_js wpr_lazyload_images wpr_lazyload_iframes wpr_preconnect_external_domains wpr_oci wpr_minify_css wpr_preload_links wpr_desktop" /></head>
+<body class="wp-singular page-template-default page page-id-16 wp-embed-responsive wp-theme-hello-elementor hello-elementor-default elementor-default elementor-template-canvas elementor-kit-8 elementor-page elementor-page-16">
+	<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MW3PQX2P"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+		<div  data-elementor-type="wp-page" data-elementor-id="16" class="elementor elementor-16" data-elementor-post-type="page">
+				<section class="elementor-element elementor-element-d18ecc9 e-con e-atomic-element e-flexbox-base e-d18ecc9-817918c " data-id="d18ecc9" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="d18ecc9" data-e-type="e-flexbox" data-id="d18ecc9">
+    <div class="elementor-element elementor-element-4a18c4f e-con e-atomic-element e-flexbox-base e-4a18c4f-37732d5 " data-id="4a18c4f" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="4a18c4f" data-e-type="e-flexbox" data-id="4a18c4f">
+    			<img fetchpriority="high" decoding="async" class="e-image-base e-a775e48-53af60a" data-interaction-id="a775e48" data-e-type="widget" data-id="a775e48" id="34" src="https://atomik.com.br/wp-content/uploads/2026/05/logo-atomik.svg" width="0" height="0" srcset="" alt=""/>					<h1 data-interaction-id="c08eb6f" class="e-c08eb6f-a49fee7 e-heading-base" data-e-type="widget" data-id="c08eb6f">Política de Privacidade</h1>
+		<div class="elementor-element elementor-element-85b95ce e-con e-atomic-element e-flexbox-base e-85b95ce-682625b " data-id="85b95ce" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="85b95ce" data-e-type="e-flexbox" data-id="85b95ce">
+    			<div class="e-f7fa505-608a129 e-svg-base" data-interaction-id="f7fa505" data-e-type="widget" data-id="f7fa505"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%; overflow: unset; width: 100%; height: 100%; overflow: unset;"><path d="M8 5.75C7.59 5.75 7.25 5.41 7.25 5V2C7.25 1.59 7.59 1.25 8 1.25C8.41 1.25 8.75 1.59 8.75 2V5C8.75 5.41 8.41 5.75 8 5.75Z" fill="currentColor"></path><path d="M16 5.75C15.59 5.75 15.25 5.41 15.25 5V2C15.25 1.59 15.59 1.25 16 1.25C16.41 1.25 16.75 1.59 16.75 2V5C16.75 5.41 16.41 5.75 16 5.75Z" fill="currentColor"></path><path d="M8.5 14.5C8.37 14.5 8.24 14.47 8.12 14.42C7.99 14.37 7.89 14.3 7.79 14.21C7.61 14.02 7.5 13.77 7.5 13.5C7.5 13.37 7.53 13.24 7.58 13.12C7.63 13 7.7 12.89 7.79 12.79C7.89 12.7 7.99 12.63 8.12 12.58C8.48 12.43 8.93 12.51 9.21 12.79C9.39 12.98 9.5 13.24 9.5 13.5C9.5 13.56 9.49 13.63 9.48 13.7C9.47 13.76 9.45 13.82 9.42 13.88C9.4 13.94 9.37 14 9.33 14.06C9.3 14.11 9.25 14.16 9.21 14.21C9.02 14.39 8.76 14.5 8.5 14.5Z" fill="currentColor"></path><path d="M12 14.5C11.87 14.5 11.74 14.47 11.62 14.42C11.49 14.37 11.39 14.3 11.29 14.21C11.11 14.02 11 13.77 11 13.5C11 13.37 11.03 13.24 11.08 13.12C11.13 13 11.2 12.89 11.29 12.79C11.39 12.7 11.49 12.63 11.62 12.58C11.98 12.42 12.43 12.51 12.71 12.79C12.89 12.98 13 13.24 13 13.5C13 13.56 12.99 13.63 12.98 13.7C12.97 13.76 12.95 13.82 12.92 13.88C12.9 13.94 12.87 14 12.83 14.06C12.8 14.11 12.75 14.16 12.71 14.21C12.52 14.39 12.26 14.5 12 14.5Z" fill="currentColor"></path><path d="M15.5 14.5C15.37 14.5 15.24 14.47 15.12 14.42C14.99 14.37 14.89 14.3 14.79 14.21C14.75 14.16 14.71 14.11 14.67 14.06C14.63 14 14.6 13.94 14.58 13.88C14.55 13.82 14.53 13.76 14.52 13.7C14.51 13.63 14.5 13.56 14.5 13.5C14.5 13.24 14.61 12.98 14.79 12.79C14.89 12.7 14.99 12.63 15.12 12.58C15.49 12.42 15.93 12.51 16.21 12.79C16.39 12.98 16.5 13.24 16.5 13.5C16.5 13.56 16.49 13.63 16.48 13.7C16.47 13.76 16.45 13.82 16.42 13.88C16.4 13.94 16.37 14 16.33 14.06C16.3 14.11 16.25 14.16 16.21 14.21C16.02 14.39 15.76 14.5 15.5 14.5Z" fill="currentColor"></path><path d="M8.5 18C8.37 18 8.24 17.97 8.12 17.92C8 17.87 7.89 17.8 7.79 17.71C7.61 17.52 7.5 17.26 7.5 17C7.5 16.87 7.53 16.74 7.58 16.62C7.63 16.49 7.7 16.38 7.79 16.29C8.16 15.92 8.84 15.92 9.21 16.29C9.39 16.48 9.5 16.74 9.5 17C9.5 17.26 9.39 17.52 9.21 17.71C9.02 17.89 8.76 18 8.5 18Z" fill="currentColor"></path><path d="M12 18C11.74 18 11.48 17.89 11.29 17.71C11.11 17.52 11 17.26 11 17C11 16.87 11.03 16.74 11.08 16.62C11.13 16.49 11.2 16.38 11.29 16.29C11.66 15.92 12.34 15.92 12.71 16.29C12.8 16.38 12.87 16.49 12.92 16.62C12.97 16.74 13 16.87 13 17C13 17.26 12.89 17.52 12.71 17.71C12.52 17.89 12.26 18 12 18Z" fill="currentColor"></path><path d="M15.5 18C15.24 18 14.98 17.89 14.79 17.71C14.7 17.62 14.63 17.51 14.58 17.38C14.53 17.26 14.5 17.13 14.5 17C14.5 16.87 14.53 16.74 14.58 16.62C14.63 16.49 14.7 16.38 14.79 16.29C15.02 16.06 15.37 15.95 15.69 16.02C15.76 16.03 15.82 16.05 15.88 16.08C15.94 16.1 16 16.13 16.06 16.17C16.11 16.2 16.16 16.25 16.21 16.29C16.39 16.48 16.5 16.74 16.5 17C16.5 17.26 16.39 17.52 16.21 17.71C16.02 17.89 15.76 18 15.5 18Z" fill="currentColor"></path><path d="M20.5 9.83997H3.5C3.09 9.83997 2.75 9.49997 2.75 9.08997C2.75 8.67997 3.09 8.33997 3.5 8.33997H20.5C20.91 8.33997 21.25 8.67997 21.25 9.08997C21.25 9.49997 20.91 9.83997 20.5 9.83997Z" fill="currentColor"></path><path d="M16 22.75H8C4.35 22.75 2.25 20.65 2.25 17V8.5C2.25 4.85 4.35 2.75 8 2.75H16C19.65 2.75 21.75 4.85 21.75 8.5V17C21.75 20.65 19.65 22.75 16 22.75ZM8 4.25C5.14 4.25 3.75 5.64 3.75 8.5V17C3.75 19.86 5.14 21.25 8 21.25H16C18.86 21.25 20.25 19.86 20.25 17V8.5C20.25 5.64 18.86 4.25 16 4.25H8Z" fill="currentColor"></path></svg></div>					<p class="e-6bd3abf-bbfc275 e-paragraph-base" data-interaction-id="6bd3abf" data-e-type="widget" data-id="6bd3abf">Data da última atualização: 20/05/2026</p>
+		
+</div>
+
+</div>
+<div class="elementor-element elementor-element-e57da98 e-con e-atomic-element e-flexbox-base e-e57da98-320d464 " data-id="e57da98" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="e57da98" data-e-type="e-flexbox" data-id="e57da98">
+    <div class="elementor-element elementor-element-2320939 e-con e-atomic-element e-flexbox-base e-2320939-12ce6e4 " data-id="2320939" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="2320939" data-e-type="e-flexbox" data-id="2320939">
+    			<h4 data-interaction-id="88d5c0d" class="e-88d5c0d-1f835ac e-heading-base" data-e-type="widget" data-id="88d5c0d">1</h4>
+					<h4 data-interaction-id="9e2869f" class="e-9e2869f-3827a99 e-heading-base" data-e-type="widget" data-id="9e2869f"><strong>Visão Geral</strong></h4>
+		
+</div>
+		<div class="elementor-element elementor-element-dfedfe2 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="dfedfe2" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+					<p class="e-55521d8-a6137cc e-paragraph-base" data-interaction-id="55521d8" data-e-type="widget" data-id="55521d8">O Atomik é uma extensão para o Google Chrome que aprimora o editor Elementor no WordPress. Esta Política de Privacidade explica quais dados coletamos, como os utilizamos e quais são os seus direitos em relação a essas informações.<br><br>Ao instalar e utilizar o Atomik, você concorda com as práticas descritas nesta política. Caso não concorde, por favor desinstale a extensão.</p>
+		
+</div>
+<div class="elementor-element elementor-element-291dfa2 e-con e-atomic-element e-flexbox-base e-291dfa2-d9c1bc0 " data-id="291dfa2" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="291dfa2" data-e-type="e-flexbox" data-id="291dfa2">
+    <div class="elementor-element elementor-element-f8ec742 e-con e-atomic-element e-flexbox-base e-f8ec742-eb5141f " data-id="f8ec742" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="f8ec742" data-e-type="e-flexbox" data-id="f8ec742">
+    			<h4 data-interaction-id="cf0dbbf" class="e-cf0dbbf-1c28445 e-heading-base" data-e-type="widget" data-id="cf0dbbf">2</h4>
+					<h4 data-interaction-id="498da91" class="e-498da91-2ccd2ea e-heading-base" data-e-type="widget" data-id="498da91"><strong id="e-mpeahefk-dsez5ii">Quem somos</strong></h4>
+		
+</div>
+		<div class="elementor-element elementor-element-a764da7 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="a764da7" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+					<p class="e-36541d3-47c6697 e-paragraph-base" data-interaction-id="36541d3" data-e-type="widget" data-id="36541d3">O Atomik é desenvolvido e operado pela OC Empreedimentos Digitais, com sede no Brasil. <br><br>Para qualquer dúvida relacionada à privacidade, entre em contato pelo e-mail: <a target="_blank" href="/cdn-cgi/l/email-protection#2e5d5b5e415c5a4b6e4f5a41434745004d4143004c5c"><span class="__cf_email__" data-cfemail="dfacaaafb0adabba9fbeabb0b2b6b4f1bcb0b2f1bdad">[email&#160;protected]</span></a><br><br>Na qualidade de controlador de dados nos termos da LGPD, somos responsáveis pelo tratamento dos dados pessoais descritos nesta política.</p>
+		
+</div>
+<div class="elementor-element elementor-element-8fb98c9 e-con e-atomic-element e-flexbox-base e-8fb98c9-a66eedb " data-id="8fb98c9" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="8fb98c9" data-e-type="e-flexbox" data-id="8fb98c9">
+    <div class="elementor-element elementor-element-b2f2078 e-con e-atomic-element e-flexbox-base e-b2f2078-ebe181c " data-id="b2f2078" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="b2f2078" data-e-type="e-flexbox" data-id="b2f2078">
+    			<h4 data-interaction-id="b1ec0ba" class="e-b1ec0ba-270e7d8 e-heading-base" data-e-type="widget" data-id="b1ec0ba">3</h4>
+					<h4 data-interaction-id="8f18439" class="e-8f18439-9f20123 e-heading-base" data-e-type="widget" data-id="8f18439"><strong>Onde o Atomik atua</strong></h4>
+		
+</div>
+		<div class="elementor-element elementor-element-b2209b8 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="b2209b8" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+					<p class="e-7c99f90-bb0ce5d e-paragraph-base" data-interaction-id="7c99f90" data-e-type="widget" data-id="7c99f90">O Atomik injeta funcionalidades apenas nas seguintes páginas para entregar seus recursos:<br><br>- <strong id="e-mpealnii-li3toge">Editor Elementor </strong>(/wp-admin/post.php?action=elementor), para inserir componentes e aplicar configurações de design diretamente no editor<br><br>- <strong id="e-mpealnii-br2a812">Painel Administrativo do WordPress</strong> (/wp-admin/*), para habilitar recursos de automação do WordPress, como gerenciamento de plugins e configurações do site<br><br>- <strong id="e-mpealnii-6a0a9py">Figma</strong> (figma.com). para ler dados de design dos próprios arquivos Figma do usuário e importá-los para o Elementor<br><br>- <strong id="e-mpealnii-ajrr7hc">Conta Elementor</strong> (my.elementor.com), para integração com a conta e licença do Elementor<br><br><br>A extensão não é ativada em nenhum outro site e não coleta dados de páginas fora desses contextos.<br><br>O Chrome pode exibir os indicadores de acesso a <strong id="e-mpealnii-jpch3u3">"Fontes"</strong>, <strong id="e-mpealnii-ty0quns">"Rede local"</strong> e <strong id="e-mpealnii-9sxyav5">"Apps no dispositivo"</strong> ao instalar/utilizar a extensão. Isso ocorre porque: (1) o Atomik lê informações de fontes do DOM das páginas para listar as tipografias disponíveis no site do usuário; e (2) a permissão de acesso a sites via http:// inclui servidores locais de desenvolvimento WordPress (localhost, 192.168.x.x), que muitos desenvolvedores utilizam para testar seus projetos. Nenhum dado de fontes ou de rede local é transmitido aos servidores do Atomik.</p>
+		
+</div>
+<div class="elementor-element elementor-element-519ede3 e-con e-atomic-element e-flexbox-base e-519ede3-54b1af9 " data-id="519ede3" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="519ede3" data-e-type="e-flexbox" data-id="519ede3">
+    <div class="elementor-element elementor-element-f24e585 e-con e-atomic-element e-flexbox-base e-f24e585-76206e9 " data-id="f24e585" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="f24e585" data-e-type="e-flexbox" data-id="f24e585">
+    			<h4 data-interaction-id="22349af" class="e-22349af-4afaf1d e-heading-base" data-e-type="widget" data-id="22349af">4</h4>
+					<h4 data-interaction-id="b1883af" class="e-b1883af-9f018c1 e-heading-base" data-e-type="widget" data-id="b1883af"><strong>Onde o Atomik atua</strong></h4>
+		
+</div>
+		<div class="elementor-element elementor-element-abeb57c elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="abeb57c" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-26067b6 elementor-widget elementor-widget-html" data-id="26067b6" data-element_type="widget" data-e-type="widget" data-widget_type="html.default">
+				<div class="elementor-widget-container">
+					<div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Dado</th><th>Finalidade</th><th>Onde é armazenado</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Código de ativação da licença</strong></td>
+              <td>Verificar se o usuário possui uma licença Atomik válida adquirida pela Hotmart</td>
+              <td>Localmente (chrome.storage) + Supabase (servidor)</td>
+            </tr>
+            <tr>
+              <td><strong>Endereço de e-mail</strong></td>
+              <td>Identificar o titular da licença; recebido da Hotmart no momento da compra</td>
+              <td>Supabase (servidor)</td>
+            </tr>
+            <tr>
+              <td><strong>Preferências do usuário</strong></td>
+              <td>Configurações de tipografia, design system ativo, componentes salvos, preferências de animação e demais configurações escolhidas dentro da extensão</td>
+              <td>Localmente (chrome.storage) + backup no Supabase</td>
+            </tr>
+            <tr>
+              <td><strong>Conteúdo criado pelo usuário</strong></td>
+              <td>Componentes personalizados, SVGs salvos, snippets de JavaScript e templates de estilo criados dentro da extensão</td>
+              <td>Localmente (chrome.storage) + backup no Supabase</td>
+            </tr>
+            <tr>
+              <td><strong>Token de Acesso Pessoal do Figma</strong></td>
+              <td>Autenticar requisições à API do Figma em nome do usuário para importar seus próprios designs. Inserido voluntariamente pelo usuário. O token é enviado diretamente do seu navegador para a API do Figma — nunca passa pelos servidores do Atomik, o que torna tecnicamente impossível que tenhamos acesso a ele.</td>
+              <td>Somente local (chrome.storage). Nunca transmitido aos servidores do Atomik.</td>
+            </tr>
+            <tr>
+              <td><strong>Credenciais de sites WordPress</strong></td>
+              <td>Utilizadas exclusivamente para os recursos de automação do WordPress configurados pelo próprio usuário. As requisições são feitas diretamente do seu navegador para o seu site — nunca passam pelos servidores do Atomik.</td>
+              <td>Somente local (chrome.storage). Nunca transmitido aos servidores do Atomik.</td>
+            </tr>
+            <tr>
+              <td><strong>Chaves de API de provedores de IA (OpenAI, Anthropic, Google Gemini)</strong></td>
+              <td>Usadas para alimentar recursos opcionais de inteligência artificial dentro da extensão. Inseridas voluntariamente pelo usuário. As requisições são enviadas diretamente do seu navegador ao provedor de IA escolhido — nunca passam pelos servidores do Atomik, o que torna tecnicamente impossível que tenhamos acesso a essas chaves.</td>
+              <td>Somente local (chrome.storage). Nunca transmitido aos servidores do Atomik.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>				</div>
+				</div>
+					<p class="e-e725f35-a7d138d e-paragraph-base" data-interaction-id="e725f35" data-e-type="widget" data-id="e725f35">Não coletamos histórico de navegação, conteúdo de páginas fora dos contextos listados, nem qualquer dado de sites não relacionados às funcionalidades do Atomik.</p>
+		
+</div>
+<div class="elementor-element elementor-element-8f4b205 e-con e-atomic-element e-flexbox-base e-8f4b205-5c83b7c " data-id="8f4b205" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="8f4b205" data-e-type="e-flexbox" data-id="8f4b205">
+    <div class="elementor-element elementor-element-d264989 e-con e-atomic-element e-flexbox-base e-d264989-9576fac " data-id="d264989" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="d264989" data-e-type="e-flexbox" data-id="d264989">
+    			<h4 data-interaction-id="f4531ad" class="e-f4531ad-1ad9835 e-heading-base" data-e-type="widget" data-id="f4531ad">5</h4>
+					<h4 data-interaction-id="986a36e" class="e-986a36e-ebe40d1 e-heading-base" data-e-type="widget" data-id="986a36e"><strong id="e-mpec3fhh-tjox5rb">O que NÃO coletamos</strong></h4>
+		
+</div>
+		<div class="elementor-element elementor-element-74c0bc9 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="74c0bc9" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+					<p class="e-6fa177b-e317b6d e-paragraph-base" data-interaction-id="6fa177b" data-e-type="widget" data-id="6fa177b">- Histórico de navegação ou atividade fora do Elementor, painel WordPress e Figma<br><br>- Conteúdo dos sites que você visita<br><br>- Informações pessoais além do necessário para a validação da licença<br><br>- Análises de comportamento, rastreamento ou telemetria de uso<br><br>- Identificadores publicitários de qualquer tipo</p>
+		
+</div>
+<div class="elementor-element elementor-element-ba8a0ca e-con e-atomic-element e-flexbox-base e-ba8a0ca-15ad1ad " data-id="ba8a0ca" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="ba8a0ca" data-e-type="e-flexbox" data-id="ba8a0ca">
+    <div class="elementor-element elementor-element-ab76529 e-con e-atomic-element e-flexbox-base e-ab76529-9159d10 " data-id="ab76529" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="ab76529" data-e-type="e-flexbox" data-id="ab76529">
+    			<h4 data-interaction-id="84d2032" class="e-84d2032-0bc3d1f e-heading-base" data-e-type="widget" data-id="84d2032">6</h4>
+					<h4 data-interaction-id="6236191" class="e-6236191-ebeb049 e-heading-base" data-e-type="widget" data-id="6236191"><strong id="e-mpec3l3o-7mv8otd">Como os dados são utilizados</strong></h4>
+		
+</div>
+		<div class="elementor-element elementor-element-60b780e elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="60b780e" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+					<p class="e-5d3cf4b-dbd87bb e-paragraph-base" data-interaction-id="5d3cf4b" data-e-type="widget" data-id="5d3cf4b">- Os dados de licença são usados exclusivamente para verificar o acesso ativo e impedir uso não autorizado<br><br>- As preferências do usuário são usadas para restaurar suas configurações entre sessões e dispositivos<br><br>- Tokens do Figma, credenciais WordPress e chaves de API de IA são utilizados exclusivamente para executar as ações que você inicia — nunca são lidos para nenhuma outra finalidade<br><br>- Não vendemos, compartilhamos nem transferimos seus dados a terceiros para fins publicitários ou de marketing</p>
+		
+</div>
+<div class="elementor-element elementor-element-cddc063 e-con e-atomic-element e-flexbox-base e-cddc063-dba62a3 " data-id="cddc063" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="cddc063" data-e-type="e-flexbox" data-id="cddc063">
+    <div class="elementor-element elementor-element-4a5d5bc e-con e-atomic-element e-flexbox-base e-4a5d5bc-d05ef01 " data-id="4a5d5bc" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="4a5d5bc" data-e-type="e-flexbox" data-id="4a5d5bc">
+    			<h4 data-interaction-id="992eccc" class="e-992eccc-1fdf747 e-heading-base" data-e-type="widget" data-id="992eccc">7</h4>
+					<h4 data-interaction-id="d8e4b0c" class="e-d8e4b0c-42e8d8e e-heading-base" data-e-type="widget" data-id="d8e4b0c"><strong>Base Legal para o Tratamento (LGPD)</strong></h4>
+		
+</div>
+		<div class="elementor-element elementor-element-2262d7b elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="2262d7b" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+					<p class="e-a75cceb-63c7e3a e-paragraph-base" data-interaction-id="a75cceb" data-e-type="widget" data-id="a75cceb">O tratamento dos seus dados pessoais é realizado com base nas seguintes hipóteses previstas na Lei Geral de Proteção de Dados (Lei nº 13.709/2018):<br><br>- <strong>Execução de contrato</strong>: dados de licença e e-mail são necessários para entregar o serviço contratado<br><br>- <strong>Legítimo interesse</strong>: preferências e dados de uso são necessários para o funcionamento correto da extensão<br><br>- <strong>Consentimento</strong>: dados inseridos voluntariamente (tokens Figma, credenciais WP, chaves de IA) são tratados com base no consentimento expresso do usuário ao inseri-los</p>
+		
+</div>
+<div class="elementor-element elementor-element-8cdc674 e-con e-atomic-element e-flexbox-base e-8cdc674-b89a411 " data-id="8cdc674" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="8cdc674" data-e-type="e-flexbox" data-id="8cdc674">
+    <div class="elementor-element elementor-element-cc8379d e-con e-atomic-element e-flexbox-base e-cc8379d-27c0986 " data-id="cc8379d" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="cc8379d" data-e-type="e-flexbox" data-id="cc8379d">
+    			<h4 data-interaction-id="1e80d33" class="e-1e80d33-dfffffd e-heading-base" data-e-type="widget" data-id="1e80d33">8</h4>
+					<h4 data-interaction-id="36690bb" class="e-36690bb-c79ed52 e-heading-base" data-e-type="widget" data-id="36690bb"><strong>Serviços de terceiros</strong></h4>
+		
+</div>
+		<div class="elementor-element elementor-element-edfc6d3 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="edfc6d3" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+		<div class="elementor-element elementor-element-97031be e-con e-atomic-element e-flexbox-base e-97031be-be847aa " data-id="97031be" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="97031be" data-e-type="e-flexbox" data-id="97031be">
+    			<h4 data-interaction-id="fe96380" class="e-fe96380-b45c102 e-heading-base" data-e-type="widget" data-id="fe96380"><strong>Supabase</strong></h4>
+					<p class="e-c5bf44a-5594697 e-paragraph-base" data-interaction-id="c5bf44a" data-e-type="widget" data-id="c5bf44a">Utilizamos o Supabase (supabase.com) para armazenar registros de licença e backups de preferências do usuário. Os dados são hospedados em servidores na América do Sul (São Paulo, Brasil). Política de privacidade do Supabase: <a target="_blank" href="https://supabase.com/privacy"><strong>supabase.com/privacy</strong></a></p>
+		
+</div>
+<div class="elementor-element elementor-element-b5eecdf e-con e-atomic-element e-flexbox-base e-b5eecdf-7d4894f " data-id="b5eecdf" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="b5eecdf" data-e-type="e-flexbox" data-id="b5eecdf">
+    			<h4 data-interaction-id="0eb44e5" class="e-0eb44e5-da7caff e-heading-base" data-e-type="widget" data-id="0eb44e5"><strong>Hotmart</strong></h4>
+					<p class="e-f8014cb-998ceb5 e-paragraph-base" data-interaction-id="f8014cb" data-e-type="widget" data-id="f8014cb">As compras são processadas pela Hotmart (hotmart.com). Ao adquirir o Atomik, a Hotmart compartilha seu endereço de e-mail e código de transação conosco para fins de ativação da licença. Política de privacidade da Hotmart: <a target="_blank" href="https://hotmart.com/pt-br/legal/privacy-policy"><strong>hotmart.com/legal/privacy-policy</strong></a></p>
+		
+</div>
+<div class="elementor-element elementor-element-020e567 e-con e-atomic-element e-flexbox-base e-020e567-58afb54 " data-id="020e567" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="020e567" data-e-type="e-flexbox" data-id="020e567">
+    			<h4 data-interaction-id="46f77f0" class="e-46f77f0-466d94f e-heading-base" data-e-type="widget" data-id="46f77f0"><strong>API do Figma</strong></h4>
+					<p class="e-caf1a4c-942b59a e-paragraph-base" data-interaction-id="caf1a4c" data-e-type="widget" data-id="caf1a4c">O recurso de importação Figma se comunica diretamente com a API do Figma utilizando o token de acesso fornecido pelo usuário. O Atomik não armazena nem transmite esse token para nossos servidores. Política de privacidade do Figma: <a target="_blank" href="https://www.figma.com/privacy"><strong>figma.com/privacy</strong></a></p>
+		
+</div>
+<div class="elementor-element elementor-element-7ba0868 e-con e-atomic-element e-flexbox-base e-7ba0868-f395635 " data-id="7ba0868" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="7ba0868" data-e-type="e-flexbox" data-id="7ba0868">
+    			<h4 data-interaction-id="820a895" class="e-820a895-f4032b1 e-heading-base" data-e-type="widget" data-id="820a895"><strong>Google Fonts</strong></h4>
+					<p class="e-56d7775-bb40993 e-paragraph-base" data-interaction-id="56d7775" data-e-type="widget" data-id="56d7775">A interface da extensão carrega fontes do Google Fonts, o que envolve uma requisição padrão aos servidores do Google. Política de privacidade do Google: <a target="_blank" href="https://policies.google.com/privacy"><strong>policies.google.com/privacy</strong></a></p>
+		
+</div>
+
+</div>
+<div class="elementor-element elementor-element-c507890 e-con e-atomic-element e-flexbox-base e-c507890-d103d52 " data-id="c507890" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="c507890" data-e-type="e-flexbox" data-id="c507890">
+    <div class="elementor-element elementor-element-02e2d1f e-con e-atomic-element e-flexbox-base e-02e2d1f-c3d38bf " data-id="02e2d1f" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="02e2d1f" data-e-type="e-flexbox" data-id="02e2d1f">
+    			<h4 data-interaction-id="6cc2ebf" class="e-6cc2ebf-896a2e0 e-heading-base" data-e-type="widget" data-id="6cc2ebf">9</h4>
+					<h4 data-interaction-id="006a672" class="e-006a672-c1c4c7d e-heading-base" data-e-type="widget" data-id="006a672"><strong>Armazenamento e Segurança dos Dados</strong></h4>
+		
+</div>
+		<div class="elementor-element elementor-element-890e101 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="890e101" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+					<p class="e-22d1584-1a1c90f e-paragraph-base" data-interaction-id="22d1584" data-e-type="widget" data-id="22d1584">Preferências e dados em cache são armazenados localmente usando a API chrome.storage do Chrome e não são acessíveis por outras extensões ou sites. O backup de preferências não sensíveis é armazenado no Supabase, protegido por políticas de segurança em nível de linha (Row Level Security) que garantem que cada usuário acesse apenas seus próprios dados.<br><br>Credenciais sensíveis (tokens Figma, senhas WordPress, chaves de API de IA) são armazenadas exclusivamente no seu navegador local e jamais são transmitidas aos servidores do Atomik.<br><br>Adotamos medidas técnicas e organizacionais adequadas para proteger seus dados contra acesso não autorizado, alteração, divulgação ou destruição.</p>
+		
+</div>
+<div class="elementor-element elementor-element-0bed70d e-con e-atomic-element e-flexbox-base e-0bed70d-625657e " data-id="0bed70d" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="0bed70d" data-e-type="e-flexbox" data-id="0bed70d">
+    <div class="elementor-element elementor-element-5d712fb e-con e-atomic-element e-flexbox-base e-5d712fb-ba03c7d " data-id="5d712fb" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="5d712fb" data-e-type="e-flexbox" data-id="5d712fb">
+    			<h4 data-interaction-id="4ff2d28" class="e-4ff2d28-5a804ef e-heading-base" data-e-type="widget" data-id="4ff2d28">10</h4>
+					<h4 data-interaction-id="4bc9050" class="e-4bc9050-efff09d e-heading-base" data-e-type="widget" data-id="4bc9050"><strong>Retenção dos Dados</strong></h4>
+		
+</div>
+		<div class="elementor-element elementor-element-a5d973a elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="a5d973a" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+					<p class="e-ed886cd-3a8ef7d e-paragraph-base" data-interaction-id="ed886cd" data-e-type="widget" data-id="ed886cd">Os registros de licença são mantidos pelo período de vigência da licença e por até 12 meses após o encerramento, para fins de suporte. O backup de preferências do usuário é mantido enquanto a licença estiver ativa.<br><br>Mediante solicitação, todos os dados armazenados em nossos servidores associados à sua conta podem ser excluídos — veja a Seção 12.<br><br>Os dados armazenados localmente no seu navegador podem ser removidos a qualquer momento desinstalando a extensão.</p>
+		
+</div>
+<div class="elementor-element elementor-element-528c2e6 e-con e-atomic-element e-flexbox-base e-528c2e6-0bb3eee " data-id="528c2e6" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="528c2e6" data-e-type="e-flexbox" data-id="528c2e6">
+    <div class="elementor-element elementor-element-24120bc e-con e-atomic-element e-flexbox-base e-24120bc-cdda567 " data-id="24120bc" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="24120bc" data-e-type="e-flexbox" data-id="24120bc">
+    			<h4 data-interaction-id="9460ee8" class="e-9460ee8-37d2d62 e-heading-base" data-e-type="widget" data-id="9460ee8">11</h4>
+					<h4 data-interaction-id="8e61ca1" class="e-8e61ca1-93d3fa6 e-heading-base" data-e-type="widget" data-id="8e61ca1"><strong>Privacidade de Menores</strong></h4>
+		
+</div>
+		<div class="elementor-element elementor-element-3f06ed8 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="3f06ed8" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+					<p class="e-caf2703-8ffdebf e-paragraph-base" data-interaction-id="caf2703" data-e-type="widget" data-id="caf2703">O Atomik não é destinado a menores de 13 anos e não coletamos intencionalmente dados pessoais de crianças. Caso acredite que uma criança forneceu informações pessoais através da extensão, entre em contato conosco e os dados serão excluídos prontamente.</p>
+		
+</div>
+<div class="elementor-element elementor-element-fe96fe3 e-con e-atomic-element e-flexbox-base e-fe96fe3-be40082 " data-id="fe96fe3" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="fe96fe3" data-e-type="e-flexbox" data-id="fe96fe3">
+    <div class="elementor-element elementor-element-2779244 e-con e-atomic-element e-flexbox-base e-2779244-8244102 " data-id="2779244" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="2779244" data-e-type="e-flexbox" data-id="2779244">
+    			<h4 data-interaction-id="4830fec" class="e-4830fec-968bb46 e-heading-base" data-e-type="widget" data-id="4830fec">12</h4>
+					<h4 data-interaction-id="4cd5536" class="e-4cd5536-bf2f69b e-heading-base" data-e-type="widget" data-id="4cd5536"><strong>Seus Direitos (LGPD)</strong></h4>
+		
+</div>
+		<div class="elementor-element elementor-element-075f49f elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="075f49f" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+					<p class="e-10cae52-6e85033 e-paragraph-base" data-interaction-id="10cae52" data-e-type="widget" data-id="10cae52">Nos termos da LGPD, você tem direito a:<br><br>- Confirmar a existência de tratamento dos seus dados<br><br>- Acessar os dados pessoais que mantemos sobre você<br><br>- Corrigir dados incompletos, inexatos ou desatualizados<br><br>- Solicitar a anonimização, bloqueio ou eliminação de dados desnecessários ou excessivos<br><br>- Solicitar a portabilidade dos seus dados<br><br>- Revogar o consentimento a qualquer momento<br><br>- Opor-se ao tratamento realizado com base em legítimo interesse<br><br>Para exercer qualquer desses direitos, entre em contato pelo e-mail <a target="_blank" href="/cdn-cgi/l/email-protection#8ffcfaffe0fdfbeacfeefbe0e2e6e4a1ece0e2a1edfd"><span class="__cf_email__" data-cfemail="334046435c4147567352475c5e5a581d505c5e1d5141">[email&#160;protected]</span></a>. Responderemos em até 15 dias úteis.</p>
+		
+</div>
+<div class="elementor-element elementor-element-b6d78c2 e-con e-atomic-element e-flexbox-base e-b6d78c2-3aac5cd " data-id="b6d78c2" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="b6d78c2" data-e-type="e-flexbox" data-id="b6d78c2">
+    <div class="elementor-element elementor-element-842686a e-con e-atomic-element e-flexbox-base e-842686a-09479e7 " data-id="842686a" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="842686a" data-e-type="e-flexbox" data-id="842686a">
+    			<h4 data-interaction-id="65f654c" class="e-65f654c-3cddd8d e-heading-base" data-e-type="widget" data-id="65f654c">13</h4>
+					<h4 data-interaction-id="4f70cf4" class="e-4f70cf4-6f7f729 e-heading-base" data-e-type="widget" data-id="4f70cf4"><strong>Transferência Internacional de Dados</strong></h4>
+		
+</div>
+		<div class="elementor-element elementor-element-5234ccf elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="5234ccf" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+					<p class="e-9cbadb4-e2c3c95 e-paragraph-base" data-interaction-id="9cbadb4" data-e-type="widget" data-id="9cbadb4">Alguns dos serviços de terceiros utilizados (Supabase, Figma, Google Fonts) podem processar dados em servidores localizados fora do Brasil. Quando isso ocorre, garantimos que tais transferências estejam em conformidade com a LGPD e que os serviços adotem nível adequado de proteção de dados.</p>
+		
+</div>
+<div class="elementor-element elementor-element-649763e e-con e-atomic-element e-flexbox-base e-649763e-50ead34 " data-id="649763e" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="649763e" data-e-type="e-flexbox" data-id="649763e">
+    <div class="elementor-element elementor-element-84d3c01 e-con e-atomic-element e-flexbox-base e-84d3c01-757597a " data-id="84d3c01" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="84d3c01" data-e-type="e-flexbox" data-id="84d3c01">
+    			<h4 data-interaction-id="b125cee" class="e-b125cee-879352f e-heading-base" data-e-type="widget" data-id="b125cee">14</h4>
+					<h4 data-interaction-id="72e4107" class="e-72e4107-612ceca e-heading-base" data-e-type="widget" data-id="72e4107"><strong>Alterações nesta Política</strong></h4>
+		
+</div>
+		<div class="elementor-element elementor-element-1504ab2 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="1504ab2" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+					<p class="e-71a2b3a-20ee747 e-paragraph-base" data-interaction-id="71a2b3a" data-e-type="widget" data-id="71a2b3a">Podemos atualizar esta Política de Privacidade periodicamente. Quando isso ocorrer, atualizaremos a data de "Última atualização" no topo desta página. O uso continuado da extensão após as alterações implica na aceitação da política atualizada. Em caso de alterações relevantes, notificaremos os usuários dentro da própria extensão.</p>
+		
+</div>
+<div class="elementor-element elementor-element-1052ba6 e-con e-atomic-element e-flexbox-base e-1052ba6-1519ac5 " data-id="1052ba6" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="1052ba6" data-e-type="e-flexbox" data-id="1052ba6">
+    <div class="elementor-element elementor-element-c9d40a8 e-con e-atomic-element e-flexbox-base e-c9d40a8-24d57b4 " data-id="c9d40a8" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="c9d40a8" data-e-type="e-flexbox" data-id="c9d40a8">
+    			<h4 data-interaction-id="739ea37" class="e-739ea37-207d3ef e-heading-base" data-e-type="widget" data-id="739ea37">15</h4>
+					<h4 data-interaction-id="0afcbec" class="e-0afcbec-97250a0 e-heading-base" data-e-type="widget" data-id="0afcbec"><strong>Contato e Encarregado de Dados (DPO)</strong></h4>
+		
+</div>
+		<div class="elementor-element elementor-element-1397e77 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="1397e77" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+					<p class="e-6410275-f99d973 e-paragraph-base" data-interaction-id="6410275" data-e-type="widget" data-id="6410275">Em caso de dúvidas, solicitações ou reclamações sobre esta Política de Privacidade ou sobre o tratamento dos seus dados pessoais, entre em contato:</p>
+		<div class="elementor-element elementor-element-31070e8 e-con e-atomic-element e-flexbox-base e-31070e8-fbdbc6f " data-id="31070e8" data-element_type="e-flexbox" data-e-type="e-flexbox" data-interaction-id="31070e8" data-e-type="e-flexbox" data-id="31070e8">
+    			<h4 data-interaction-id="861e2bd" class="e-861e2bd-0a72506 e-heading-base" data-e-type="widget" data-id="861e2bd"><strong>Othon Ciparoni</strong></h4>
+					<p class="e-375bfc4-8ef6cb3 e-paragraph-base" data-interaction-id="375bfc4" data-e-type="widget" data-id="375bfc4">Responsável pelo tratamento de dados — Atomik<br><a target="_blank" href="/cdn-cgi/l/email-protection#3c4f494c534e48597c5d4853515557125f5351125e4e"><strong><span class="__cf_email__" data-cfemail="89fafcf9e6fbfdecc9e8fde6e4e0e2a7eae6e4a7ebfb">[email&#160;protected]</span></strong></a></p>
+		
+</div>
+
+</div>
+
+</section>
+		</div>
+		<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/hello-elementor/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<noscript><img height="1" width="1" style="display: none;" src="https://www.facebook.com/tr?id=2452322971757307&ev=PageView&noscript=1&cd%5Bpage_title%5D=Pol%C3%ADtica+Atomik&cd%5Bpost_type%5D=page&cd%5Bpost_id%5D=16&cd%5Bplugin%5D=PixelYourSite&cd%5Buser_role%5D=guest&cd%5Bevent_url%5D=atomik.com.br%2Fpolitica-atomik%2F" alt=""></noscript>
+<script type="text/rocketlazyloadscript" id="rocket-browser-checker-js-after">
+"use strict";var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||!1,descriptor.configurable=!0,"value"in descriptor&&(descriptor.writable=!0),Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){return protoProps&&defineProperties(Constructor.prototype,protoProps),staticProps&&defineProperties(Constructor,staticProps),Constructor}}();function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor))throw new TypeError("Cannot call a class as a function")}var RocketBrowserCompatibilityChecker=function(){function RocketBrowserCompatibilityChecker(options){_classCallCheck(this,RocketBrowserCompatibilityChecker),this.passiveSupported=!1,this._checkPassiveOption(this),this.options=!!this.passiveSupported&&options}return _createClass(RocketBrowserCompatibilityChecker,[{key:"_checkPassiveOption",value:function(self){try{var options={get passive(){return!(self.passiveSupported=!0)}};window.addEventListener("test",null,options),window.removeEventListener("test",null,options)}catch(err){self.passiveSupported=!1}}},{key:"initRequestIdleCallback",value:function(){!1 in window&&(window.requestIdleCallback=function(cb){var start=Date.now();return setTimeout(function(){cb({didTimeout:!1,timeRemaining:function(){return Math.max(0,50-(Date.now()-start))}})},1)}),!1 in window&&(window.cancelIdleCallback=function(id){return clearTimeout(id)})}},{key:"isDataSaverModeOn",value:function(){return"connection"in navigator&&!0===navigator.connection.saveData}},{key:"supportsLinkPrefetch",value:function(){var elem=document.createElement("link");return elem.relList&&elem.relList.supports&&elem.relList.supports("prefetch")&&window.IntersectionObserver&&"isIntersecting"in IntersectionObserverEntry.prototype}},{key:"isSlowConnection",value:function(){return"connection"in navigator&&"effectiveType"in navigator.connection&&("2g"===navigator.connection.effectiveType||"slow-2g"===navigator.connection.effectiveType)}}]),RocketBrowserCompatibilityChecker}();
+//# sourceURL=rocket-browser-checker-js-after
+</script>
+<script id="rocket-preload-links-js-extra">
+var RocketPreloadLinksConfig = {"excludeUris":"/(?:.+/)?feed(?:/(?:.+/?)?)?$|/(?:.+/)?embed/|/(index.php/)?(.*)wp-json(/.*|$)|/refer/|/go/|/recommend/|/recommends/","usesTrailingSlash":"1","imageExt":"jpg|jpeg|gif|png|tiff|bmp|webp|avif|pdf|doc|docx|xls|xlsx|php","fileExt":"jpg|jpeg|gif|png|tiff|bmp|webp|avif|pdf|doc|docx|xls|xlsx|php|html|htm","siteUrl":"https://atomik.com.br","onHoverDelay":"100","rateThrottle":"3"};
+//# sourceURL=rocket-preload-links-js-extra
+</script>
+<script type="text/rocketlazyloadscript" id="rocket-preload-links-js-after">
+(function() {
+"use strict";var r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},e=function(){function i(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}return function(e,t,n){return t&&i(e.prototype,t),n&&i(e,n),e}}();function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var t=function(){function n(e,t){i(this,n),this.browser=e,this.config=t,this.options=this.browser.options,this.prefetched=new Set,this.eventTime=null,this.threshold=1111,this.numOnHover=0}return e(n,[{key:"init",value:function(){!this.browser.supportsLinkPrefetch()||this.browser.isDataSaverModeOn()||this.browser.isSlowConnection()||(this.regex={excludeUris:RegExp(this.config.excludeUris,"i"),images:RegExp(".("+this.config.imageExt+")$","i"),fileExt:RegExp(".("+this.config.fileExt+")$","i")},this._initListeners(this))}},{key:"_initListeners",value:function(e){-1<this.config.onHoverDelay&&document.addEventListener("mouseover",e.listener.bind(e),e.listenerOptions),document.addEventListener("mousedown",e.listener.bind(e),e.listenerOptions),document.addEventListener("touchstart",e.listener.bind(e),e.listenerOptions)}},{key:"listener",value:function(e){var t=e.target.closest("a"),n=this._prepareUrl(t);if(null!==n)switch(e.type){case"mousedown":case"touchstart":this._addPrefetchLink(n);break;case"mouseover":this._earlyPrefetch(t,n,"mouseout")}}},{key:"_earlyPrefetch",value:function(t,e,n){var i=this,r=setTimeout(function(){if(r=null,0===i.numOnHover)setTimeout(function(){return i.numOnHover=0},1e3);else if(i.numOnHover>i.config.rateThrottle)return;i.numOnHover++,i._addPrefetchLink(e)},this.config.onHoverDelay);t.addEventListener(n,function e(){t.removeEventListener(n,e,{passive:!0}),null!==r&&(clearTimeout(r),r=null)},{passive:!0})}},{key:"_addPrefetchLink",value:function(i){return this.prefetched.add(i.href),new Promise(function(e,t){var n=document.createElement("link");n.rel="prefetch",n.href=i.href,n.onload=e,n.onerror=t,document.head.appendChild(n)}).catch(function(){})}},{key:"_prepareUrl",value:function(e){if(null===e||"object"!==(void 0===e?"undefined":r(e))||!1 in e||-1===["http:","https:"].indexOf(e.protocol))return null;var t=e.href.substring(0,this.config.siteUrl.length),n=this._getPathname(e.href,t),i={original:e.href,protocol:e.protocol,origin:t,pathname:n,href:t+n};return this._isLinkOk(i)?i:null}},{key:"_getPathname",value:function(e,t){var n=t?e.substring(this.config.siteUrl.length):e;return n.startsWith("/")||(n="/"+n),this._shouldAddTrailingSlash(n)?n+"/":n}},{key:"_shouldAddTrailingSlash",value:function(e){return this.config.usesTrailingSlash&&!e.endsWith("/")&&!this.regex.fileExt.test(e)}},{key:"_isLinkOk",value:function(e){return null!==e&&"object"===(void 0===e?"undefined":r(e))&&(!this.prefetched.has(e.href)&&e.origin===this.config.siteUrl&&-1===e.href.indexOf("?")&&-1===e.href.indexOf("#")&&!this.regex.excludeUris.test(e.href)&&!this.regex.images.test(e.href))}}],[{key:"run",value:function(){"undefined"!=typeof RocketPreloadLinksConfig&&new n(new RocketBrowserCompatibilityChecker({capture:!0,passive:!0}),RocketPreloadLinksConfig).init()}}]),n}();t.run();
+}());
+
+//# sourceURL=rocket-preload-links-js-after
+</script>
+<script id="rocket_lazyload_css-js-extra">
+var rocket_lazyload_css_data = {"threshold":"300"};
+//# sourceURL=rocket_lazyload_css-js-extra
+</script>
+<script id="rocket_lazyload_css-js-after">
+!function o(n,c,a){function u(t,e){if(!c[t]){if(!n[t]){var r="function"==typeof require&&require;if(!e&&r)return r(t,!0);if(s)return s(t,!0);throw(e=new Error("Cannot find module '"+t+"'")).code="MODULE_NOT_FOUND",e}r=c[t]={exports:{}},n[t][0].call(r.exports,function(e){return u(n[t][1][e]||e)},r,r.exports,o,n,c,a)}return c[t].exports}for(var s="function"==typeof require&&require,e=0;e<a.length;e++)u(a[e]);return u}({1:[function(e,t,r){"use strict";{const c="undefined"==typeof rocket_pairs?[]:rocket_pairs,a=(("undefined"==typeof rocket_excluded_pairs?[]:rocket_excluded_pairs).map(t=>{var e=t.selector;document.querySelectorAll(e).forEach(e=>{e.setAttribute("data-rocket-lazy-bg-"+t.hash,"excluded")})}),document.querySelector("#wpr-lazyload-bg-container"));var o=rocket_lazyload_css_data.threshold||300;const u=new IntersectionObserver(e=>{e.forEach(t=>{t.isIntersecting&&c.filter(e=>t.target.matches(e.selector)).map(t=>{var e;t&&((e=document.createElement("style")).textContent=t.style,a.insertAdjacentElement("afterend",e),t.elements.forEach(e=>{u.unobserve(e),e.setAttribute("data-rocket-lazy-bg-"+t.hash,"loaded")}))})})},{rootMargin:o+"px"});function n(){0<(0<arguments.length&&void 0!==arguments[0]?arguments[0]:[]).length&&c.forEach(t=>{try{document.querySelectorAll(t.selector).forEach(e=>{"loaded"!==e.getAttribute("data-rocket-lazy-bg-"+t.hash)&&"excluded"!==e.getAttribute("data-rocket-lazy-bg-"+t.hash)&&(u.observe(e),(t.elements||=[]).push(e))})}catch(e){console.error(e)}})}n(),function(){const r=window.MutationObserver;return function(e,t){if(e&&1===e.nodeType)return(t=new r(t)).observe(e,{attributes:!0,childList:!0,subtree:!0}),t}}()(document.querySelector("body"),n)}},{}]},{},[1]);
+//# sourceURL=rocket_lazyload_css-js-after
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="hello-theme-frontend-js" data-rocket-src="https://atomik.com.br/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/js/hello-frontend.js?ver=1780520065"></script>
+<script type="text/rocketlazyloadscript" id="elementor-webpack-runtime-js" data-rocket-src="https://atomik.com.br/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js?ver=4.1.1"></script>
+<script type="text/rocketlazyloadscript" id="elementor-frontend-modules-js" data-rocket-src="https://atomik.com.br/wp-content/plugins/elementor/assets/js/frontend-modules.min.js?ver=4.1.1"></script>
+<script type="text/rocketlazyloadscript" id="jquery-ui-core-js" data-rocket-src="https://atomik.com.br/wp-includes/js/jquery/ui/core.min.js?ver=1.13.3"></script>
+<script type="text/rocketlazyloadscript" id="elementor-frontend-js-before">
+var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false,"isScriptDebug":false},"i18n":{"shareOnFacebook":"Compartilhar no Facebook","shareOnTwitter":"Compartilhar no Twitter","pinIt":"Fixar","download":"Baixar","downloadImage":"Baixar imagem","fullscreen":"Tela cheia","zoom":"Zoom","share":"Compartilhar","playVideo":"Reproduzir v\u00eddeo","previous":"Anterior","next":"Pr\u00f3ximo","close":"Fechar","a11yCarouselPrevSlideMessage":"Slide anterior","a11yCarouselNextSlideMessage":"Pr\u00f3ximo slide","a11yCarouselFirstSlideMessage":"Este \u00e9 o primeiro slide","a11yCarouselLastSlideMessage":"Este \u00e9 o \u00faltimo slide","a11yCarouselPaginationBulletMessage":"Ir para o slide"},"is_rtl":false,"breakpoints":{"xs":0,"sm":480,"md":768,"lg":1025,"xl":1440,"xxl":1600},"responsive":{"breakpoints":{"mobile":{"label":"Dispositivos m\u00f3veis no modo retrato","value":767,"default_value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"Dispositivos m\u00f3veis no modo paisagem","value":880,"default_value":880,"direction":"max","is_enabled":false},"tablet":{"label":"Tablet no modo retrato","value":1024,"default_value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"Tablet no modo paisagem","value":1200,"default_value":1200,"direction":"max","is_enabled":false},"laptop":{"label":"Notebook","value":1366,"default_value":1366,"direction":"max","is_enabled":true},"widescreen":{"label":"Tela ampla (widescreen)","value":2400,"default_value":2400,"direction":"min","is_enabled":true}},"hasCustomBreakpoints":true},"version":"4.1.1","is_static":false,"experimentalFeatures":{"e_font_icon_svg":true,"additional_custom_breakpoints":true,"container":true,"theme_builder_v2":true,"hello-theme-header-footer":true,"e_pro_free_trial_popup":true,"nested-elements":true,"e_atomic_elements":true,"atomic_widgets_should_enforce_capabilities":true,"editor_mcp":true,"e_bc_migrations":true,"e_editor_design_system_panel":true,"e_classes":true,"global_classes_should_enforce_capabilities":true,"e_variables":true,"e_variables_manager":true,"e_opt_in_v4_page":true,"e_opt_in_v4":true,"e_components":true,"e_interactions":true,"e_widget_creation":true,"import-export-customization":true,"e_pro_atomic_form":true,"mega-menu":true,"e_pro_variables":true,"e_pro_interactions":true},"urls":{"assets":"https:\/\/atomik.com.br\/wp-content\/plugins\/elementor\/assets\/","ajaxurl":"https:\/\/atomik.com.br\/wp-admin\/admin-ajax.php","uploadUrl":"https:\/\/atomik.com.br\/wp-content\/uploads"},"nonces":{"floatingButtonsClickTracking":"3d64e8780b","atomicFormsSendForm":"1bf304bf01"},"swiperClass":"swiper","settings":{"page":[],"editorPreferences":[]},"kit":{"active_breakpoints":["viewport_mobile","viewport_tablet","viewport_laptop","viewport_widescreen"],"global_image_lightbox":"yes","lightbox_enable_counter":"yes","lightbox_enable_fullscreen":"yes","lightbox_enable_zoom":"yes","lightbox_enable_share":"yes","lightbox_title_src":"title","lightbox_description_src":"description","hello_header_logo_type":"title","hello_header_menu_layout":"horizontal","hello_footer_logo_type":"logo"},"post":{"id":16,"title":"Pol%C3%ADtica%20Atomik%20-%20Atomik","excerpt":"","featuredImage":false}};
+//# sourceURL=elementor-frontend-js-before
+</script>
+<script type="text/rocketlazyloadscript" id="elementor-frontend-js" data-rocket-src="https://atomik.com.br/wp-content/plugins/elementor/assets/js/frontend.min.js?ver=4.1.1"></script>
+<script type="text/rocketlazyloadscript" id="jquery-bind-first-js" defer data-rocket-src="https://atomik.com.br/wp-content/plugins/pixelyoursite/dist/scripts/jquery.bind-first-0.2.3.min.js?ver=0.2.3"></script>
+<script type="text/rocketlazyloadscript" id="js-cookie-pys-js" defer data-rocket-src="https://atomik.com.br/wp-content/plugins/pixelyoursite/dist/scripts/js.cookie-2.1.3.min.js?ver=2.1.3"></script>
+<script type="text/rocketlazyloadscript" id="js-tld-js" defer data-rocket-src="https://atomik.com.br/wp-content/plugins/pixelyoursite/dist/scripts/tld.min.js?ver=2.3.1"></script>
+<script id="pys-js-extra">
+var pysOptions = {"staticEvents":{"facebook":{"init_event":[{"delay":0,"type":"static","ajaxFire":false,"name":"PageView","pixelIds":["2452322971757307"],"eventID":"6e14b64e-6368-4d74-8804-8d950a8c186c","params":{"page_title":"Pol\u00edtica Atomik","post_type":"page","post_id":16,"plugin":"PixelYourSite","user_role":"guest","event_url":"atomik.com.br/politica-atomik/"},"e_id":"init_event","ids":[],"hasTimeWindow":false,"timeWindow":0,"woo_order":"","edd_order":""}]}},"dynamicEvents":[],"triggerEvents":[],"triggerEventTypes":[],"facebook":{"pixelIds":["2452322971757307"],"advancedMatching":[],"advancedMatchingEnabled":false,"removeMetadata":true,"wooVariableAsSimple":false,"serverApiEnabled":true,"send_external_id":null,"enabled_medical":false,"do_not_track_medical_param":["event_url","post_title","page_title","landing_page","content_name","categories","category_name","tags"],"meta_ldu":false},"debug":"","siteUrl":"https://atomik.com.br","ajaxUrl":"https://atomik.com.br/wp-admin/admin-ajax.php","ajax_event":"3b825d9b0f","enable_remove_download_url_param":"1","cookie_duration":"7","last_visit_duration":"60","enable_success_send_form":"","ajaxForServerEvent":"1","ajaxForServerStaticEvent":"1","useSendBeacon":"1","send_external_id":"1","external_id_expire":"180","track_cookie_for_subdomains":"1","google_consent_mode":"1","gdpr":{"ajax_enabled":false,"all_disabled_by_api":false,"facebook_disabled_by_api":false,"analytics_disabled_by_api":false,"google_ads_disabled_by_api":false,"pinterest_disabled_by_api":false,"bing_disabled_by_api":false,"reddit_disabled_by_api":false,"externalID_disabled_by_api":false,"facebook_prior_consent_enabled":true,"analytics_prior_consent_enabled":true,"google_ads_prior_consent_enabled":null,"pinterest_prior_consent_enabled":true,"bing_prior_consent_enabled":true,"cookiebot_integration_enabled":false,"cookiebot_facebook_consent_category":"marketing","cookiebot_analytics_consent_category":"statistics","cookiebot_tiktok_consent_category":"marketing","cookiebot_google_ads_consent_category":"marketing","cookiebot_pinterest_consent_category":"marketing","cookiebot_bing_consent_category":"marketing","consent_magic_integration_enabled":false,"real_cookie_banner_integration_enabled":false,"cookie_notice_integration_enabled":false,"cookie_law_info_integration_enabled":false,"analytics_storage":{"enabled":true,"value":"granted","filter":false},"ad_storage":{"enabled":true,"value":"granted","filter":false},"ad_user_data":{"enabled":true,"value":"granted","filter":false},"ad_personalization":{"enabled":true,"value":"granted","filter":false}},"cookie":{"disabled_all_cookie":false,"disabled_start_session_cookie":false,"disabled_advanced_form_data_cookie":false,"disabled_landing_page_cookie":false,"disabled_first_visit_cookie":false,"disabled_trafficsource_cookie":false,"disabled_utmTerms_cookie":false,"disabled_utmId_cookie":false},"tracking_analytics":{"TrafficLanding":"https://atomik.com.br/politica-atomik/","TrafficUtms":[],"TrafficUtmsId":[]},"GATags":{"ga_datalayer_type":"default","ga_datalayer_name":"dataLayerPYS"},"woo":{"enabled":false},"edd":{"enabled":false},"cache_bypass":"1780748811"};
+//# sourceURL=pys-js-extra
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="pys-js" defer data-rocket-src="https://atomik.com.br/wp-content/cache/min/1/wp-content/plugins/pixelyoursite/dist/scripts/public.js?ver=1780520065"></script>
+<script type="text/rocketlazyloadscript" id="heartbeat-js" data-rocket-src="https://atomik.com.br/wp-content/plugins/wp-rocket/assets/js/heartbeat.js?ver=3.21.3"></script>
+<script type="text/rocketlazyloadscript" id="elementor-pro-webpack-runtime-js" data-rocket-src="https://atomik.com.br/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js?ver=4.1.0"></script>
+<script type="text/rocketlazyloadscript" id="wp-hooks-js" data-rocket-src="https://atomik.com.br/wp-includes/js/dist/hooks.min.js?ver=7496969728ca0f95732d"></script>
+<script type="text/rocketlazyloadscript" id="wp-i18n-js" data-rocket-src="https://atomik.com.br/wp-includes/js/dist/i18n.min.js?ver=781d11515ad3d91786ec"></script>
+<script type="text/rocketlazyloadscript" id="wp-i18n-js-after">
+wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
+//# sourceURL=wp-i18n-js-after
+</script>
+<script type="text/rocketlazyloadscript" id="elementor-pro-frontend-js-before">
+var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/atomik.com.br\/wp-admin\/admin-ajax.php","nonce":"132b342ea9","urls":{"assets":"https:\/\/atomik.com.br\/wp-content\/plugins\/elementor-pro\/assets\/","rest":"https:\/\/atomik.com.br\/wp-json\/"},"settings":{"lazy_load_background_images":false},"popup":{"hasPopUps":false},"shareButtonsNetworks":{"facebook":{"title":"Facebook","has_counter":true},"twitter":{"title":"Twitter"},"linkedin":{"title":"LinkedIn","has_counter":true},"pinterest":{"title":"Pinterest","has_counter":true},"reddit":{"title":"Reddit","has_counter":true},"vk":{"title":"VK","has_counter":true},"odnoklassniki":{"title":"OK","has_counter":true},"tumblr":{"title":"Tumblr"},"digg":{"title":"Digg"},"skype":{"title":"Skype"},"stumbleupon":{"title":"StumbleUpon","has_counter":true},"mix":{"title":"Mix"},"telegram":{"title":"Telegram"},"pocket":{"title":"Pocket","has_counter":true},"xing":{"title":"XING","has_counter":true},"whatsapp":{"title":"WhatsApp"},"email":{"title":"Email"},"print":{"title":"Print"},"x-twitter":{"title":"X"},"threads":{"title":"Threads"}},"facebook_sdk":{"lang":"pt_BR","app_id":""},"lottie":{"defaultAnimationUrl":"https:\/\/atomik.com.br\/wp-content\/plugins\/elementor-pro\/modules\/lottie\/assets\/animations\/default.json"}};
+//# sourceURL=elementor-pro-frontend-js-before
+</script>
+<script type="text/rocketlazyloadscript" id="elementor-pro-frontend-js" data-rocket-src="https://atomik.com.br/wp-content/plugins/elementor-pro/assets/js/frontend.min.js?ver=4.1.0"></script>
+<script type="text/rocketlazyloadscript" id="pro-elements-handlers-js" data-rocket-src="https://atomik.com.br/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js?ver=4.1.0"></script>
+<script>window.lazyLoadOptions=[{elements_selector:"img[data-lazy-src],.rocket-lazyload,iframe[data-lazy-src]",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,callback_loaded:function(element){if(element.tagName==="IFRAME"&&element.dataset.rocketLazyload=="fitvidscompatible"){if(element.classList.contains("lazyloaded")){if(typeof window.jQuery!="undefined"){if(jQuery.fn.fitVids){jQuery(element).parent().fitVids()}}}}}},{elements_selector:".rocket-lazyload",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,}];window.addEventListener('LazyLoad::Initialized',function(e){var lazyLoadInstance=e.detail.instance;if(window.MutationObserver){var observer=new MutationObserver(function(mutations){var image_count=0;var iframe_count=0;var rocketlazy_count=0;mutations.forEach(function(mutation){for(var i=0;i<mutation.addedNodes.length;i++){if(typeof mutation.addedNodes[i].getElementsByTagName!=='function'){continue}
+if(typeof mutation.addedNodes[i].getElementsByClassName!=='function'){continue}
+images=mutation.addedNodes[i].getElementsByTagName('img');is_image=mutation.addedNodes[i].tagName=="IMG";iframes=mutation.addedNodes[i].getElementsByTagName('iframe');is_iframe=mutation.addedNodes[i].tagName=="IFRAME";rocket_lazy=mutation.addedNodes[i].getElementsByClassName('rocket-lazyload');image_count+=images.length;iframe_count+=iframes.length;rocketlazy_count+=rocket_lazy.length;if(is_image){image_count+=1}
+if(is_iframe){iframe_count+=1}}});if(image_count>0||iframe_count>0||rocketlazy_count>0){lazyLoadInstance.update()}});var b=document.getElementsByTagName("body")[0];var config={childList:!0,subtree:!0};observer.observe(b,config)}},!1)</script><script data-no-minify="1" async src="https://atomik.com.br/wp-content/plugins/wp-rocket/assets/js/lazyload/17.8.3/lazyload.min.js"></script>	<script>(()=>{class RocketElementorPreload{constructor(){this.deviceMode=document.createElement("span"),this.deviceMode.id="elementor-device-mode-wpr",this.deviceMode.setAttribute("class","elementor-screen-only"),document.body.appendChild(this.deviceMode)}t(){let t=getComputedStyle(this.deviceMode,":after").content.replace(/"/g,"");this.animationSettingKeys=this.i(t),document.querySelectorAll(".elementor-invisible[data-settings]").forEach(t=>{const e=t.getBoundingClientRect();if(e.bottom>=0&&e.top<=window.innerHeight)try{this.o(t)}catch(t){}})}o(t){const e=JSON.parse(t.dataset.settings),i=e.m||e.animation_delay||0,n=e[this.animationSettingKeys.find(t=>e[t])];if("none"===n)return void t.classList.remove("elementor-invisible");t.classList.remove(n),this.currentAnimation&&t.classList.remove(this.currentAnimation),this.currentAnimation=n;let o=setTimeout(()=>{t.classList.remove("elementor-invisible"),t.classList.add("animated",n),this.l(t,e)},i);window.addEventListener("rocket-startLoading",function(){clearTimeout(o)})}i(t="mobile"){const e=[""];switch(t){case"mobile":e.unshift("_mobile");case"tablet":e.unshift("_tablet");case"desktop":e.unshift("_desktop")}const i=[];return["animation","_animation"].forEach(t=>{e.forEach(e=>{i.push(t+e)})}),i}l(t,e){this.i().forEach(t=>delete e[t]),t.dataset.settings=JSON.stringify(e)}static run(){const t=new RocketElementorPreload;requestAnimationFrame(t.t.bind(t))}}document.addEventListener("DOMContentLoaded",RocketElementorPreload.run)})();</script></body>
+</html>
+
+<!-- This website is like a Rocket, isn't it? Performance optimized by WP Rocket. Learn more: https://wp-rocket.me - Debug: cached@1780748811 -->

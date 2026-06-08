@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+  <script id="aura-preview-performance-controller">
+    (function() {
+      if (window.__auraPreviewPerformanceController) return;
+      const nativeRequestAnimationFrame = window.requestAnimationFrame
+        ? window.requestAnimationFrame.bind(window)
+        : function(callback) { return window.setTimeout(function() { callback(Date.now()); }, 16); };
+      const nativeCancelAnimationFrame = window.cancelAnimationFrame
+        ? window.cancelAnimationFrame.bind(window)
+        : window.clearTimeout.bind(window);
+      const nativeSetInterval = window.setInterval.bind(window);
+      let paused = false;
+      let nextFrameId = 1;
+      const frameRecords = new Map();
+      const pausedFrameCallbacks = new Map();
+      const style = document.createElement('style');
+      style.id = 'aura-preview-performance-style';
+      style.textContent = [
+        'html[data-aura-preview-paused="true"] *,',
+        'html[data-aura-preview-paused="true"] *::before,',
+        'html[data-aura-preview-paused="true"] *::after {',
+        '  animation-play-state: paused !important;',
+        '  transition-duration: 0s !important;',
+        '  scroll-behavior: auto !important;',
+        '}'
+      ].join('\n');
+      document.head.appendChild(style);
+      window.requestAnimationFrame = function(callback) {
+        const frameId = nextFrameId++;
+        if (paused) {
+          pausedFrameCallbacks.set(frameId, callback);
+          frameRecords.set(frameId, { paused: true });
+          return frameId;
+        }
+        const nativeFrameId = nativeRequestAnimationFrame(function(timestamp) {
+          frameRecords.delete(frameId);
+          callback(timestamp);
+        });
+        frameRecords.set(frameId, { nativeFrameId: nativeFrameId });
+        return frameId;
+      };
+      window.cancelAnimationFrame = function(frameId) {
+        const record = frameRecords.get(frameId);
+        pausedFrameCallbacks.delete(frameId);
+        if (record && typeof record.nativeFrameId !== 'undefined') {
+          nativeCancelAnimationFrame(record.nativeFrameId);
+        }
+        frameRecords.delete(frameId);
+      };
+      window.setInterval = function(callback, delay) {
+        const args = Array.prototype.slice.call(arguments, 2);
+        return nativeSetInterval(function() {
+          if (paused) return;
+          callback.apply(this, args);
+        }, delay);
+      };
+      const flushPausedFrames = function() {
+        const callbacks = Array.from(pausedFrameCallbacks.entries());
+        pausedFrameCallbacks.clear();
+        callbacks.forEach(function(entry) {
+          const frameId = entry[0];
+          const callback = entry[1];
+          const nativeFrameId = nativeRequestAnimationFrame(function(timestamp) {
+            frameRecords.delete(frameId);
+            callback(timestamp);
+          });
+          frameRecords.set(frameId, { nativeFrameId: nativeFrameId });
+        });
+      };
+      const setPaused = function(nextPaused) {
+        const shouldPause = Boolean(nextPaused);
+        if (paused === shouldPause) return;
+        paused = shouldPause;
+        document.documentElement.toggleAttribute('data-aura-preview-paused', paused);
+        if (!paused) {
+          flushPausedFrames();
+        }
+      };
+      window.__auraPreviewPerformanceController = {
+        setPaused: setPaused,
+        get paused() {
+          return paused;
+        }
+      };
+      window.addEventListener('message', function(event) {
+        if (event.source !== window.parent) return;
+        if (!event.data || event.data.type !== 'aura-preview-performance-mode') return;
+        setPaused(event.data.paused);
+      });
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Echelon Design System — Pattern Library</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #F6F0E8;
+      --surface: #FFFCF7;
+      --surface-2: #FBF4EC;
+      --line: #E7D8C8;
+      --ink: #241A16;
+      --muted: #7B6A5F;
+      --soft: #A99683;
+      --accent: #B78A56;
+      --accent-dark: #946D40;
+      --deep: #1D1714;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--paper);
+      color: var(--deep);
+      overflow-x: hidden;
+    }
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+      opacity: .35;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(203, 77, 34, .08), transparent 26%),
+        radial-gradient(circle at 80% 15%, rgba(45, 27, 17, .06), transparent 28%),
+        radial-gradient(circle at 50% 95%, rgba(203, 77, 34, .08), transparent 32%);
+    }
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .55;
+    }
+    .soft-shadow {
+      box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, .06), 0px 1px 1px -.5px rgba(0, 0, 0, .06), 0px 3px 3px -1.5px rgba(0, 0, 0, .06), 0px 6px 6px -3px rgba(0, 0, 0, .06), 0px 12px 12px -6px rgba(0, 0, 0, .06), 0px 24px 24px -12px rgba(0, 0, 0, .06);
+    }
+    .deep-shadow {
+      box-shadow:
+        0 18px 45px rgba(36, 26, 22, .10),
+        0 4px 12px rgba(36, 26, 22, .06);
+    }
+    .grid-paper {
+      background-image: linear-gradient(rgba(45, 27, 17, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(45, 27, 17, .05) 1px, transparent 1px);
+      background-size: 42px 42px;
+    }
+    .photo-panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px;
+      background: #E7D8C8;
+    }
+    .photo-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 1.1s cubic-bezier(.16, 1, .3, 1);
+    }
+    .photo-panel:hover::before {
+      transform: scale(1.06);
+    }
+    .photo-panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(45, 27, 17, .92), rgba(45, 27, 17, .42), rgba(45, 27, 17, .04));
+    }
+
+    /* Hero Local Images */
+    .hero-img-private::before {
+      background-image: url('assets/8ab7622f109bddc2_2d14ef73-fa46-407f-b2d7-b67faae46e7b-01.png');
+    }
+    .hero-img-gala::before {
+      background-image: url('assets/606c8f05b6041e8d_c9d01a66-bd9a-4e43-90a6-a004e1.png');
+    }
+    .hero-img-brand::before {
+      background-image: url('assets/cb9ef4a4d5d7a1d6_eb242390-643e-49d5-8252-9bb710.png');
+    }
+
+    /* Capabilities Local Images */
+    .cap-img-summit::before {
+      background-image: url('assets/a3603480665f3722_86847cdd-4d86-4fe2-8b40-be6232.png');
+    }
+    .cap-img-hospitality::before {
+      background-image: url('assets/a8be559054ccb8a3_5c2d85bf-a758-4618-a4f8-273259.png');
+    }
+    .cap-img-dining::before {
+      background-image: url('assets/505077c18eb1166a_ce518d4f-19dd-424b-a750-2a4063.png');
+    }
+
+    /* Recent Production Local Images */
+    .prod-img-maison::before {
+      background-image: url('assets/8549895448e452bc_3f375547-7d1c-4a22-b05f-dd7ffc.png');
+    }
+    .prod-img-patron::before {
+      background-image: url('assets/f54e6cec39a0fae6_2a61125b-0a46-4e2d-a0c9-8df160.png');
+    }
+    .prod-img-lake::before {
+      background-image: url('assets/b109e7299894c72d_09a4f282-c6c8-4d92-8c4d-78d911.png');
+    }
+    .prod-img-founders::before {
+      background-image: url('assets/b21e6f711346756d_ce2060c2-04e1-412b-9f2f-e027da.png');
+    }
+
+    /* Field Notes Local Images */
+    .note-img-pacing::before {
+      background-image: url('assets/75a1ce3618cc4f91_4d3f74a0-cef4-4e3d-a1ab-6f2633.png');
+    }
+    .note-img-launch::before {
+      background-image: url('assets/d3f045b5ef30b239_22d8997e-5f5d-47e9-a3d4-f4d66d.png');
+    }
+    .note-img-retreat::before {
+      background-image: url('assets/b678e0913bdc6596_da78163d-e112-41a1-a480-00126c.png');
+    }
+
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    .reveal-line {
+      display: inline-flex;
+      overflow: hidden;
+      vertical-align: top;
+      margin-right: .25em;
+    }
+    .reveal-word {
+      display: inline-block;
+      transform: translateY(112%);
+    }
+    .section-reveal-line {
+      display: inline-flex;
+      overflow: hidden;
+      vertical-align: top;
+      gap: .25em;
+    }
+    .section-reveal-word {
+      display: inline-block;
+      transform: translateY(112%);
+    }
+    .marquee {
+      animation: marquee 28s linear infinite;
+    }
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+</head>
+<body class="">
+  <div class="noise"></div>
+  <canvas id="bg-canvas" width="1248" height="949"></canvas>
+
+  <main class="w-full max-w-[1480px] mx-auto my-4 md:my-8 bg-white soft-shadow min-h-screen relative z-10">
+    <!-- Top Utility Bar -->
+    <div class="hidden lg:block border-b border-[#E7D8C8] bg-[#FBF4EC]">
+      <div class="px-6 lg:px-12 h-10 flex items-center justify-between text-[10px] uppercase tracking-[.22em] text-[#7B6A5F]">
+        <div class="flex items-center gap-6">
+          <span class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 bg-[#B78A56]"></span>
+            Montreal · Paris · New York
+          </span>
+          <span>Echelon Atelier Design Tokens & Primitives Showcase</span>
+        </div>
+        <div class="flex items-center gap-6">
+          <span>Living Pattern Library v2.0</span>
+          <a href="#typography" class="text-[#B78A56] hover:text-[#946D40] transition-colors">
+            Jump to Spec
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky Navigation & Anchor Links -->
+    <header class="sticky top-0 z-50 bg-[#FFFCF7]/88 backdrop-blur-xl border-b border-[#E7D8C8]">
+      <div class="px-6 lg:px-12 h-20 flex items-center justify-between gap-8">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-2 bg-[#FCF7F1] rounded-sm pr-5 pl-1 py-1 border border-[#EADFD3] w-max hover:border-[#B78A56]/60 transition-colors">
+          <div class="w-8 h-8 rounded-sm bg-[#B78A56] flex items-center justify-center text-white soft-shadow">
+            <iconify-icon icon="solar:star-shine-linear" width="1.2em"></iconify-icon>
+          </div>
+          <span class="text-xs font-medium tracking-[.18em] uppercase text-[#5D473F]">
+            DS Showcase
+          </span>
+        </a>
+
+        <!-- Anchor Navigation Links -->
+        <nav class="hidden xl:flex items-center gap-3">
+          <a href="#hero-section" class="flex items-center gap-1.5 border border-[#E7D8C8] bg-[#FFFCF7]/50 rounded-sm px-4 py-2 text-xs font-light text-[#5D473F] hover:border-[#B78A56] hover:text-[#B78A56] hover:bg-[#FBF4EC] transition-colors">
+            Hero Clone
+          </a>
+          <a href="#typography" class="flex items-center gap-1.5 border border-[#E7D8C8] bg-[#FFFCF7]/50 rounded-sm px-4 py-2 text-xs font-light text-[#5D473F] hover:border-[#B78A56] hover:text-[#B78A56] hover:bg-[#FBF4EC] transition-colors">
+            Typography
+          </a>
+          <a href="#colors-surfaces" class="flex items-center gap-1.5 border border-[#E7D8C8] bg-[#FFFCF7]/50 rounded-sm px-4 py-2 text-xs font-light text-[#5D473F] hover:border-[#B78A56] hover:text-[#B78A56] hover:bg-[#FBF4EC] transition-colors">
+            Colors & Surfaces
+          </a>
+          <a href="#ui-components" class="flex items-center gap-1.5 border border-[#E7D8C8] bg-[#FFFCF7]/50 rounded-sm px-4 py-2 text-xs font-light text-[#5D473F] hover:border-[#B78A56] hover:text-[#B78A56] hover:bg-[#FBF4EC] transition-colors">
+            UI Components
+          </a>
+          <a href="#layout-spacing" class="flex items-center gap-1.5 border border-[#E7D8C8] bg-[#FFFCF7]/50 rounded-sm px-4 py-2 text-xs font-light text-[#5D473F] hover:border-[#B78A56] hover:text-[#B78A56] hover:bg-[#FBF4EC] transition-colors">
+            Layout & Spacing
+          </a>
+          <a href="#motion-interaction" class="flex items-center gap-1.5 border border-[#E7D8C8] bg-[#FFFCF7]/50 rounded-sm px-4 py-2 text-xs font-light text-[#5D473F] hover:border-[#B78A56] hover:text-[#B78A56] hover:bg-[#FBF4EC] transition-colors">
+            Motion
+          </a>
+          <a href="#icons" class="flex items-center gap-1.5 border border-[#E7D8C8] bg-[#FFFCF7]/50 rounded-sm px-4 py-2 text-xs font-light text-[#5D473F] hover:border-[#B78A56] hover:text-[#B78A56] hover:bg-[#FBF4EC] transition-colors">
+            Icons
+          </a>
+        </nav>
+
+        <!-- CTA back to main page -->
+        <a href="index.html" class="bg-[#B78A56] text-white rounded-sm px-1 pl-5 py-1 flex items-center gap-4 text-xs font-light hover:bg-[#946D40] transition-colors group soft-shadow">
+          View Live Site
+          <span class="w-8 h-8 rounded-sm bg-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-[#B78A56] transition-colors">
+            <iconify-icon icon="solar:arrow-right-up-linear" width="1.2em"></iconify-icon>
+          </span>
+        </a>
+      </div>
+    </header>
+
+    <!-- SECTION 0: Cloned and Adapted Hero Section -->
+    <section id="hero-section" class="px-6 lg:px-12 py-12 lg:py-20 relative overflow-hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 min-h-[680px] relative z-10">
+        <!-- Left Hero Content -->
+        <div class="lg:col-span-7 flex flex-col">
+          <div class="mb-8 flex items-center gap-4 text-[10px] uppercase tracking-[.28em] text-[#7B6A5F]">
+            <span class="w-2 h-2 bg-[#B78A56]"></span>
+            Living Design System & Showcase
+            <span class="hidden md:block h-[1px] bg-[#E7D8C8] flex-1"></span>
+          </div>
+
+          <!-- Headline (Exact clone of reveal structure, adapted text) -->
+          <h1 class="gsap-title text-4xl md:text-6xl lg:text-[4.55rem] xl:text-[5.05rem] leading-[1.02] tracking-tight font-extralight uppercase text-[#241A16] mb-8 max-w-[920px]">
+            <span class="block whitespace-nowrap">
+              <span class="reveal-line">
+                <span class="reveal-word">Living</span>
+              </span>
+              <span class="reveal-line">
+                <span class="reveal-word">pattern</span>
+              </span>
+            </span>
+
+            <span class="block whitespace-nowrap">
+              <span class="reveal-line">
+                <span class="reveal-word">library</span>
+              </span>
+              <span class="reveal-line">
+                <span class="reveal-word">for</span>
+              </span>
+              <span class="reveal-line">
+                <span class="reveal-word">Echelon</span>
+              </span>
+            </span>
+
+            <span class="block whitespace-nowrap">
+              <span class="reveal-line">
+                <span class="reveal-word">design</span>
+              </span>
+              <span class="reveal-line">
+                <span class="reveal-word">system</span>
+              </span>
+              <span class="reveal-line">
+                <span class="reveal-word">v2</span>
+              </span>
+            </span>
+
+            <span class="block overflow-hidden mt-5">
+              <span class="reveal-word inline-flex items-center gap-4">
+                <span class="w-11 h-11 md:w-14 md:h-14 bg-[#B78A56] text-white flex items-center justify-center rounded-sm soft-shadow">
+                  <iconify-icon icon="solar:magic-stick-3-linear" width="1.35em"></iconify-icon>
+                </span>
+                <span class="text-[#B78A56] font-medium tracking-[.34em] text-xs md:text-sm">
+                  DESIGN SYSTEM AND SPEC
+                </span>
+              </span>
+            </span>
+          </h1>
+
+          <!-- Subtext adapted -->
+          <div class="fade-in-up mb-10 max-w-xl">
+            <p class="text-sm md:text-base text-[#7B6A5F] leading-relaxed font-light">
+              This living documentation tracks design primitives, typography, surfaces, interactive layouts, component patterns, and interactive motions that compose the premium Echelon digital experience.
+            </p>
+          </div>
+
+          <!-- CTA Row -->
+          <div class="fade-in-up flex flex-wrap items-center gap-5 md:gap-10 mb-10">
+            <a href="#typography" class="bg-[#241A16] text-white rounded-sm px-1 pl-6 py-1 flex items-center gap-8 text-xs font-light hover:bg-[#B78A56] transition-colors group soft-shadow">
+              Explore Primitives
+              <span class="w-9 h-9 rounded-sm bg-white/10 flex items-center justify-center">
+                <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+              </span>
+            </a>
+
+            <div class="flex flex-wrap items-center gap-5 text-[10px] font-medium tracking-[.22em] uppercase text-[#7B6A5F]">
+              <span class="flex items-center gap-2">
+                <span class="w-1 h-1 bg-[#B78A56]"></span>
+                Typography
+              </span>
+              <span class="flex items-center gap-2">
+                <span class="w-1 h-1 bg-[#B78A56]"></span>
+                Surfaces
+              </span>
+              <span class="flex items-center gap-2">
+                <span class="w-1 h-1 bg-[#B78A56]"></span>
+                Components
+              </span>
+            </div>
+          </div>
+
+          <!-- Credibility strip (cloned & text adapted) -->
+          <div class="fade-in-up grid grid-cols-3 max-w-xl border-y border-[#E7D8C8] divide-x divide-[#E7D8C8] mb-14">
+            <div class="py-4 pr-5">
+              <div class="text-2xl md:text-3xl font-extralight tracking-tight text-[#241A16]">
+                10
+              </div>
+              <p class="text-[9px] uppercase tracking-[.22em] text-[#7B6A5F] mt-1">
+                Design tokens
+              </p>
+            </div>
+            <div class="py-4 px-5">
+              <div class="text-2xl md:text-3xl font-extralight tracking-tight text-[#241A16]">
+                100%
+              </div>
+              <p class="text-[9px] uppercase tracking-[.22em] text-[#7B6A5F] mt-1">
+                Tailwind CSS
+              </p>
+            </div>
+            <div class="py-4 pl-5">
+              <div class="text-2xl md:text-3xl font-extralight tracking-tight text-[#241A16]">
+                6+
+              </div>
+              <p class="text-[9px] uppercase tracking-[.22em] text-[#7B6A5F] mt-1">
+                Interactive sections
+              </p>
+            </div>
+          </div>
+
+          <!-- Bottom Method Cards (exact layout, adapted text) -->
+          <div class="fade-in-up grid grid-cols-1 md:grid-cols-3 gap-4 mt-auto">
+            <div class="relative p-[1px] rounded-sm overflow-hidden bg-gradient-to-br from-[#B78A56]/25 via-[#E7D8C8] to-transparent group">
+              <div class="bg-[#FBF4EC] p-5 min-h-[132px] relative border border-transparent group-hover:border-[#B78A56]/25 transition-colors">
+                <div class="mb-5">
+                  <span class="text-[9px] uppercase tracking-[.24em] text-[#B78A56]">
+                    01 / Primitives
+                  </span>
+                </div>
+                <h3 class="text-sm font-medium tracking-tight text-[#241A16] mb-2">
+                  Colors & Fonts
+                </h3>
+                <p class="text-xs text-[#5D473F] leading-relaxed font-light pr-5">
+                  Custom variable setup, paper background, ink text, and typography.
+                </p>
+                <span class="absolute -right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 bg-[#F6F0E8] text-[#B78A56] border border-[#E7D8C8] flex items-center justify-center group-hover:bg-[#B78A56] group-hover:text-white transition-colors">
+                  <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+                </span>
+              </div>
+            </div>
+
+            <div class="relative p-[1px] rounded-sm overflow-hidden bg-gradient-to-br from-[#B78A56]/25 via-[#E7D8C8] to-transparent group">
+              <div class="bg-[#FBF4EC] p-5 min-h-[132px] relative border border-transparent group-hover:border-[#B78A56]/25 transition-colors">
+                <div class="mb-5">
+                  <span class="text-[9px] uppercase tracking-[.24em] text-[#B78A56]">
+                    02 / Surfaces
+                  </span>
+                </div>
+                <h3 class="text-sm font-medium tracking-tight text-[#241A16] mb-2">
+                  Cards & Borders
+                </h3>
+                <p class="text-xs text-[#5D473F] leading-relaxed font-light pr-5">
+                  Shadows, background containers, noise and layout structures.
+                </p>
+                <span class="absolute -right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 bg-[#F6F0E8] text-[#B78A56] border border-[#E7D8C8] flex items-center justify-center group-hover:bg-[#B78A56] group-hover:text-white transition-colors">
+                  <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+                </span>
+              </div>
+            </div>
+
+            <div class="relative p-[1px] rounded-sm overflow-hidden bg-gradient-to-br from-[#B78A56]/25 via-[#E7D8C8] to-transparent group">
+              <div class="bg-[#FBF4EC] p-5 min-h-[132px] relative border border-transparent group-hover:border-[#B78A56]/25 transition-colors">
+                <div class="mb-5">
+                  <span class="text-[9px] uppercase tracking-[.24em] text-[#B78A56]">
+                    03 / Motion
+                  </span>
+                </div>
+                <h3 class="text-sm font-medium tracking-tight text-[#241A16] mb-2">
+                  Transitions
+                </h3>
+                <p class="text-xs text-[#5D473F] leading-relaxed font-light pr-5">
+                  Fluid GSAP text triggers, scroll updates, and custom hover states.
+                </p>
+                <span class="absolute -right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 bg-[#F6F0E8] text-[#B78A56] border border-[#E7D8C8] flex items-center justify-center group-hover:bg-[#B78A56] group-hover:text-white transition-colors">
+                  <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Hero Visuals (cloned, exact layout/interaction) -->
+        <div class="lg:col-span-5 relative min-h-[560px]">
+          <div class="absolute top-0 right-0 w-64 text-right z-20 hidden md:block">
+            <div class="flex justify-end gap-1.5 mb-4">
+              <span class="hero-dot w-1.5 h-1.5 bg-[#B78A56]"></span>
+              <span class="hero-dot w-1.5 h-1.5 bg-[#E7D8C8]"></span>
+              <span class="hero-dot w-1.5 h-1.5 bg-[#E7D8C8]"></span>
+            </div>
+            <p id="hero-rotating-copy" class="text-xs text-[#7B6A5F] leading-relaxed font-light transition-opacity duration-500">
+              System metrics: 10 design tokens, custom components, responsive layout systems, and fluid animations.
+            </p>
+          </div>
+
+          <div class="flex items-end gap-3 h-full pt-24">
+            <!-- Panel 1 -->
+            <div class="fade-in-up photo-panel hero-img-private w-1/3 h-[55%] mb-20 soft-shadow">
+              <div class="flex flex-col z-10 pt-4 pr-4 pb-4 pl-4 absolute top-0 right-0 bottom-0 left-0 justify-end">
+                <span class="text-[9px] uppercase tracking-[.22em] text-[#E7D8C8] mb-2">
+                  01 / System
+                </span>
+                <h3 class="text-white text-sm font-light tracking-wide mb-1">
+                  Style Primitives
+                </h3>
+              </div>
+            </div>
+
+            <!-- Panel 2 -->
+            <div class="fade-in-up photo-panel hero-img-gala w-1/3 h-[92%] deep-shadow">
+              <div class="absolute inset-0 p-5 flex flex-col justify-end z-10">
+                <span class="text-[9px] uppercase tracking-[.22em] text-[#E7D8C8] mb-2">
+                  02 / Patterns
+                </span>
+                <h3 class="text-white text-base font-medium tracking-wide mb-3">
+                  Components Library
+                </h3>
+                <p class="text-[#E7D8C8] text-[10px] leading-relaxed mb-6 font-light opacity-90">
+                  Reusable layout systems, typography specifications, surfaces, buttons, and animations.
+                </p>
+                <button class="w-full bg-black/30 backdrop-blur-sm border border-white/30 rounded-sm py-2 px-3 flex justify-between items-center text-white text-xs hover:bg-white hover:text-[#241A16] transition-colors font-light">
+                  Explore Components
+                  <iconify-icon icon="solar:arrow-right-up-linear" class="text-[#B78A56]"></iconify-icon>
+                </button>
+              </div>
+            </div>
+
+            <!-- Panel 3 -->
+            <div class="fade-in-up photo-panel hero-img-brand w-1/3 h-[66%] mb-8 soft-shadow">
+              <div class="absolute inset-0 p-4 flex flex-col justify-end z-10">
+                <span class="text-[9px] uppercase tracking-[.22em] text-[#E7D8C8] mb-2">
+                  03 / Animation
+                </span>
+                <h3 class="text-white text-sm font-light tracking-wide mb-1 leading-snug">
+                  Motion spec
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: Typography Section -->
+    <section id="typography" class="px-6 lg:px-12 py-24 bg-white border-t border-[#E7D8C8]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <p class="text-[#7B6A5F] text-[10px] font-medium mb-4 uppercase tracking-[.3em]">/ 01 / Typography</p>
+          <h2 class="section-title text-4xl md:text-5xl font-extralight uppercase tracking-tight text-[#241A16] leading-[1.04]">
+            <span class="block">
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">Typography</span>
+              </span>
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">hierarchy</span>
+              </span>
+            </span>
+            <span class="block text-[#B78A56]">
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">&amp; scale</span>
+              </span>
+            </span>
+          </h2>
+        </div>
+
+        <!-- Spec Table / Vertical List -->
+        <div class="fade-section bg-[#FFFCF7] border border-[#E7D8C8] rounded-sm p-6 md:p-10 soft-shadow">
+          <div class="divide-y divide-[#E7D8C8]">
+            <!-- Heading 1 -->
+            <div class="py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="w-full md:w-1/4">
+                <p class="text-xs uppercase tracking-wider text-[#A99683]">Heading 1</p>
+                <p class="text-[10px] text-[#7B6A5F] mt-1">Inter Extralight, Uppercase</p>
+              </div>
+              <div class="flex-1">
+                <h1 class="text-4xl md:text-5xl lg:text-[4.55rem] xl:text-[5.05rem] leading-[1.02] tracking-tight font-extralight uppercase text-[#241A16]">
+                  CURATED
+                </h1>
+              </div>
+              <div class="text-right text-xs text-[#7B6A5F] font-mono">
+                80px / 82px
+              </div>
+            </div>
+
+            <!-- Heading 2 -->
+            <div class="py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="w-full md:w-1/4">
+                <p class="text-xs uppercase tracking-wider text-[#A99683]">Heading 2</p>
+                <p class="text-[10px] text-[#7B6A5F] mt-1">Inter Extralight, Uppercase</p>
+              </div>
+              <div class="flex-1">
+                <h2 class="text-3xl md:text-5xl font-extralight uppercase tracking-tight text-[#241A16] leading-[1.04]">
+                  EVENT WORLDS
+                </h2>
+              </div>
+              <div class="text-right text-xs text-[#7B6A5F] font-mono">
+                48px / 50px
+              </div>
+            </div>
+
+            <!-- Heading 3 -->
+            <div class="py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="w-full md:w-1/4">
+                <p class="text-xs uppercase tracking-wider text-[#A99683]">Heading 3</p>
+                <p class="text-[10px] text-[#7B6A5F] mt-1">Inter Light, Titlecase</p>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-2xl md:text-3xl font-light tracking-tight text-[#241A16]">
+                  Private Celebrations
+                </h3>
+              </div>
+              <div class="text-right text-xs text-[#7B6A5F] font-mono">
+                30px / 36px
+              </div>
+            </div>
+
+            <!-- Heading 4 -->
+            <div class="py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="w-full md:w-1/4">
+                <p class="text-xs uppercase tracking-wider text-[#A99683]">Heading 4</p>
+                <p class="text-[10px] text-[#7B6A5F] mt-1">Inter Light/Medium, Titlecase</p>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-lg md:text-xl font-light tracking-tight text-[#241A16]">
+                  Strategic Brief
+                </h3>
+              </div>
+              <div class="text-right text-xs text-[#7B6A5F] font-mono">
+                20px / 28px
+              </div>
+            </div>
+
+            <!-- Medium M / Label L -->
+            <div class="py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="w-full md:w-1/4">
+                <p class="text-xs uppercase tracking-wider text-[#A99683]">Medium M (Labels)</p>
+                <p class="text-[10px] text-[#7B6A5F] mt-1">Inter Medium, Uppercase, Wide tracking</p>
+              </div>
+              <div class="flex-1">
+                <span class="text-[#B78A56] font-medium tracking-[.34em] text-xs uppercase">
+                  FULL PRODUCTION ATELIER
+                </span>
+              </div>
+              <div class="text-right text-xs text-[#7B6A5F] font-mono">
+                12px / 16px
+              </div>
+            </div>
+
+            <!-- Paragraph -->
+            <div class="py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="w-full md:w-1/4">
+                <p class="text-xs uppercase tracking-wider text-[#A99683]">Paragraph</p>
+                <p class="text-[10px] text-[#7B6A5F] mt-1">Inter Light, Grayish Muted color</p>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm md:text-base text-[#7B6A5F] leading-relaxed font-light max-w-xl">
+                  We design, plan and produce elevated gatherings with the precision of a command center and the atmosphere of a private atelier.
+                </p>
+              </div>
+              <div class="text-right text-xs text-[#7B6A5F] font-mono">
+                16px / 24px
+              </div>
+            </div>
+
+            <!-- Regular L -->
+            <div class="py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="w-full md:w-1/4">
+                <p class="text-xs uppercase tracking-wider text-[#A99683]">Regular L / Body S</p>
+                <p class="text-[10px] text-[#7B6A5F] mt-1">Inter Light, smaller leading</p>
+              </div>
+              <div class="flex-1">
+                <p class="text-xs text-[#5D473F] leading-relaxed font-light">
+                  Purpose, audience, guest journey and event concept details maps.
+                </p>
+              </div>
+              <div class="text-right text-xs text-[#7B6A5F] font-mono">
+                12px / 18px
+              </div>
+            </div>
+
+            <!-- Regular S -->
+            <div class="py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="w-full md:w-1/4">
+                <p class="text-xs uppercase tracking-wider text-[#A99683]">Regular S (Micro)</p>
+                <p class="text-[10px] text-[#7B6A5F] mt-1">Inter Light, Uppercase, Ultra tracking</p>
+              </div>
+              <div class="flex-1">
+                <span class="text-[9px] uppercase tracking-[.22em] text-[#7B6A5F]">
+                  GUEST JOURNEY MAPPING
+                </span>
+              </div>
+              <div class="text-right text-xs text-[#7B6A5F] font-mono">
+                9px / 12px
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Colors & Surfaces -->
+    <section id="colors-surfaces" class="px-6 lg:px-12 py-24 bg-[#FBF4EC] border-t border-[#E7D8C8]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <p class="text-[#7B6A5F] text-[10px] font-medium mb-4 uppercase tracking-[.3em]">/ 02 / Palette & Textures</p>
+          <h2 class="section-title text-4xl md:text-5xl font-extralight uppercase tracking-tight text-[#241A16] leading-[1.04]">
+            <span class="block">
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">Colors</span>
+              </span>
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">&amp; Surface</span>
+              </span>
+            </span>
+            <span class="block text-[#B78A56]">
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">primitive tokens</span>
+              </span>
+            </span>
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <!-- Color Swatches (Left Column) -->
+          <div class="lg:col-span-7 space-y-6">
+            <h3 class="text-xl font-light uppercase text-[#241A16] tracking-wider mb-6">Color Tokens</h3>
+            
+            <div class="fade-section bg-[#FFFCF7] border border-[#E7D8C8] rounded-sm p-6 soft-shadow grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Accent -->
+              <div class="flex items-center gap-4 p-3 border border-[#E7D8C8] bg-white rounded-sm">
+                <div class="w-12 h-12 rounded-sm bg-[#B78A56] soft-shadow border border-black/10"></div>
+                <div>
+                  <p class="text-xs font-semibold text-[#241A16]">Accent (Bronze)</p>
+                  <p class="text-[10px] text-[#7B6A5F] font-mono">#B78A56</p>
+                  <p class="text-[9px] text-[#A99683] font-mono">var(--accent)</p>
+                </div>
+              </div>
+
+              <!-- Accent Dark -->
+              <div class="flex items-center gap-4 p-3 border border-[#E7D8C8] bg-white rounded-sm">
+                <div class="w-12 h-12 rounded-sm bg-[#946D40] soft-shadow border border-black/10"></div>
+                <div>
+                  <p class="text-xs font-semibold text-[#241A16]">Accent Dark</p>
+                  <p class="text-[10px] text-[#7B6A5F] font-mono">#946D40</p>
+                  <p class="text-[9px] text-[#A99683] font-mono">var(--accent-dark)</p>
+                </div>
+              </div>
+
+              <!-- Ink -->
+              <div class="flex items-center gap-4 p-3 border border-[#E7D8C8] bg-white rounded-sm">
+                <div class="w-12 h-12 rounded-sm bg-[#241A16] soft-shadow border border-black/10"></div>
+                <div>
+                  <p class="text-xs font-semibold text-[#241A16]">Ink (Black)</p>
+                  <p class="text-[10px] text-[#7B6A5F] font-mono">#241A16</p>
+                  <p class="text-[9px] text-[#A99683] font-mono">var(--ink)</p>
+                </div>
+              </div>
+
+              <!-- Deep -->
+              <div class="flex items-center gap-4 p-3 border border-[#E7D8C8] bg-white rounded-sm">
+                <div class="w-12 h-12 rounded-sm bg-[#1D1714] soft-shadow border border-black/10"></div>
+                <div>
+                  <p class="text-xs font-semibold text-[#241A16]">Deep (Dark)</p>
+                  <p class="text-[10px] text-[#7B6A5F] font-mono">#1D1714</p>
+                  <p class="text-[9px] text-[#A99683] font-mono">var(--deep)</p>
+                </div>
+              </div>
+
+              <!-- Muted -->
+              <div class="flex items-center gap-4 p-3 border border-[#E7D8C8] bg-white rounded-sm">
+                <div class="w-12 h-12 rounded-sm bg-[#7B6A5F] soft-shadow border border-black/10"></div>
+                <div>
+                  <p class="text-xs font-semibold text-[#241A16]">Muted (Body)</p>
+                  <p class="text-[10px] text-[#7B6A5F] font-mono">#7B6A5F</p>
+                  <p class="text-[9px] text-[#A99683] font-mono">var(--muted)</p>
+                </div>
+              </div>
+
+              <!-- Soft -->
+              <div class="flex items-center gap-4 p-3 border border-[#E7D8C8] bg-white rounded-sm">
+                <div class="w-12 h-12 rounded-sm bg-[#A99683] soft-shadow border border-black/10"></div>
+                <div>
+                  <p class="text-xs font-semibold text-[#241A16]">Soft (Metadata)</p>
+                  <p class="text-[10px] text-[#7B6A5F] font-mono">#A99683</p>
+                  <p class="text-[9px] text-[#A99683] font-mono">var(--soft)</p>
+                </div>
+              </div>
+
+              <!-- Paper -->
+              <div class="flex items-center gap-4 p-3 border border-[#E7D8C8] bg-white rounded-sm">
+                <div class="w-12 h-12 rounded-sm bg-[#F6F0E8] soft-shadow border border-black/10"></div>
+                <div>
+                  <p class="text-xs font-semibold text-[#241A16]">Paper (BG)</p>
+                  <p class="text-[10px] text-[#7B6A5F] font-mono">#F6F0E8</p>
+                  <p class="text-[9px] text-[#A99683] font-mono">var(--paper)</p>
+                </div>
+              </div>
+
+              <!-- Surface 2 -->
+              <div class="flex items-center gap-4 p-3 border border-[#E7D8C8] bg-white rounded-sm">
+                <div class="w-12 h-12 rounded-sm bg-[#FBF4EC] soft-shadow border border-black/10"></div>
+                <div>
+                  <p class="text-xs font-semibold text-[#241A16]">Surface 2 (Warm BG)</p>
+                  <p class="text-[10px] text-[#7B6A5F] font-mono">#FBF4EC</p>
+                  <p class="text-[9px] text-[#A99683] font-mono">var(--surface-2)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Surface Rendering Contexts (Right Column) -->
+          <div class="lg:col-span-5 space-y-6">
+            <h3 class="text-xl font-light uppercase text-[#241A16] tracking-wider mb-6">Surfaces & Gradients</h3>
+            
+            <div class="fade-section space-y-4">
+              <!-- Grid Paper Surface -->
+              <div class="grid-paper border border-[#E7D8C8] rounded-sm p-6 bg-[#FFFCF7] min-h-[100px] flex flex-col justify-between">
+                <span class="text-[9px] uppercase tracking-[.22em] text-[#7B6A5F]">Grid Paper Pattern</span>
+                <p class="text-xs text-[#7B6A5F] mt-2 font-light">Uses a subtle 42px grid overlay CSS background pattern representing drawing canvas elements.</p>
+              </div>
+
+              <!-- Border Gradient Swatch -->
+              <div class="relative p-[1px] rounded-sm overflow-hidden bg-gradient-to-br from-[#B78A56]/25 via-[#E7D8C8] to-transparent min-h-[100px] flex">
+                <div class="bg-[#FBF4EC] p-6 flex-1 flex flex-col justify-between">
+                  <span class="text-[9px] uppercase tracking-[.22em] text-[#B78A56]">Gradient Border Box</span>
+                  <p class="text-xs text-[#5D473F] font-light">1px border utilizing bronze gradient fade transitions.</p>
+                </div>
+              </div>
+
+              <!-- Deep Surface (Dark mode preview) -->
+              <div class="bg-[#1D1714] border border-white/10 rounded-sm p-6 min-h-[100px] flex flex-col justify-between">
+                <span class="text-[9px] uppercase tracking-[.22em] text-[#E7D8C8]">Deep Surface</span>
+                <p class="text-xs text-[#A99683] font-light">Rich dark tone utilized for footers, client notes backgrounds, and main CTAs.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: UI Components -->
+    <section id="ui-components" class="px-6 lg:px-12 py-24 bg-white border-t border-[#E7D8C8]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <p class="text-[#7B6A5F] text-[10px] font-medium mb-4 uppercase tracking-[.3em]">/ 03 / UI Primitives</p>
+          <h2 class="section-title text-4xl md:text-5xl font-extralight uppercase tracking-tight text-[#241A16] leading-[1.04]">
+            <span class="block">
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">Interactive</span>
+              </span>
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">UI components</span>
+              </span>
+            </span>
+            <span class="block text-[#B78A56]">
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">&amp; button states</span>
+              </span>
+            </span>
+          </h2>
+        </div>
+
+        <div class="space-y-12">
+          <!-- Button States Showcase -->
+          <div>
+            <h3 class="text-lg font-light uppercase text-[#241A16] tracking-wider mb-6 border-b border-[#E7D8C8] pb-2">Button Catalog</h3>
+            <div class="fade-section grid grid-cols-1 md:grid-cols-3 gap-6 bg-[#FBF4EC] border border-[#E7D8C8] p-6 rounded-sm">
+              <!-- Bronze Primary CTA -->
+              <div class="space-y-4">
+                <h4 class="text-xs uppercase text-[#A99683]">Bronze Primary CTA</h4>
+                <!-- Default -->
+                <div>
+                  <span class="text-[9px] text-[#7B6A5F] block mb-2 font-mono">Default State</span>
+                  <a href="javascript:void(0)" class="bg-[#B78A56] text-white rounded-sm px-1 pl-5 py-1 inline-flex items-center gap-4 text-xs font-light group soft-shadow">
+                    Begin Brief
+                    <span class="w-8 h-8 rounded-sm bg-white/10 flex items-center justify-center text-white">
+                      <iconify-icon icon="solar:calendar-add-linear" width="1.2em"></iconify-icon>
+                    </span>
+                  </a>
+                </div>
+                <!-- Simulated Hover -->
+                <div>
+                  <span class="text-[9px] text-[#7B6A5F] block mb-2 font-mono">Hover State (.bg-[#946D40])</span>
+                  <a href="javascript:void(0)" class="bg-[#946D40] text-white rounded-sm px-1 pl-5 py-1 inline-flex items-center gap-4 text-xs font-light group soft-shadow">
+                    Begin Brief
+                    <span class="w-8 h-8 rounded-sm bg-white flex items-center justify-center text-[#B78A56]">
+                      <iconify-icon icon="solar:calendar-add-linear" width="1.2em"></iconify-icon>
+                    </span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Dark Primary CTA -->
+              <div class="space-y-4">
+                <h4 class="text-xs uppercase text-[#A99683]">Dark Primary CTA</h4>
+                <!-- Default -->
+                <div>
+                  <span class="text-[9px] text-[#7B6A5F] block mb-2 font-mono">Default State</span>
+                  <a href="javascript:void(0)" class="bg-[#241A16] text-white rounded-sm px-1 pl-6 py-1 inline-flex items-center gap-8 text-xs font-light group soft-shadow">
+                    Plan Moment
+                    <span class="w-9 h-9 rounded-sm bg-white/10 flex items-center justify-center text-white">
+                      <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+                    </span>
+                  </a>
+                </div>
+                <!-- Simulated Hover -->
+                <div>
+                  <span class="text-[9px] text-[#7B6A5F] block mb-2 font-mono">Hover State (.bg-[#B78A56])</span>
+                  <a href="javascript:void(0)" class="bg-[#B78A56] text-white rounded-sm px-1 pl-6 py-1 inline-flex items-center gap-8 text-xs font-light group soft-shadow">
+                    Plan Moment
+                    <span class="w-9 h-9 rounded-sm bg-white/10 flex items-center justify-center text-white">
+                      <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+                    </span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Nav/Border Button -->
+              <div class="space-y-4">
+                <h4 class="text-xs uppercase text-[#A99683]">Secondary Nav Outline</h4>
+                <!-- Default -->
+                <div>
+                  <span class="text-[9px] text-[#7B6A5F] block mb-2 font-mono">Default State</span>
+                  <a href="javascript:void(0)" class="inline-flex items-center gap-1.5 border border-[#E7D8C8] bg-[#FFFCF7]/50 rounded-sm px-5 py-2 text-xs font-light text-[#5D473F] transition-colors">
+                    Capabilities
+                    <iconify-icon icon="solar:arrow-right-up-linear"></iconify-icon>
+                  </a>
+                </div>
+                <!-- Simulated Hover -->
+                <div>
+                  <span class="text-[9px] text-[#7B6A5F] block mb-2 font-mono">Hover State</span>
+                  <a href="javascript:void(0)" class="inline-flex items-center gap-1.5 border border-[#B78A56] bg-[#FBF4EC] rounded-sm px-5 py-2 text-xs font-light text-[#B78A56] transition-colors">
+                    Capabilities
+                    <iconify-icon icon="solar:arrow-right-up-linear"></iconify-icon>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email Input Field Component -->
+          <div>
+            <h3 class="text-lg font-light uppercase text-[#241A16] tracking-wider mb-6 border-b border-[#E7D8C8] pb-2">Inputs</h3>
+            <div class="fade-section bg-[#FBF4EC] border border-[#E7D8C8] p-6 rounded-sm max-w-xl">
+              <span class="text-[9px] text-[#7B6A5F] block mb-2 font-mono">Newsletter Subscription Component</span>
+              <form class="flex bg-white p-1 border border-[#E7D8C8] max-w-md" onsubmit="event.preventDefault();">
+                <input type="email" placeholder="Your email" class="flex-1 px-4 py-3 text-sm text-[#241A16] outline-none">
+                <button class="bg-[#B78A56] text-white px-5 text-xs uppercase tracking-[.18em] hover:bg-[#946D40] transition-colors">
+                  Submit
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Cards (2-3 real card layouts from index) -->
+          <div>
+            <h3 class="text-lg font-light uppercase text-[#241A16] tracking-wider mb-6 border-b border-[#E7D8C8] pb-2">Card Layout Catalog</h3>
+            <div class="fade-section grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Recent Production Portfolio Card -->
+              <div class="bg-[#FFFCF7] p-6 border border-[#E7D8C8] shadow-[0_14px_36px_rgba(36,26,22,.07)] rounded-sm">
+                <span class="text-[9px] text-[#A99683] block mb-4 font-mono">Recent Production Card Variant</span>
+                <article class="bg-[#FFFCF7] p-4 border border-[#E7D8C8] shadow-md group relative">
+                  <div class="photo-panel prod-img-maison h-48 mb-5">
+                    <span class="absolute top-4 right-4 z-10 text-[10px] bg-[#FFFCF7] px-3 py-1 text-[#7B6A5F] border border-[#E7D8C8]">
+                      01 / 04
+                    </span>
+                  </div>
+                  <div class="mb-5">
+                    <span class="text-[9px] uppercase tracking-[.24em] text-[#B78A56]">Brand launch</span>
+                    <h3 class="text-xl font-light text-[#241A16] mt-2">Maison Showcase</h3>
+                    <p class="text-xs text-[#7B6A5F] mt-1">Fashion house dinner · Paris</p>
+                  </div>
+                  <div class="grid grid-cols-3 gap-2 border-t border-[#E7D8C8] pt-4 text-[10px]">
+                    <div>
+                      <p class="text-[#A99683] uppercase tracking-[.18em] mb-1">Guests</p>
+                      <p class="text-[#241A16]">180</p>
+                    </div>
+                    <div>
+                      <p class="text-[#A99683] uppercase tracking-[.18em] mb-1">Rooms</p>
+                      <p class="text-[#241A16]">04</p>
+                    </div>
+                    <div>
+                      <p class="text-[#A99683] uppercase tracking-[.18em] mb-1">Lead</p>
+                      <p class="text-[#241A16]">10 wks</p>
+                    </div>
+                  </div>
+                  <div class="border-t border-[#E7D8C8] mt-4 pt-4 flex items-center justify-between">
+                    <span class="text-[10px] uppercase tracking-[.2em] text-[#7B6A5F]">Press preview</span>
+                    <span class="w-8 h-8 border border-[#E7D8C8] flex items-center justify-center text-[#B78A56] group-hover:bg-[#B78A56] group-hover:text-white transition-colors">
+                      <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+                    </span>
+                  </div>
+                </article>
+              </div>
+
+              <!-- General Capability Card -->
+              <div class="bg-[#FFFCF7] p-6 border border-[#E7D8C8] shadow-[0_14px_36px_rgba(36,26,22,.07)] rounded-sm">
+                <span class="text-[9px] text-[#A99683] block mb-4 font-mono">Service Capability Card Variant</span>
+                <article class="grid-paper bg-[#FFFCF7] border border-[#E7D8C8] p-8 relative overflow-hidden shadow-sm min-h-[300px]">
+                  <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#B78A56]/45 to-transparent"></div>
+                  <div class="flex items-start justify-between gap-8 mb-10">
+                    <span class="text-[10px] tracking-[.26em] uppercase text-[#B78A56]">01 / Private</span>
+                    <span class="text-[10px] tracking-[.22em] uppercase text-[#A99683]">Intimate scale</span>
+                  </div>
+                  <h3 class="text-2xl font-light tracking-tight text-[#241A16] mb-5">Private Celebrations</h3>
+                  <p class="text-xs text-[#7B6A5F] leading-relaxed mb-6 font-light">
+                    Intimate gatherings designed with the precision of a production plan and the warmth of a private residence.
+                  </p>
+                  <ul class="grid grid-cols-2 gap-3 text-[10px] text-[#5D473F]">
+                    <li class="flex gap-2">
+                      <span class="text-[#B78A56]">■</span> Dinners and salons
+                    </li>
+                    <li class="flex gap-2">
+                      <span class="text-[#B78A56]">■</span> Destinations
+                    </li>
+                  </ul>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: Layout & Spacing -->
+    <section id="layout-spacing" class="px-6 lg:px-12 py-24 bg-[#FBF4EC] border-t border-[#E7D8C8]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <p class="text-[#7B6A5F] text-[10px] font-medium mb-4 uppercase tracking-[.3em]">/ 04 / Structure & Grids</p>
+          <h2 class="section-title text-4xl md:text-5xl font-extralight uppercase tracking-tight text-[#241A16] leading-[1.04]">
+            <span class="block">
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">Layout</span>
+              </span>
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">&amp; spacing</span>
+              </span>
+            </span>
+            <span class="block text-[#B78A56]">
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">grid structures</span>
+              </span>
+            </span>
+          </h2>
+        </div>
+
+        <div class="space-y-10 font-light text-sm">
+          <!-- Main Grid Spacing Demo -->
+          <div class="fade-section bg-[#FFFCF7] border border-[#E7D8C8] p-6 rounded-sm soft-shadow">
+            <h4 class="text-xs uppercase text-[#A99683] mb-4">Core Grid & Columns (3-Column layout pattern)</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div class="border border-dashed border-[#B78A56]/40 bg-[#FBF4EC]/50 p-4 text-center text-xs">
+                <p class="font-mono text-[#B78A56]">col-span-1</p>
+                <p class="text-[#7B6A5F] mt-1">gap-8 (32px)</p>
+              </div>
+              <div class="border border-dashed border-[#B78A56]/40 bg-[#FBF4EC]/50 p-4 text-center text-xs">
+                <p class="font-mono text-[#B78A56]">col-span-1</p>
+                <p class="text-[#7B6A5F] mt-1">gap-8 (32px)</p>
+              </div>
+              <div class="border border-dashed border-[#B78A56]/40 bg-[#FBF4EC]/50 p-4 text-center text-xs">
+                <p class="font-mono text-[#B78A56]">col-span-1</p>
+                <p class="text-[#7B6A5F] mt-1">gap-8 (32px)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Split Layout (Left 7-col / Right 5-col) -->
+          <div class="fade-section bg-[#FFFCF7] border border-[#E7D8C8] p-6 rounded-sm soft-shadow">
+            <h4 class="text-xs uppercase text-[#A99683] mb-4">Split Layout (Left 7-col, Right 5-col layout pattern used in Hero)</h4>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              <div class="lg:col-span-7 border border-dashed border-[#B78A56]/40 bg-[#FBF4EC]/50 p-4 text-center text-xs">
+                <p class="font-mono text-[#B78A56]">lg:col-span-7 (approx 58.3%)</p>
+                <p class="text-[#7B6A5F] mt-1">Hero title, subtext, main brief items</p>
+              </div>
+              <div class="lg:col-span-5 border border-dashed border-[#B78A56]/40 bg-[#FBF4EC]/50 p-4 text-center text-xs">
+                <p class="font-mono text-[#B78A56]">lg:col-span-5 (approx 41.6%)</p>
+                <p class="text-[#7B6A5F] mt-1">Hero image panels and carousel</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: Motion & Interaction -->
+    <section id="motion-interaction" class="px-6 lg:px-12 py-24 bg-white border-t border-[#E7D8C8]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <p class="text-[#7B6A5F] text-[10px] font-medium mb-4 uppercase tracking-[.3em]">/ 05 / Motion Specification</p>
+          <h2 class="section-title text-4xl md:text-5xl font-extralight uppercase tracking-tight text-[#241A16] leading-[1.04]">
+            <span class="block">
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">Motion</span>
+              </span>
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">&amp; interaction</span>
+              </span>
+            </span>
+            <span class="block text-[#B78A56]">
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">animations</span>
+              </span>
+            </span>
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <!-- Animation Classes Catalog -->
+          <div class="lg:col-span-6 space-y-6">
+            <h3 class="text-xl font-light uppercase text-[#241A16] tracking-wider mb-6">Interaction Catalog</h3>
+            <div class="fade-section bg-[#FBF4EC] border border-[#E7D8C8] p-6 rounded-sm space-y-4">
+              <!-- Hover Lift example -->
+              <div class="p-4 bg-white border border-[#E7D8C8] rounded-sm group transition-transform duration-500 hover:-translate-y-2 cursor-pointer shadow-sm">
+                <p class="text-xs uppercase text-[#B78A56] mb-1">Hover Card Lift</p>
+                <p class="text-[10px] text-[#7B6A5F] font-mono mb-2">.transition-transform .duration-500 .hover:-translate-y-2</p>
+                <p class="text-xs font-light text-[#5D473F]">Hover over this card to witness Echelon's signature smooth vertical lift animation.</p>
+              </div>
+
+              <!-- Photo Zoom Example -->
+              <div class="photo-panel h-36 w-full cursor-pointer">
+                <div class="absolute inset-0 z-10 p-4 flex flex-col justify-end">
+                  <p class="text-xs uppercase text-[#E7D8C8] mb-1">Image Panel Zoom (Hover to test)</p>
+                  <p class="text-[10px] text-white/70 font-mono">.photo-panel:hover::before { transform: scale(1.06) }</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Motion Gallery & Interactive controls -->
+          <div class="lg:col-span-6 space-y-6">
+            <h3 class="text-xl font-light uppercase text-[#241A16] tracking-wider mb-6">Interactive Motion Spec</h3>
+            
+            <div class="fade-section bg-[#FBF4EC] border border-[#E7D8C8] p-6 rounded-sm space-y-6">
+              <!-- Replay GSAP reveal -->
+              <div>
+                <p class="text-xs uppercase text-[#A99683] mb-2 font-semibold">GSAP Text reveals (Trigger simulation)</p>
+                <div class="p-4 bg-white border border-[#E7D8C8] rounded-sm">
+                  <h3 id="demo-reveal-text" class="text-2xl font-light uppercase tracking-wide text-[#241A16] overflow-hidden leading-none mb-3">
+                    <span class="inline-block translate-y-[112%] transition-transform duration-700 ease-out" id="demo-word-1">CHOREOGRAPHED</span>
+                    <span class="inline-block translate-y-[112%] transition-transform duration-700 ease-out text-[#B78A56]" id="demo-word-2">ATMOSPHERE</span>
+                  </h3>
+                  <button onclick="triggerGsapDemo()" class="border border-[#B78A56] text-[#B78A56] text-[10px] px-3 py-1.5 hover:bg-[#B78A56] hover:text-white transition-colors uppercase font-medium tracking-wider">
+                    Replay Reveal
+                  </button>
+                </div>
+              </div>
+
+              <!-- Canvas Particle Toggle -->
+              <div>
+                <p class="text-xs uppercase text-[#A99683] mb-2 font-semibold">Background Particles Controls</p>
+                <div class="p-4 bg-white border border-[#E7D8C8] rounded-sm flex items-center justify-between gap-4">
+                  <div>
+                    <p class="text-xs text-[#241A16]">Background Canvas Particles</p>
+                    <p class="text-[10px] text-[#7B6A5F] mt-0.5">Toggle live float animations rendering in the background.</p>
+                  </div>
+                  <button id="toggle-canvas-btn" onclick="toggleCanvasParticles()" class="bg-[#241A16] text-white hover:bg-[#B78A56] text-[10px] px-4 py-2 uppercase font-medium tracking-wider transition-colors">
+                    Disable Particles
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Marquee Spec Demonstration -->
+        <div class="mt-10">
+          <h4 class="text-xs uppercase text-[#A99683] mb-4">Text Marquee Animation (28s loop)</h4>
+          <div class="border-y border-[#E7D8C8] bg-[#FCF7F1] overflow-hidden">
+            <div class="marquee flex w-max py-4 text-[10px] uppercase tracking-[.28em] text-[#7B6A5F]">
+              <span class="px-8">Guest Journey Mapping</span><span class="text-[#B78A56]">◆</span>
+              <span class="px-8">Venue Transformation</span><span class="text-[#B78A56]">◆</span>
+              <span class="px-8">Culinary Direction</span><span class="text-[#B78A56]">◆</span>
+              <span class="px-8">Production Command</span><span class="text-[#B78A56]">◆</span>
+              <span class="px-8">Atmosphere Design</span><span class="text-[#B78A56]">◆</span>
+
+              <span class="px-8">Guest Journey Mapping</span><span class="text-[#B78A56]">◆</span>
+              <span class="px-8">Venue Transformation</span><span class="text-[#B78A56]">◆</span>
+              <span class="px-8">Culinary Direction</span><span class="text-[#B78A56]">◆</span>
+              <span class="px-8">Production Command</span><span class="text-[#B78A56]">◆</span>
+              <span class="px-8">Atmosphere Design</span><span class="text-[#B78A56]">◆</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: Icons -->
+    <section id="icons" class="px-6 lg:px-12 py-24 bg-[#FBF4EC] border-t border-[#E7D8C8]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <p class="text-[#7B6A5F] text-[10px] font-medium mb-4 uppercase tracking-[.3em]">/ 06 / Iconography</p>
+          <h2 class="section-title text-4xl md:text-5xl font-extralight uppercase tracking-tight text-[#241A16] leading-[1.04]">
+            <span class="block">
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">Iconography</span>
+              </span>
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">system</span>
+              </span>
+            </span>
+            <span class="block text-[#B78A56]">
+              <span class="section-reveal-line">
+                <span class="section-reveal-word">Iconify Solar icons</span>
+              </span>
+            </span>
+          </h2>
+        </div>
+
+        <div class="fade-section bg-[#FFFCF7] border border-[#E7D8C8] p-6 rounded-sm soft-shadow">
+          <h3 class="text-xs uppercase text-[#A99683] mb-6">Icon Catalog (Renders via CDN)</h3>
+          
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
+            <!-- Icon 1 -->
+            <div class="flex flex-col items-center p-4 border border-[#E7D8C8] bg-white rounded-sm">
+              <iconify-icon icon="solar:star-shine-linear" width="1.5em" class="text-[#B78A56] mb-3"></iconify-icon>
+              <span class="text-[10px] text-[#241A16] font-semibold text-center font-mono">star-shine-linear</span>
+            </div>
+
+            <!-- Icon 2 -->
+            <div class="flex flex-col items-center p-4 border border-[#E7D8C8] bg-white rounded-sm">
+              <iconify-icon icon="solar:arrow-right-up-linear" width="1.5em" class="text-[#B78A56] mb-3"></iconify-icon>
+              <span class="text-[10px] text-[#241A16] font-semibold text-center font-mono">arrow-right-up-linear</span>
+            </div>
+
+            <!-- Icon 3 -->
+            <div class="flex flex-col items-center p-4 border border-[#E7D8C8] bg-white rounded-sm">
+              <iconify-icon icon="solar:calendar-add-linear" width="1.5em" class="text-[#B78A56] mb-3"></iconify-icon>
+              <span class="text-[10px] text-[#241A16] font-semibold text-center font-mono">calendar-add-linear</span>
+            </div>
+
+            <!-- Icon 4 -->
+            <div class="flex flex-col items-center p-4 border border-[#E7D8C8] bg-white rounded-sm">
+              <iconify-icon icon="solar:magic-stick-3-linear" width="1.5em" class="text-[#B78A56] mb-3"></iconify-icon>
+              <span class="text-[10px] text-[#241A16] font-semibold text-center font-mono">magic-stick-3-linear</span>
+            </div>
+
+            <!-- Icon 5 -->
+            <div class="flex flex-col items-center p-4 border border-[#E7D8C8] bg-white rounded-sm">
+              <iconify-icon icon="solar:arrow-right-linear" width="1.5em" class="text-[#B78A56] mb-3"></iconify-icon>
+              <span class="text-[10px] text-[#241A16] font-semibold text-center font-mono">arrow-right-linear</span>
+            </div>
+
+            <!-- Icon 6 -->
+            <div class="flex flex-col items-center p-4 border border-[#E7D8C8] bg-white rounded-sm">
+              <iconify-icon icon="solar:clipboard-list-linear" width="1.5em" class="text-[#B78A56] mb-3"></iconify-icon>
+              <span class="text-[10px] text-[#241A16] font-semibold text-center font-mono">clipboard-list-linear</span>
+            </div>
+
+            <!-- Icon 7 -->
+            <div class="flex flex-col items-center p-4 border border-[#E7D8C8] bg-white rounded-sm">
+              <iconify-icon icon="solar:buildings-3-linear" width="1.5em" class="text-[#B78A56] mb-3"></iconify-icon>
+              <span class="text-[10px] text-[#241A16] font-semibold text-center font-mono">buildings-3-linear</span>
+            </div>
+
+            <!-- Icon 8 -->
+            <div class="flex flex-col items-center p-4 border border-[#E7D8C8] bg-white rounded-sm">
+              <iconify-icon icon="solar:soundwave-linear" width="1.5em" class="text-[#B78A56] mb-3"></iconify-icon>
+              <span class="text-[10px] text-[#241A16] font-semibold text-center font-mono">soundwave-linear</span>
+            </div>
+
+            <!-- Icon 9 -->
+            <div class="flex flex-col items-center p-4 border border-[#E7D8C8] bg-white rounded-sm">
+              <iconify-icon icon="solar:user-check-linear" width="1.5em" class="text-[#B78A56] mb-3"></iconify-icon>
+              <span class="text-[10px] text-[#241A16] font-semibold text-center font-mono">user-check-linear</span>
+            </div>
+
+            <!-- Icon 10 -->
+            <div class="flex flex-col items-center p-4 border border-[#E7D8C8] bg-white rounded-sm">
+              <iconify-icon icon="solar:letter-linear" width="1.5em" class="text-[#B78A56] mb-3"></iconify-icon>
+              <span class="text-[10px] text-[#241A16] font-semibold text-center font-mono">letter-linear</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#241A16] text-white px-6 lg:px-12 py-14 relative overflow-hidden border-t border-white/10">
+      <div class="absolute inset-0 grid-paper opacity-10"></div>
+      <div class="max-w-7xl mx-auto relative z-10">
+        <div class="pt-8 flex flex-col md:flex-row justify-between gap-4 text-[10px] uppercase tracking-[.22em] text-[#A99683]">
+          <span>© 2026 Echelon Atelier Design System Page</span>
+          <span>Montreal · Paris · New York</span>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    let canvasAnimationId = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Register GSAP plugins
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Hero animations trigger
+      gsap.to('.reveal-word', {
+        y: '0%',
+        duration: 1.15,
+        ease: 'power4.out',
+        stagger: 0.045,
+        delay: 0.08
+      });
+
+      gsap.to('.fade-in-up', {
+        y: 0,
+        opacity: 1,
+        duration: 0.9,
+        ease: 'power3.out',
+        stagger: 0.08,
+        delay: 0.25
+      });
+
+      // Section animations stagger trigger
+      gsap.utils.toArray('section').forEach((section) => {
+        const sectionTitleWords = section.querySelectorAll('.section-reveal-word');
+        const sectionCards = section.querySelectorAll('.fade-section');
+
+        if (sectionTitleWords.length) {
+          gsap.to(sectionTitleWords, {
+            y: '0%',
+            duration: 1.35,
+            ease: 'power4.out',
+            stagger: 0.055,
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 78%',
+              once: true
+            }
+          });
+        }
+
+        if (sectionCards.length) {
+          gsap.from(sectionCards, {
+            y: 36,
+            opacity: 0,
+            duration: 1.05,
+            ease: 'power3.out',
+            stagger: 0.16,
+            scrollTrigger: {
+              trigger: sectionCards[0],
+              start: 'top 84%',
+              once: true
+            }
+          });
+        }
+      });
+
+      // Particles canvas setup
+      const canvas = document.getElementById('bg-canvas');
+      const ctx = canvas.getContext('2d');
+      let width, height, particles = [];
+
+      function resize(){
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      class Particle{
+        constructor(){
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.size = Math.random() * 1.4 + .25;
+          this.speedX = Math.random() * .35 - .175;
+          this.speedY = Math.random() * .28 - .14;
+          this.life = Math.random() * 100;
+        }
+        update(){
+          this.x += this.speedX;
+          this.y += this.speedY;
+          this.life += .018;
+          if(this.x < 0) this.x = width;
+          if(this.x > width) this.x = 0;
+          if(this.y < 0) this.y = height;
+          if(this.y > height) this.y = 0;
+        }
+        draw(){
+          const opacity = (Math.sin(this.life) + 1) / 2 * .32 + .06;
+          ctx.fillStyle = `rgba(183,138,86,${opacity})`;
+          ctx.beginPath();
+          ctx.rect(this.x, this.y, this.size, this.size);
+          ctx.fill();
+        }
+      }
+
+      function init(){
+        particles = [];
+        const count = Math.min(150, Math.floor((width * height) / 14000));
+        for(let i = 0; i < count; i++) {
+          particles.push(new Particle());
+        }
+      }
+
+      function animate(){
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach(p => {
+          p.update();
+          p.draw();
+        });
+        canvasAnimationId = requestAnimationFrame(animate);
+      }
+
+      init();
+      animate();
+      window.addEventListener('resize', init);
+
+      // Hero Rotating Copy
+      const heroMessages = [
+        "System metrics: 10 design tokens, custom components, responsive layout systems, and fluid animations.",
+        "Atmosphere is built before decoration: light, sound, movement and service all work as one language.",
+        "The production stays invisible, so the design system primitives feel coherent from layout to hover."
+      ];
+
+      const heroCopy = document.getElementById("hero-rotating-copy");
+      const heroDots = document.querySelectorAll(".hero-dot");
+      let heroMessageIndex = 0;
+
+      if (heroCopy && heroDots.length) {
+        setInterval(() => {
+          heroMessageIndex = (heroMessageIndex + 1) % heroMessages.length;
+          heroCopy.style.opacity = "0";
+
+          setTimeout(() => {
+            heroCopy.textContent = heroMessages[heroMessageIndex];
+
+            heroDots.forEach((dot, index) => {
+              if (index === heroMessageIndex) {
+                dot.classList.remove("bg-[#E7D8C8]");
+                dot.classList.add("bg-[#B78A56]");
+              } else {
+                dot.classList.remove("bg-[#B78A56]");
+                dot.classList.add("bg-[#E7D8C8]");
+              }
+            });
+
+            heroCopy.style.opacity = "1";
+          }, 350);
+        }, 4600);
+      }
+    });
+
+    // Custom Interactive Controls script
+    function triggerGsapDemo() {
+      const w1 = document.getElementById('demo-word-1');
+      const w2 = document.getElementById('demo-word-2');
+      
+      // Pull down
+      w1.style.transform = 'translateY(112%)';
+      w2.style.transform = 'translateY(112%)';
+      
+      // Delay and reveal
+      setTimeout(() => {
+        w1.style.transform = 'translateY(0%)';
+      }, 100);
+      setTimeout(() => {
+        w2.style.transform = 'translateY(0%)';
+      }, 250);
+    }
+
+    function toggleCanvasParticles() {
+      const canvas = document.getElementById('bg-canvas');
+      const btn = document.getElementById('toggle-canvas-btn');
+      
+      if (canvasAnimationId) {
+        cancelAnimationFrame(canvasAnimationId);
+        canvasAnimationId = null;
+        canvas.style.display = 'none';
+        btn.textContent = 'Enable Particles';
+        btn.classList.replace('bg-[#241A16]', 'bg-[#B78A56]');
+      } else {
+        canvas.style.display = 'block';
+        btn.textContent = 'Disable Particles';
+        btn.classList.replace('bg-[#B78A56]', 'bg-[#241A16]');
+        // Restart animation
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        let particles = [];
+        
+        class Particle{
+          constructor(){
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.size = Math.random() * 1.4 + .25;
+            this.speedX = Math.random() * .35 - .175;
+            this.speedY = Math.random() * .28 - .14;
+            this.life = Math.random() * 100;
+          }
+          update(){
+            this.x += this.speedX;
+            this.y += this.speedY;
+            this.life += .018;
+            if(this.x < 0) this.x = width;
+            if(this.x > width) this.x = 0;
+            if(this.y < 0) this.y = height;
+            if(this.y > height) this.y = 0;
+          }
+          draw(){
+            const opacity = (Math.sin(this.life) + 1) / 2 * .32 + .06;
+            ctx.fillStyle = `rgba(183,138,86,${opacity})`;
+            ctx.beginPath();
+            ctx.rect(this.x, this.y, this.size, this.size);
+            ctx.fill();
+          }
+        }
+        
+        const count = Math.min(150, Math.floor((width * height) / 14000));
+        for(let i = 0; i < count; i++) {
+          particles.push(new Particle());
+        }
+        
+        function animate(){
+          ctx.clearRect(0, 0, width, height);
+          particles.forEach(p => {
+            p.update();
+            p.draw();
+          });
+          canvasAnimationId = requestAnimationFrame(animate);
+        }
+        animate();
+      }
+    }
+  </script>
+</body>
+</html>

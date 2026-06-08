@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Machnick & Co. | Design System</title>
+  <meta name="description" content="Design System da Machnick & Co., consultoria estratégica e financeira para escritórios de advocacia."/>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Iconify CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400&family=Sora:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- GSAP & ScrollTrigger from Echelon for fluid text reveals and scroll-based motion -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Tailwind Configuration matching original extending colors & fonts -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              DEFAULT: '#152950',
+              mid: '#1e3d70',
+            },
+            gold: {
+              DEFAULT: '#D4AF37',
+              light: '#F5ECC8',
+            },
+            cream: '#F7F5F0',
+            white: '#FFFFFF',
+            ink: '#1a1a1a',
+            muted: '#888888',
+          },
+          fontFamily: {
+            sans: ['Sora', 'sans-serif'],
+            serif: ['Cormorant Garamond', 'serif'],
+          },
+          animation: {
+            marquee: 'marquee 25s linear infinite',
+            'pulse-slow': 'pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-100%)' },
+            },
+            'pulse-slow': {
+              '0%, 100%': { opacity: '0.15' },
+              '50%': { opacity: '0.35' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Combined Custom CSS (Vidalli core elements + Echelon textures and layout tools) -->
+  <style>
+    :root {
+      --color-navy: #152950;
+      --color-navy-mid: #1e3d70;
+      --color-gold: #D4AF37;
+      --color-gold-light: #F5ECC8;
+      --color-cream: #F7F5F0;
+      --color-white: #FFFFFF;
+      --color-ink: #1a1a1a;
+      --color-muted: #888888;
+    }
+    body {
+      font-family: 'Sora', sans-serif;
+      font-weight: 400;
+      background-color: #F7F5F0;
+      color: #1a1a1a;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4, .serif {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+    }
+    
+    /* Scrollbar display hidden but scrollable when needed */
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Image zoom transitions */
+    .image-hover-zoom {
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .group:hover .image-hover-zoom {
+      transform: scale(1.03);
+    }
+
+    /* Noise Texture Overlay from Echelon */
+    .noise-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+      opacity: .28;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, .06), transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(36, 26, 22, .04), transparent 25%),
+        radial-gradient(circle at 50% 90%, rgba(212, 175, 55, .07), transparent 35%);
+    }
+
+    /* Canvas Particle Background */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.65;
+    }
+
+    /* Layout Blueprint grids from Echelon */
+    .blueprint-grid {
+      background-size: 20px 20px;
+      background-image: linear-gradient(to right, rgba(212, 175, 55, 0.05) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+    }
+    .blueprint-element {
+      border: 1px dashed #D4AF37;
+      background-color: rgba(212, 175, 55, 0.02);
+    }
+
+    /* GSAP Text Reveal masking elements */
+    .reveal-line {
+      display: inline-flex;
+      overflow: hidden;
+      vertical-align: top;
+      margin-right: .2em;
+    }
+    .reveal-word {
+      display: inline-block;
+      transform: translateY(112%);
+    }
+    .section-reveal-line {
+      display: inline-flex;
+      overflow: hidden;
+      vertical-align: top;
+      gap: .25em;
+    }
+    .section-reveal-word {
+      display: inline-block;
+      transform: translateY(112%);
+    }
+    
+    /* Elegant shadows */
+    .soft-shadow {
+      box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.02), 0px 4px 12px rgba(0, 0, 0, 0.03);
+    }
+    .glow-gold {
+      filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.25));
+    }
+
+    /* Tooltip styling */
+    .tooltip-container {
+      position: relative;
+    }
+    .tooltip-text {
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      transform: translateX(-50%) translateY(8px);
+    }
+    .tooltip-container:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-gold selection:text-white text-ink bg-cream">
+
+  <!-- Background overlay textures -->
+  <div class="noise-bg"></div>
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Sticky Luxury Navigation -->
+  <nav class="fixed top-0 left-0 w-full z-50 bg-cream/80 backdrop-blur-md border-b border-navy/10 transition-all duration-300">
+    <div class="md:px-8 flex h-20 max-w-screen-2xl mx-auto px-4 items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a class="flex items-center gap-3 group" href="#hero">
+        <svg class="group-hover:text-gold transition-colors duration-500 w-10 h-10 glow-gold" fill="none" height="40" stroke-width="2" style="color: rgb(212, 175, 55);" viewbox="0 0 100 100" width="40" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 5 L93.3 30 V75 L50 95 L6.7 75 V30 L50 5Z" fill="none" stroke="currentColor" stroke-width="4"></path>
+          <text fill="currentColor" font-family="Cormorant Garamond" font-size="34" text-anchor="middle" x="50" y="61">MC</text>
+        </svg>
+        <div class="flex flex-col">
+          <span class="serif text-base font-semibold tracking-wide leading-none text-navy">Machnick & Co.</span>
+          <span class="text-[9px] uppercase tracking-[0.25em] text-gold mt-1 leading-none">Design System</span>
+        </div>
+      </a>
+      
+      <!-- Anchors Nav List -->
+      <div class="flex gap-4 md:gap-6 text-[10px] uppercase tracking-widest font-semibold text-muted overflow-x-auto py-2 hide-scrollbar">
+        <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#hero">Hero Showcase</a>
+        <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#typography">Typography</a>
+        <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#colors">Colors</a>
+        <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#components">Components</a>
+        <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#icons">Icons</a>
+        <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#motion">Motion</a>
+      </div>
+      
+      <!-- Launch Live CTA -->
+      <div class="hidden lg:flex items-center">
+        <a class="group relative px-5 py-2.5 bg-navy text-white text-[10px] uppercase tracking-widest font-semibold overflow-hidden border border-navy" href="assets/vidalli-andrea-60.aura.build/index.html">
+          <span class="relative z-10 group-hover:text-navy transition-colors duration-300 flex items-center gap-2">
+            Live Site
+            <iconify-icon icon="lucide:arrow-up-right" width="14"></iconify-icon>
+          </span>
+          <div class="absolute inset-0 h-full w-full bg-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="w-full pt-20">
+    
+    <!-- Section 0: Hero Showcase (The Creative First Dobra) -->
+    <section id="hero" class="relative w-full min-h-[90vh] flex items-center justify-center py-16 px-4">
+      <!-- Ambient Glow in Background -->
+      <div class="absolute -top-12 left-1/4 w-[500px] h-[500px] bg-gold/5 rounded-full filter blur-[100px] animate-pulse-slow pointer-events-none"></div>
+      <div class="absolute -bottom-12 right-1/4 w-[400px] h-[400px] bg-gold/10 rounded-full filter blur-[120px] animate-pulse-slow pointer-events-none"></div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 w-full max-w-screen-2xl mx-auto gap-12 items-center relative z-10">
+        
+        <!-- Left Column: Typography & CTAs (gsap reveal words) -->
+        <div class="lg:col-span-7 flex flex-col justify-center items-start space-y-8 order-2 lg:order-1">
+          <div class="flex items-center gap-4 text-[10px] uppercase tracking-[0.3em] text-gold font-semibold">
+            <span class="w-12 h-[1px] bg-gold"></span>
+            Estratégia & Gestão para Escritórios
+            <span class="hidden md:block h-[1px] bg-navy/10 flex-grow max-w-xs"></span>
+          </div>
+          
+          <h1 class="text-5xl md:text-7xl lg:text-8xl leading-[0.95] serif text-navy tracking-tight uppercase">
+            <span class="block">
+              <span class="reveal-line"><span class="reveal-word">Machnick</span></span>
+              <span class="reveal-line text-gold"><span class="reveal-word font-normal">& Co.</span></span>
+            </span>
+            <span class="block text-navy">
+              <span class="reveal-line"><span class="reveal-word">Design</span></span>
+              <span class="reveal-line"><span class="reveal-word">System</span></span>
+            </span>
+          </h1>
+
+          <p class="md:text-lg leading-relaxed text-base text-muted max-w-xl font-normal">
+            Arquitetura visual de tokens, componentes e motion specs construída especificamente para o ecossistema Machnick & Co.
+          </p>
+
+          <!-- CTAs -->
+          <div class="flex flex-col sm:flex-row gap-4 pt-4 w-full sm:w-auto">
+            <a class="group relative px-8 py-4 bg-navy text-white text-xs uppercase tracking-widest font-semibold text-center overflow-hidden border border-navy" href="#typography">
+              <span class="relative z-10 group-hover:text-navy transition-colors duration-300">
+                Explore Primitives
+              </span>
+              <div class="absolute inset-0 h-full w-full bg-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+            </a>
+            <a class="group uppercase hover:bg-navy hover:text-white transition-colors duration-300 text-xs font-semibold text-navy tracking-widest text-center border-navy border px-8 py-4 bg-transparent" href="#components">
+              View Components
+            </a>
+          </div>
+
+          <!-- Credibility Metrics Grid from Echelon -->
+          <div class="grid grid-cols-3 w-full max-w-lg border-y border-navy/10 divide-x divide-navy/10 py-6 mt-6">
+            <div>
+              <span class="text-2xl md:text-3xl font-normal text-navy font-serif">13+</span>
+              <p class="text-[9px] uppercase tracking-[0.2em] text-muted mt-1 font-semibold">Anos de experiência</p>
+            </div>
+            <div class="pl-4">
+              <span class="text-2xl md:text-3xl font-normal text-gold font-serif">200+</span>
+              <p class="text-[9px] uppercase tracking-[0.2em] text-muted mt-1 font-semibold">Escritórios atendidos</p>
+            </div>
+            <div class="pl-4">
+              <span class="text-2xl md:text-3xl font-normal text-navy font-serif">5</span>
+              <p class="text-[9px] uppercase tracking-[0.2em] text-muted mt-1 font-semibold">Livros publicados</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right Column: Asymmetric Image composition from Echelon/Vidalli -->
+        <div class="lg:col-span-5 relative min-h-[500px] flex items-end justify-center order-1 lg:order-2">
+          
+          <!-- Indicator Rotating Copy -->
+          <div class="absolute top-0 right-0 w-64 text-right z-20 hidden md:block">
+            <div class="flex justify-end gap-1.5 mb-3">
+              <span class="hero-dot w-1.5 h-1.5 bg-gold transition-colors duration-300"></span>
+              <span class="hero-dot w-1.5 h-1.5 bg-navy/20 transition-colors duration-300"></span>
+              <span class="hero-dot w-1.5 h-1.5 bg-navy/20 transition-colors duration-300"></span>
+            </div>
+            <p id="hero-rotating-copy" class="text-xs text-muted leading-relaxed font-normal transition-opacity duration-500">
+              Prosperidade com propósito, ordem e leveza.
+            </p>
+          </div>
+
+          <!-- Multiple Panel Montage -->
+          <div class="flex gap-4 w-full h-[450px] items-end relative">
+            
+            <!-- Panel 1 (Small Left) -->
+            <div class="relative w-1/3 h-[60%] bg-cream overflow-hidden group border border-navy/10 shadow-md">
+              <div class="absolute inset-0 bg-navy/5 z-10 group-hover:bg-transparent transition-colors duration-300"></div>
+              <div class="w-full h-full bg-cream border border-navy/10 flex items-center justify-center font-semibold"></div>
+              <div class="absolute bottom-4 left-4 right-4 z-20 text-navy">
+                <p class="text-[8px] uppercase tracking-[0.2em] font-semibold">01 / Identidade</p>
+              </div>
+            </div>
+
+            <!-- Panel 2 (Center Hero Image) -->
+            <div class="relative w-2/3 h-[95%] bg-cream overflow-hidden group border border-navy/10 shadow-lg glow-gold">
+              <div class="absolute inset-0 bg-navy/5 z-10 group-hover:bg-transparent transition-colors duration-300"></div>
+              <div class="w-full h-full bg-cream border border-navy/10 flex items-center justify-center font-semibold"></div>
+              <div class="absolute bottom-6 left-6 right-6 z-20 text-navy">
+                <p class="text-[9px] uppercase tracking-[0.2em] font-semibold">02 / Estratégia</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Infinite Marquee visual divider -->
+    <div class="py-10 border-t border-b border-navy/10 bg-white overflow-hidden flex select-none">
+      <div class="animate-marquee flex whitespace-nowrap min-w-full shrink-0 items-center">
+        <span class="text-5xl md:text-7xl font-normal tracking-tighter uppercase text-navy/5 mx-8">Machnick & Co</span>
+        <span class="text-5xl md:text-7xl font-normal tracking-tighter uppercase text-gold/25 serif mx-8">Consultoria Jurídica</span>
+        <span class="text-5xl md:text-7xl font-normal tracking-tighter uppercase text-navy/5 mx-8">Gestão com Método</span>
+        <span class="text-5xl md:text-7xl font-normal tracking-tighter uppercase text-gold/25 serif mx-8">Ordem e Leveza</span>
+      </div>
+      <div aria-hidden="true" class="animate-marquee flex whitespace-nowrap min-w-full shrink-0 items-center">
+        <span class="text-5xl md:text-7xl font-normal tracking-tighter uppercase text-navy/5 mx-8">Machnick & Co</span>
+        <span class="text-5xl md:text-7xl font-normal tracking-tighter uppercase text-gold/25 serif mx-8">Consultoria Jurídica</span>
+        <span class="text-5xl md:text-7xl font-normal tracking-tighter uppercase text-navy/5 mx-8">Gestão com Método</span>
+        <span class="text-5xl md:text-7xl font-normal tracking-tighter uppercase text-gold/25 serif mx-8">Ordem e Leveza</span>
+      </div>
+    </div>
+
+    <!-- Section 1: Typography System -->
+    <section class="max-w-screen-2xl mx-auto px-4 md:px-8 py-24" id="typography">
+      <!-- Section Title with Entrance GSAP reveal class -->
+      <div class="border-b border-navy/10 pb-4 mb-12 flex justify-between items-end">
+        <div>
+          <span class="text-gold font-semibold text-xs tracking-[0.3em] uppercase mb-3 block">01 / Typography System</span>
+          <h2 class="text-4xl md:text-5xl tracking-tight text-navy serif font-normal">
+            <span class="section-reveal-line"><span class="section-reveal-word">Typography Scale</span></span>
+          </h2>
+        </div>
+        <span class="text-[10px] text-muted uppercase tracking-widest hidden md:block font-semibold">Cormorant Garamond & Sora</span>
+      </div>
+
+      <!-- Specs Table -->
+      <div class="fade-section bg-white border border-navy/10 rounded-sm p-6 md:p-10 soft-shadow space-y-8">
+        
+        <!-- Headers Scale -->
+        <div class="divide-y divide-navy/10">
+          
+          <!-- H1 -->
+          <div class="py-6 grid grid-cols-1 lg:grid-cols-12 gap-4 items-baseline">
+            <div class="lg:col-span-3 text-xs uppercase tracking-widest text-muted font-semibold">Heading 1 (h1)</div>
+            <div class="lg:col-span-6">
+              <h1 class="text-5xl md:text-7xl lg:text-8xl leading-[0.95] serif text-navy tracking-tight">Prosperidade com propósito, ordem e leveza.</h1>
+            </div>
+            <div class="lg:col-span-3 text-right text-xs text-muted font-mono">
+              96px / Cormorant Garamond / Regular (400) / Tracking Tight
+            </div>
+          </div>
+
+          <!-- H2 -->
+          <div class="py-6 grid grid-cols-1 lg:grid-cols-12 gap-4 items-baseline">
+            <div class="lg:col-span-3 text-xs uppercase tracking-widest text-muted font-semibold">Heading 2 (h2)</div>
+            <div class="lg:col-span-6">
+              <h2 class="text-3xl md:text-5xl lg:text-6xl serif leading-tight text-navy tracking-tight">Estratégia para escritórios que querem crescer com método.</h2>
+            </div>
+            <div class="lg:col-span-3 text-right text-xs text-muted font-mono">
+              60px / Cormorant Garamond / Regular (400) / Tracking Tight
+            </div>
+          </div>
+
+          <!-- H3 -->
+          <div class="py-6 grid grid-cols-1 lg:grid-cols-12 gap-4 items-baseline">
+            <div class="lg:col-span-3 text-xs uppercase tracking-widest text-muted font-semibold">Heading 3 (h3)</div>
+            <div class="lg:col-span-6">
+              <h3 class="text-2xl text-navy serif font-normal">Consultoria Estratégica</h3>
+            </div>
+            <div class="lg:col-span-3 text-right text-xs text-muted font-mono">
+              24px / Cormorant Garamond / Regular (400)
+            </div>
+          </div>
+
+          <!-- H4 -->
+          <div class="py-6 grid grid-cols-1 lg:grid-cols-12 gap-4 items-baseline">
+            <div class="lg:col-span-3 text-xs uppercase tracking-widest text-muted font-semibold">Heading 4 (h4)</div>
+            <div class="lg:col-span-6">
+              <h4 class="text-gold serif text-xl font-normal">Ordem e Leveza</h4>
+            </div>
+            <div class="lg:col-span-3 text-right text-xs text-muted font-mono">
+              20px / Cormorant Garamond / Regular (400) / text-gold
+            </div>
+          </div>
+
+          <!-- H5 -->
+          <div class="py-6 grid grid-cols-1 lg:grid-cols-12 gap-4 items-baseline">
+            <div class="lg:col-span-3 text-xs uppercase tracking-widest text-muted font-semibold">Heading 5 (h5)</div>
+            <div class="lg:col-span-6">
+              <h5 class="text-sm font-semibold uppercase tracking-widest text-navy">Nossos Serviços</h5>
+            </div>
+            <div class="lg:col-span-3 text-right text-xs text-muted font-mono">
+              14px / Sora / SemiBold (600) / Upper / Tracking Widest
+            </div>
+          </div>
+
+          <!-- H6 -->
+          <div class="py-6 grid grid-cols-1 lg:grid-cols-12 gap-4 items-baseline">
+            <div class="lg:col-span-3 text-xs uppercase tracking-widest text-muted font-semibold">Heading 6 (h6)</div>
+            <div class="lg:col-span-6">
+              <h6 class="text-xs font-semibold uppercase tracking-[0.25em] text-gold">Consultoria Financeira · Precificação · Governança</h6>
+            </div>
+            <div class="lg:col-span-3 text-right text-xs text-muted font-mono">
+              12px / Sora / SemiBold (600) / Upper / Tracking Wide / text-gold
+            </div>
+          </div>
+
+          <!-- Body Large (body-lg) -->
+          <div class="py-6 grid grid-cols-1 lg:grid-cols-12 gap-4 items-baseline">
+            <div class="lg:col-span-3 text-xs uppercase tracking-widest text-muted font-semibold">Body Large (body-lg)</div>
+            <div class="lg:col-span-6">
+              <p class="leading-relaxed text-lg font-normal text-muted">
+                A Machnick & Co. constrói a engenharia financeira do escritório — do orçamento ao BI — para que cada decisão da sociedade seja feita com dados e tranquilidade.
+              </p>
+            </div>
+            <div class="lg:col-span-3 text-right text-xs text-muted font-mono">
+              18px / Sora / Regular (400) / text-muted
+            </div>
+          </div>
+
+          <!-- Body Regular (body) -->
+          <div class="py-6 grid grid-cols-1 lg:grid-cols-12 gap-4 items-baseline">
+            <div class="lg:col-span-3 text-xs uppercase tracking-widest text-muted font-semibold">Body Regular (body)</div>
+            <div class="lg:col-span-6">
+              <p class="leading-relaxed text-sm text-muted">
+                A gestão financeira e de processos de um escritório de advocacia exige precisão, método e foco no longo prazo.
+              </p>
+            </div>
+            <div class="lg:col-span-3 text-right text-xs text-muted font-mono">
+              14px / Sora / Regular (400) / text-muted
+            </div>
+          </div>
+
+          <!-- Body Small (body-sm / Helper) -->
+          <div class="py-6 grid grid-cols-1 lg:grid-cols-12 gap-4 items-baseline">
+            <div class="lg:col-span-3 text-xs uppercase tracking-widest text-muted font-semibold">Body Small / Caption</div>
+            <div class="lg:col-span-6">
+              <span class="text-xs uppercase tracking-widest font-normal text-muted">
+                Curitiba · Rio de Janeiro · Nova York
+              </span>
+            </div>
+            <div class="lg:col-span-3 text-right text-xs text-muted font-mono">
+              12px / Sora / Regular (400) / Upper / Tracking Widest / text-muted
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Color Palette -->
+    <section class="px-4 md:px-8 py-24 bg-white border-t border-b border-navy/10" id="colors">
+      <div class="max-w-screen-2xl mx-auto">
+        <div class="border-b border-navy/10 pb-4 mb-12 flex justify-between items-end">
+          <div>
+            <span class="text-gold font-semibold text-xs tracking-[0.3em] uppercase mb-3 block">02 / Color & Surface System</span>
+            <h2 class="text-4xl md:text-5xl tracking-tight text-navy serif font-normal">
+              <span class="section-reveal-line"><span class="section-reveal-word">Theme Palette</span></span>
+            </h2>
+          </div>
+          <span class="text-[10px] text-muted uppercase tracking-widest hidden md:block font-semibold">Luxury & Semantics</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          
+          <!-- Navy DEFAULT -->
+          <div class="bg-white border border-navy/10 p-6 flex flex-col justify-between h-56 rounded-sm hover:shadow-md transition-shadow duration-300 relative group overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-24 h-24 bg-navy rounded-full filter blur-[15px] opacity-10 group-hover:scale-125 transition-transform duration-500"></div>
+            <div class="flex justify-between items-start z-10">
+              <span class="text-[9px] font-semibold text-navy uppercase tracking-[0.2em]">Primary Theme</span>
+              <div class="w-8 h-8 rounded-sm bg-navy border border-navy/20 glow-gold"></div>
+            </div>
+            <div class="z-10">
+              <h4 class="text-lg text-navy font-serif font-normal">Navy DEFAULT</h4>
+              <p class="text-xs text-muted font-mono mt-1">#152950 | bg-navy</p>
+              <p class="text-[10px] text-muted font-mono mt-2">HSL: 220°, 58%, 20%</p>
+              <p class="text-[9px] text-navy uppercase tracking-wider mt-3 font-semibold">Contrast: AAA (On White)</p>
+            </div>
+          </div>
+
+          <!-- Navy Mid -->
+          <div class="bg-white border border-navy/10 p-6 flex flex-col justify-between h-56 rounded-sm hover:shadow-md transition-shadow duration-300 relative group overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-24 h-24 bg-navy-mid rounded-full filter blur-[15px] opacity-10 group-hover:scale-125 transition-transform duration-500"></div>
+            <div class="flex justify-between items-start z-10">
+              <span class="text-[9px] font-semibold text-navy-mid uppercase tracking-[0.2em]">Theme Variant</span>
+              <div class="w-8 h-8 rounded-sm bg-navy-mid border border-navy-mid/20"></div>
+            </div>
+            <div class="z-10">
+              <h4 class="text-lg text-navy-mid font-serif font-normal">Navy Mid</h4>
+              <p class="text-xs text-muted font-mono mt-1">#1e3d70 | bg-navy-mid</p>
+              <p class="text-[10px] text-muted font-mono mt-2">HSL: 217°, 58%, 28%</p>
+              <p class="text-[9px] text-muted uppercase tracking-wider mt-3 font-semibold">Borders & Gradients</p>
+            </div>
+          </div>
+
+          <!-- Gold DEFAULT -->
+          <div class="bg-white border border-navy/10 p-6 flex flex-col justify-between h-56 rounded-sm hover:shadow-md transition-shadow duration-300 relative group overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-24 h-24 bg-gold rounded-full filter blur-[15px] opacity-10 group-hover:scale-125 transition-transform duration-500"></div>
+            <div class="flex justify-between items-start z-10">
+              <span class="text-[9px] font-semibold text-gold uppercase tracking-[0.2em]">Primary Accent</span>
+              <div class="w-8 h-8 rounded-sm bg-gold border border-gold/20 glow-gold"></div>
+            </div>
+            <div class="z-10">
+              <h4 class="text-lg text-navy font-serif font-normal">Gold DEFAULT</h4>
+              <p class="text-xs text-muted font-mono mt-1">#D4AF37 | bg-gold</p>
+              <p class="text-[10px] text-muted font-mono mt-2">HSL: 46°, 65%, 52%</p>
+              <p class="text-[9px] text-gold uppercase tracking-wider mt-3 font-semibold">Contrast: AA intent</p>
+            </div>
+          </div>
+
+          <!-- Gold Light -->
+          <div class="bg-white border border-navy/10 p-6 flex flex-col justify-between h-56 rounded-sm hover:shadow-md transition-shadow duration-300 relative group overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-24 h-24 bg-gold-light rounded-full filter blur-[15px] opacity-10 group-hover:scale-125 transition-transform duration-500"></div>
+            <div class="flex justify-between items-start z-10">
+              <span class="text-[9px] font-semibold text-gold uppercase tracking-[0.2em]">Accent Variant</span>
+              <div class="w-8 h-8 rounded-sm bg-gold-light border border-gold-light/20"></div>
+            </div>
+            <div class="z-10">
+              <h4 class="text-lg text-navy font-serif font-normal">Gold Light</h4>
+              <p class="text-xs text-muted font-mono mt-1">#F5ECC8 | bg-gold-light</p>
+              <p class="text-[10px] text-muted font-mono mt-2">HSL: 48°, 68%, 87%</p>
+              <p class="text-[9px] text-muted uppercase tracking-wider mt-3 font-semibold">Active & Hover States</p>
+            </div>
+          </div>
+
+          <!-- Cream -->
+          <div class="bg-white border border-navy/10 p-6 flex flex-col justify-between h-56 rounded-sm hover:shadow-md transition-shadow duration-300 relative group overflow-hidden">
+            <div class="flex justify-between items-start z-10">
+              <span class="text-[9px] font-semibold text-navy uppercase tracking-[0.2em]">Theme Base</span>
+              <div class="w-8 h-8 rounded-sm bg-cream border border-navy/10"></div>
+            </div>
+            <div class="z-10">
+              <h4 class="text-lg text-navy font-serif font-normal">Cream</h4>
+              <p class="text-xs text-muted font-mono mt-1">#F7F5F0 | bg-cream</p>
+              <p class="text-[10px] text-muted font-mono mt-2">HSL: 40°, 22%, 96%</p>
+              <p class="text-[9px] text-muted uppercase tracking-wider mt-3 font-semibold">Global page backdrop</p>
+            </div>
+          </div>
+
+          <!-- White -->
+          <div class="bg-white border border-navy/10 p-6 flex flex-col justify-between h-56 rounded-sm hover:shadow-md transition-shadow duration-300 relative group overflow-hidden">
+            <div class="flex justify-between items-start z-10">
+              <span class="text-[9px] font-semibold text-navy uppercase tracking-[0.2em]">Theme Surface</span>
+              <div class="w-8 h-8 rounded-sm bg-white border border-navy/10"></div>
+            </div>
+            <div class="z-10">
+              <h4 class="text-lg text-navy font-serif font-normal">White</h4>
+              <p class="text-xs text-muted font-mono mt-1">#FFFFFF | bg-white</p>
+              <p class="text-[10px] text-muted font-mono mt-2">HSL: 0°, 0%, 100%</p>
+              <p class="text-[9px] text-muted uppercase tracking-wider mt-3 font-semibold">Elevated cards & inputs</p>
+            </div>
+          </div>
+
+          <!-- Ink -->
+          <div class="bg-white border border-navy/10 p-6 flex flex-col justify-between h-56 rounded-sm hover:shadow-md transition-shadow duration-300 relative group overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-24 h-24 bg-ink rounded-full filter blur-[15px] opacity-10 group-hover:scale-125 transition-transform duration-500"></div>
+            <div class="flex justify-between items-start z-10">
+              <span class="text-[9px] font-semibold text-ink uppercase tracking-[0.2em]">Theme Neutral</span>
+              <div class="w-8 h-8 rounded-sm bg-ink border border-ink/20"></div>
+            </div>
+            <div class="z-10">
+              <h4 class="text-lg text-navy font-serif font-normal">Ink</h4>
+              <p class="text-xs text-muted font-mono mt-1">#1a1a1a | bg-ink</p>
+              <p class="text-[10px] text-muted font-mono mt-2">HSL: 0°, 0%, 10%</p>
+              <p class="text-[9px] text-muted uppercase tracking-wider mt-3 font-semibold">Primary body text</p>
+            </div>
+          </div>
+
+          <!-- Muted -->
+          <div class="bg-white border border-navy/10 p-6 flex flex-col justify-between h-56 rounded-sm hover:shadow-md transition-shadow duration-300 relative group overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-24 h-24 bg-muted rounded-full filter blur-[15px] opacity-10 group-hover:scale-125 transition-transform duration-500"></div>
+            <div class="flex justify-between items-start z-10">
+              <span class="text-[9px] font-semibold text-muted uppercase tracking-[0.2em]">Theme Neutral</span>
+              <div class="w-8 h-8 rounded-sm bg-muted border border-muted/20"></div>
+            </div>
+            <div class="z-10">
+              <h4 class="text-lg text-navy font-serif font-normal">Muted</h4>
+              <p class="text-xs text-muted font-mono mt-1">#888888 | text-muted</p>
+              <p class="text-[10px] text-muted font-mono mt-2">HSL: 0°, 0%, 53%</p>
+              <p class="text-[9px] text-muted uppercase tracking-wider mt-3 font-semibold">Secondary text & borders</p>
+            </div>
+          </div>
+
+          <!-- Gradient Showcase -->
+          <div class="lg:col-span-4 bg-gradient-to-br from-navy via-navy-mid to-gold text-white p-6 flex flex-col justify-between h-56 rounded-sm hover:shadow-md transition-shadow duration-300 relative group overflow-hidden">
+            <div class="flex justify-between items-start z-10">
+              <span class="text-[9px] font-semibold text-gold uppercase tracking-[0.2em]">Gradient Fill</span>
+              <div class="w-8 h-8 rounded-sm bg-gradient-to-r from-navy to-gold border border-white/10 glow-gold"></div>
+            </div>
+            <div class="z-10">
+              <h4 class="text-lg text-gold font-serif font-normal">Atelier Dusk</h4>
+              <p class="text-xs text-gray-300 font-mono mt-1">bg-gradient-to-br</p>
+              <p class="text-[10px] text-gold-light font-mono mt-2">Navy to gold range</p>
+              <p class="text-[9px] text-gold-light/60 uppercase tracking-wider mt-3 font-semibold">Marketing & Hero visuals</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: UI Components Showcase -->
+    <section class="max-w-screen-2xl mx-auto px-4 md:px-8 py-24" id="components">
+      <div class="border-b border-navy/10 pb-4 mb-12 flex justify-between items-end">
+        <div>
+          <span class="text-gold font-semibold text-xs tracking-[0.3em] uppercase mb-3 block">03 / Interactive Blocks</span>
+          <h2 class="text-4xl md:text-5xl tracking-tight text-navy serif font-normal">
+            <span class="section-reveal-line"><span class="section-reveal-word">UI Components</span></span>
+          </h2>
+        </div>
+        <span class="text-[10px] text-muted uppercase tracking-widest hidden md:block font-semibold">With Custom Micro-interactions</span>
+      </div>
+
+      <div class="space-y-20">
+        
+        <!-- Component Row 1: Buttons Spec -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-navy/10 pb-16">
+          <div class="lg:col-span-4">
+            <h3 class="text-2xl text-navy serif font-normal mb-3">Interactive Buttons</h3>
+            <p class="text-sm text-muted max-w-sm leading-relaxed font-normal">
+              Premium action triggers featuring slide-transitions, sliding icon offsets, and underline hover effects.
+            </p>
+          </div>
+          <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8 bg-white p-6 md:p-8 border border-navy/10">
+            
+            <!-- Primary Gold Slide Button -->
+            <div class="space-y-3">
+              <span class="text-[10px] font-mono text-muted uppercase tracking-widest block font-semibold">Primary Gold-Slide Hover Button</span>
+              <div class="flex items-center gap-4 flex-wrap">
+                <a class="group relative px-8 py-4 bg-navy text-white text-xs uppercase tracking-widest font-semibold text-center overflow-hidden inline-block" href="#components">
+                  <span class="relative z-10 group-hover:text-navy transition-colors duration-300">Solicitar diagnóstico</span>
+                  <div class="absolute inset-0 h-full w-full bg-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                </a>
+                
+                <!-- Forced Hover -->
+                <a class="group relative px-8 py-4 bg-navy text-white text-xs uppercase tracking-widest font-semibold text-center overflow-hidden inline-block" href="#components">
+                  <span class="relative z-10 text-navy">Solicitar diagnóstico</span>
+                  <div class="absolute inset-0 h-full w-full bg-gold transform scale-x-100 transition-transform duration-300 origin-left"></div>
+                </a>
+              </div>
+            </div>
+
+            <!-- Secondary Border Button -->
+            <div class="space-y-3">
+              <span class="text-[10px] font-mono text-muted uppercase tracking-widest block font-semibold">Secondary Border Outline Button</span>
+              <div class="flex items-center gap-4 flex-wrap">
+                <a class="group uppercase hover:bg-navy hover:text-white transition-colors duration-300 text-xs font-semibold text-navy tracking-widest text-center border-navy border px-8 py-4 bg-transparent inline-block" href="#components">
+                  Conhecer o BPO Financeiro
+                </a>
+                
+                <!-- Forced Hover -->
+                <a class="group uppercase bg-navy text-white transition-colors duration-300 text-xs font-semibold tracking-widest text-center border-navy border px-8 py-4 inline-block" href="#components">
+                  Conhecer o BPO Financeiro
+                </a>
+              </div>
+            </div>
+
+            <!-- Underline Accent Link -->
+            <div class="space-y-3">
+              <span class="text-[10px] font-mono text-muted uppercase tracking-widest block font-semibold">Accent Underline Link</span>
+              <div class="bg-navy p-6 flex flex-wrap gap-6 items-center">
+                <a class="inline-flex items-center gap-3 text-white border-b border-gold pb-1 hover:text-gold transition-colors text-xs uppercase tracking-widest font-semibold" href="#components">
+                  Ver todos os serviços
+                  <iconify-icon icon="lucide:arrow-right" width="14"></iconify-icon>
+                </a>
+                <a class="inline-flex items-center gap-3 text-gold border-b border-gold pb-1 transition-colors text-xs uppercase tracking-widest font-semibold" href="#components">
+                  Ver todos os serviços
+                  <iconify-icon icon="lucide:arrow-right" width="14"></iconify-icon>
+                </a>
+              </div>
+            </div>
+
+            <!-- Sliding Arrow Text Link -->
+            <div class="space-y-3">
+              <span class="text-[10px] font-mono text-muted uppercase tracking-widest block font-semibold">Sliding Arrow Text Link</span>
+              <div class="flex flex-wrap gap-8 items-center py-4">
+                <a class="group flex items-center gap-3 text-xs uppercase tracking-widest font-semibold text-navy hover:text-gold transition-colors" href="#components">
+                  Conhecer todas as soluções
+                  <iconify-icon class="group-hover:translate-x-1.5 transition-transform duration-300" icon="lucide:arrow-right" width="16"></iconify-icon>
+                </a>
+                
+                <a class="flex items-center gap-3 text-xs uppercase tracking-widest font-semibold text-gold" href="#components">
+                  Forced Hover
+                  <iconify-icon class="translate-x-1.5" icon="lucide:arrow-right" width="16"></iconify-icon>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Component Row 2: Form Inputs Spec -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-navy/10 pb-16">
+          <div class="lg:col-span-4">
+            <h3 class="text-2xl text-navy serif font-normal mb-3">Form Inputs</h3>
+            <p class="text-sm text-muted max-w-sm leading-relaxed font-normal">
+              Clean, minimalist inputs featuring dynamic border transitions on focus, styled specifically for newsletters and contact triggers.
+            </p>
+          </div>
+          <div class="lg:col-span-8 bg-navy p-8 text-white border border-navy-mid">
+            <div class="max-w-md space-y-8 font-semibold">
+              
+              <!-- Input Default -->
+              <div class="space-y-3 font-semibold">
+                <span class="text-[10px] font-mono text-muted uppercase tracking-widest block font-semibold">Newsletter Form (Default)</span>
+                <form class="flex border-b border-navy-mid pb-2 transition-colors duration-300 hover:border-gold font-normal">
+                  <input class="bg-transparent w-full text-sm text-white placeholder-gray-400 focus:outline-none font-normal" placeholder="Endereço de e-mail" type="email"/>
+                  <button class="text-xs uppercase tracking-widest hover:text-gold transition-colors whitespace-nowrap px-2 font-semibold" type="button">Enviar</button>
+                </form>
+              </div>
+
+              <!-- Input Focused -->
+              <div class="space-y-3 font-semibold">
+                <span class="text-[10px] font-mono text-muted uppercase tracking-widest block font-semibold">Newsletter Form (Focused)</span>
+                <form class="flex border-b border-gold pb-2 transition-colors duration-300 font-normal">
+                  <input class="bg-transparent w-full text-sm text-white placeholder-gray-400 focus:outline-none font-normal" placeholder="Endereço de e-mail" value="contato@machnick.com.br" type="email"/>
+                  <button class="text-xs uppercase tracking-widest text-gold transition-colors whitespace-nowrap px-2 font-semibold" type="button">Enviar</button>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Component Row 3: Product Cards Spec -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-navy/10 pb-16">
+          <div class="lg:col-span-4">
+            <h3 class="text-2xl text-navy serif font-normal mb-3">Service Catalog Cards</h3>
+            <p class="text-sm text-muted max-w-sm leading-relaxed font-normal">
+              Interactive grid-cards featuring grayscale image overlays, cubic-bezier scale transforms, and gold metadata updates on hover.
+            </p>
+          </div>
+          <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-8">
+            
+            <!-- Card Default -->
+            <div class="space-y-3">
+              <span class="text-[10px] font-mono text-muted uppercase tracking-widest block font-semibold">Card Default State</span>
+              <div class="group cursor-pointer bg-white border border-navy/10 p-4 soft-shadow">
+                <div class="relative overflow-hidden bg-cream aspect-[4/5] mb-6 shadow-sm border border-navy/10 flex items-center justify-center">
+                  <div class="absolute inset-0 bg-navy/5 group-hover:bg-transparent transition-colors z-10 duration-300"></div>
+                  <span class="text-[9px] uppercase z-20 font-semibold text-navy tracking-wider bg-white px-3 py-1 absolute top-4 left-4 border border-navy/10">Destaque</span>
+                </div>
+                <div class="flex justify-between items-baseline">
+                  <div>
+                    <h3 class="text-lg text-navy serif font-normal">BPO Financeiro para Advogados</h3>
+                    <p class="text-xs text-muted uppercase tracking-wide mt-1 group-hover:text-gold transition-colors duration-300">Gestão e Finanças</p>
+                  </div>
+                  <span class="text-sm font-semibold text-navy">Mensal</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Hover Forced -->
+            <div class="space-y-3">
+              <span class="text-[10px] font-mono text-muted uppercase tracking-widest block font-semibold">Card Hover State Showcase</span>
+              <div class="cursor-pointer bg-white border border-navy/10 p-4 shadow-md">
+                <div class="relative overflow-hidden bg-cream aspect-[4/5] mb-6 shadow-sm border border-navy/10 flex items-center justify-center">
+                  <span class="text-[9px] uppercase z-20 font-semibold text-navy tracking-wider bg-white px-3 py-1 absolute top-4 left-4 border border-navy/10">Destaque</span>
+                </div>
+                <div class="flex justify-between items-baseline">
+                  <div>
+                    <h3 class="text-lg text-navy serif font-normal">BPO Financeiro para Advogados</h3>
+                    <p class="text-xs text-gold uppercase tracking-wide mt-1">Gestão e Finanças</p>
+                  </div>
+                  <span class="text-sm font-semibold text-gold">Mensal</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Component Row 4: Modals, Badges & Tooltips -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-10">
+          <div class="lg:col-span-4">
+            <h3 class="text-2xl text-navy serif font-normal mb-3">Overlays, Badges & Tooltips</h3>
+            <p class="text-sm text-muted max-w-sm leading-relaxed font-normal">
+              Living design primitives for user feedback overlays. Press the button below to test the fully functional animated modal.
+            </p>
+          </div>
+          <div class="lg:col-span-8 space-y-10 bg-white p-6 md:p-8 border border-navy/10">
+            
+            <!-- Modals Interactive showcase -->
+            <div class="space-y-4">
+              <span class="text-[10px] font-mono text-muted uppercase tracking-widest block font-semibold">Interactive Dialog Component</span>
+              <button class="px-6 py-3 bg-navy text-white text-xs uppercase tracking-widest font-semibold hover:bg-gold transition-colors duration-300" onclick="openShowcaseModal()">
+                Open Sample Modal
+              </button>
+            </div>
+
+            <!-- Badges Showcase -->
+            <div class="space-y-4">
+              <span class="text-[10px] font-mono text-muted uppercase tracking-widest block font-semibold">Metadata Badges</span>
+              <div class="flex items-center gap-3 flex-wrap">
+                <span class="text-[9px] uppercase font-semibold text-navy tracking-wider bg-white border border-navy/10 px-3 py-1.5">Novo</span>
+                <span class="text-[9px] uppercase font-semibold text-white tracking-wider bg-gold px-3 py-1.5 glow-gold">Estratégia</span>
+                <span class="text-[9px] uppercase font-semibold text-muted tracking-wider bg-cream border border-navy/10 px-3 py-1.5">Concluído</span>
+              </div>
+            </div>
+
+            <!-- Tooltips Showcase -->
+            <div class="space-y-4">
+              <span class="text-[10px] font-mono text-muted uppercase tracking-widest block font-semibold">Hover Tooltips</span>
+              <div class="flex items-center gap-6 py-2">
+                <div class="tooltip-container inline-block cursor-help text-xs text-muted border-b border-dashed border-muted pb-0.5">
+                  Hover over this text
+                  <span class="tooltip-text absolute bottom-full left-1/2 bg-navy text-white text-[9px] uppercase tracking-wider py-1 px-3 whitespace-nowrap z-30 mb-2 border border-navy-mid font-semibold">
+                    Diagnóstico Estratégico
+                  </span>
+                </div>
+                
+                <div class="tooltip-container inline-block cursor-help text-xs text-gold border-b border-dashed border-gold pb-0.5">
+                  Hover for Pricing Policy
+                  <span class="tooltip-text absolute bottom-full left-1/2 bg-white text-navy text-[9px] uppercase tracking-wider py-1.5 px-3 whitespace-nowrap z-30 mb-2 border border-navy/10 shadow-md font-semibold">
+                    Consulte honorários
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Interactive Showcase Modal Backdrop -->
+    <div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-4" id="showcase-modal" onclick="closeShowcaseModal(event)">
+      <!-- Modal Inner Card -->
+      <div class="bg-white max-w-md w-full p-8 border border-navy/10 shadow-2xl relative transform translate-y-8 transition-transform duration-300" id="showcase-modal-content" onclick="event.stopPropagation()">
+        <!-- Close button -->
+        <button class="absolute top-6 right-6 text-muted hover:text-navy transition-colors" onclick="closeShowcaseModal()">
+          <iconify-icon icon="lucide:x" width="20"></iconify-icon>
+        </button>
+
+        <span class="text-gold font-semibold text-[10px] tracking-widest uppercase mb-2 block">Diagnóstico de Gestão</span>
+        <h3 class="text-3xl text-navy serif font-normal mb-4">Agendar Diagnóstico</h3>
+        <p class="text-sm text-muted leading-relaxed mb-6 font-normal">
+          A equipe da Machnick & Co. entrará em contato para agendar uma reunião de diagnóstico e entender os objetivos do seu escritório.
+        </p>
+
+        <form class="space-y-4">
+          <input class="w-full bg-white border border-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-gold transition-colors" placeholder="Nome Completo" type="text"/>
+          <input class="w-full bg-white border border-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-gold transition-colors" placeholder="Nome do Escritório / Cidade" type="text"/>
+          <button class="w-full py-4 bg-navy text-white text-xs uppercase tracking-widest font-semibold hover:bg-gold transition-colors duration-300" type="button" onclick="closeShowcaseModal()">
+            Enviar Solicitação
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Section 4: Icons Inventory -->
+    <section class="px-4 md:px-8 py-24 bg-white border-t border-b border-navy/10" id="icons">
+      <div class="max-w-screen-2xl mx-auto">
+        <div class="border-b border-navy/10 pb-4 mb-12 flex justify-between items-end">
+          <div>
+            <span class="text-gold font-semibold text-xs tracking-[0.3em] uppercase mb-3 block">04 / Graphic Indicators</span>
+            <h2 class="text-4xl md:text-5xl tracking-tight text-navy serif font-normal">
+              <span class="section-reveal-line"><span class="section-reveal-word">Icons Spec</span></span>
+            </h2>
+          </div>
+          <span class="text-[10px] text-muted uppercase tracking-widest hidden md:block font-semibold">Lucide Library Showcase</span>
+        </div>
+
+        <div class="bg-white border border-navy/10 p-8 space-y-12 shadow-sm">
+          
+          <!-- Size scales -->
+          <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-center border-b border-navy/10 pb-8">
+            <div class="text-xs uppercase tracking-widest text-muted font-semibold">Hierarchy Scales</div>
+            <div class="lg:col-span-3 flex items-end gap-10">
+              <div class="text-center space-y-2">
+                <div class="flex justify-center items-center h-16 w-16 bg-cream border border-navy/10 text-navy/40 rounded-sm">
+                  <iconify-icon icon="lucide:scale" width="16" stroke-width="1.5"></iconify-icon>
+                </div>
+                <span class="text-[10px] text-muted font-mono">16px (Micro)</span>
+              </div>
+              <div class="text-center space-y-2">
+                <div class="flex justify-center items-center h-16 w-16 bg-cream border border-navy/10 text-navy/40 rounded-sm">
+                  <iconify-icon icon="lucide:scale" width="20" stroke-width="1.5"></iconify-icon>
+                </div>
+                <span class="text-[10px] text-muted font-mono">20px (Content)</span>
+              </div>
+              <div class="text-center space-y-2">
+                <div class="flex justify-center items-center h-16 w-16 bg-cream border border-navy/10 text-navy/40 rounded-sm">
+                  <iconify-icon icon="lucide:scale" width="24" stroke-width="1.5"></iconify-icon>
+                </div>
+                <span class="text-[10px] text-muted font-mono">24px (Standard)</span>
+              </div>
+              <div class="text-center space-y-2">
+                <div class="flex justify-center items-center h-16 w-16 bg-cream border border-navy/10 text-navy/40 rounded-sm">
+                  <iconify-icon icon="lucide:scale" width="32" stroke-width="1.5"></iconify-icon>
+                </div>
+                <span class="text-[10px] text-muted font-mono">32px (Feature)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Color inheritances -->
+          <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-center border-b border-navy/10 pb-8">
+            <div class="text-xs uppercase tracking-widest text-muted font-semibold">Color Inheritance</div>
+            <div class="lg:col-span-3 flex gap-8 flex-wrap">
+              <div class="flex items-center gap-2 text-navy">
+                <iconify-icon icon="lucide:briefcase" width="20" stroke-width="1.5"></iconify-icon>
+                <span class="text-[10px] font-mono text-muted">text-navy</span>
+              </div>
+              <div class="flex items-center gap-2 text-gold">
+                <iconify-icon icon="lucide:briefcase" width="20" stroke-width="1.5"></iconify-icon>
+                <span class="text-[10px] font-mono text-muted">text-gold</span>
+              </div>
+              <div class="flex items-center gap-2 text-muted">
+                <iconify-icon icon="lucide:briefcase" width="20" stroke-width="1.5"></iconify-icon>
+                <span class="text-[10px] font-mono text-muted">text-muted</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Icon Catalog -->
+          <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <div class="text-xs uppercase tracking-widest text-muted font-semibold">Icons Inventory</div>
+            <div class="lg:col-span-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+              
+              <div class="flex flex-col items-center p-4 border border-navy/10 bg-cream/30 text-center gap-2 rounded-sm group hover:border-gold transition-colors duration-300">
+                <iconify-icon icon="lucide:menu" width="24" stroke-width="1.5" class="text-navy group-hover:text-gold transition-colors"></iconify-icon>
+                <span class="text-[9px] font-mono text-muted font-semibold">lucide:menu</span>
+              </div>
+
+              <div class="flex flex-col items-center p-4 border border-navy/10 bg-cream/30 text-center gap-2 rounded-sm group hover:border-gold transition-colors duration-300">
+                <iconify-icon icon="lucide:briefcase" width="24" stroke-width="1.5" class="text-navy group-hover:text-gold transition-colors"></iconify-icon>
+                <span class="text-[9px] font-mono text-muted font-semibold">lucide:briefcase</span>
+              </div>
+
+              <div class="flex flex-col items-center p-4 border border-navy/10 bg-cream/30 text-center gap-2 rounded-sm group hover:border-gold transition-colors duration-300">
+                <iconify-icon icon="lucide:arrow-right" width="24" stroke-width="1.5" class="text-navy group-hover:text-gold transition-colors"></iconify-icon>
+                <span class="text-[9px] font-mono text-muted font-semibold">lucide:arrow-right</span>
+              </div>
+
+              <div class="flex flex-col items-center p-4 border border-navy/10 bg-cream/30 text-center gap-2 rounded-sm group hover:border-gold transition-colors duration-300">
+                <iconify-icon icon="lucide:scale" width="24" stroke-width="1.5" class="text-navy group-hover:text-gold transition-colors"></iconify-icon>
+                <span class="text-[9px] font-mono text-muted font-semibold">lucide:scale</span>
+              </div>
+
+              <div class="flex flex-col items-center p-4 border border-navy/10 bg-cream/30 text-center gap-2 rounded-sm group hover:border-gold transition-colors duration-300">
+                <iconify-icon icon="lucide:refresh-cw" width="24" stroke-width="1.5" class="text-navy group-hover:text-gold transition-colors"></iconify-icon>
+                <span class="text-[9px] font-mono text-muted font-semibold">lucide:refresh-cw</span>
+              </div>
+
+              <div class="flex flex-col items-center p-4 border border-navy/10 bg-cream/30 text-center gap-2 rounded-sm group hover:border-gold transition-colors duration-300">
+                <iconify-icon icon="lucide:gift" width="24" stroke-width="1.5" class="text-navy group-hover:text-gold transition-colors"></iconify-icon>
+                <span class="text-[9px] font-mono text-muted font-semibold">lucide:gift</span>
+              </div>
+
+              <div class="flex flex-col items-center p-4 border border-navy/10 bg-cream/30 text-center gap-2 rounded-sm group hover:border-gold transition-colors duration-300">
+                <iconify-icon icon="lucide:instagram" width="24" stroke-width="1.5" class="text-navy group-hover:text-gold transition-colors"></iconify-icon>
+                <span class="text-[9px] font-mono text-muted font-semibold">lucide:instagram</span>
+              </div>
+
+              <div class="flex flex-col items-center p-4 border border-navy/10 bg-cream/30 text-center gap-2 rounded-sm group hover:border-gold transition-colors duration-300">
+                <iconify-icon icon="lucide:facebook" width="24" stroke-width="1.5" class="text-navy group-hover:text-gold transition-colors"></iconify-icon>
+                <span class="text-[9px] font-mono text-muted font-semibold">lucide:facebook</span>
+              </div>
+
+              <div class="flex flex-col items-center p-4 border border-navy/10 bg-cream/30 text-center gap-2 rounded-sm group hover:border-gold transition-colors duration-300">
+                <iconify-icon icon="lucide:mail" width="24" stroke-width="1.5" class="text-navy group-hover:text-gold transition-colors"></iconify-icon>
+                <span class="text-[9px] font-mono text-muted font-semibold">lucide:mail</span>
+              </div>
+
+              <div class="flex flex-col items-center p-4 border border-navy/10 bg-cream/30 text-center gap-2 rounded-sm group hover:border-gold transition-colors duration-300">
+                <iconify-icon icon="lucide:check" width="24" stroke-width="1.5" class="text-navy group-hover:text-gold transition-colors"></iconify-icon>
+                <span class="text-[9px] font-mono text-muted font-semibold">lucide:check</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Motion & Dynamic Interactions -->
+    <section class="max-w-screen-2xl mx-auto px-4 md:px-8 py-24" id="motion">
+      <div class="border-b border-navy/10 pb-4 mb-12 flex justify-between items-end">
+        <div>
+          <span class="text-gold font-semibold text-xs tracking-[0.3em] uppercase mb-3 block">05 / Animation Mechanics</span>
+          <h2 class="text-4xl md:text-5xl tracking-tight text-navy serif font-normal">
+            <span class="section-reveal-line"><span class="section-reveal-word">Motion & Interaction</span></span>
+          </h2>
+        </div>
+        <span class="text-[10px] text-muted uppercase tracking-widest hidden md:block font-semibold">Transitions Catalog</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Zoom Scale Dynamics -->
+        <div class="border border-navy/10 p-6 flex flex-col justify-between h-96 group bg-white hover:shadow-md transition-shadow duration-300">
+          <div>
+            <span class="text-[10px] font-semibold text-muted uppercase tracking-widest block mb-4">Zoom Scale Transition</span>
+            <div class="relative overflow-hidden bg-cream aspect-video mb-4 border border-navy/10 flex items-center justify-center">
+              <div class="w-full h-full bg-cream border border-navy/10 group-hover:scale-105 transition-transform duration-500"></div>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-lg text-navy font-semibold">Image Cubic Scale</h4>
+            <p class="text-xs text-muted mt-1 font-mono">scale(1.03) | duration-600</p>
+            <p class="text-xs text-muted mt-2 font-normal">Passe o mouse no card para visualizar a transição de zoom e ativação da borda.</p>
+          </div>
+        </div>
+
+        <!-- GSAP Mask text reveal trigger -->
+        <div class="border border-navy/10 p-6 flex flex-col justify-between h-96 group bg-white hover:shadow-md transition-shadow duration-300">
+          <div>
+            <span class="text-[10px] font-semibold text-muted uppercase tracking-widest block mb-4">GSAP Text Reveal Mask</span>
+            <div class="flex flex-col justify-center items-center h-32 bg-cream border border-navy/10 px-4">
+              <h3 class="text-2xl text-center serif text-navy leading-none overflow-hidden">
+                <span class="inline-flex overflow-hidden"><span class="inline-block transform translate-y-[112%] transition-transform duration-500 ease-out font-normal" id="gsap-demo-word-1">Ordem</span></span>
+                <span class="inline-flex overflow-hidden"><span class="inline-block transform translate-y-[112%] transition-transform duration-500 ease-out text-gold font-normal" id="gsap-demo-word-2">Leveza</span></span>
+              </h3>
+              <button class="mt-4 px-4 py-1.5 bg-navy text-white text-[9px] uppercase tracking-widest hover:bg-gold transition-colors duration-300 font-semibold" onclick="triggerGsapDemo()">
+                Replay Reveal
+              </button>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-lg text-navy font-semibold">GSAP Scroll Reveals</h4>
+            <p class="text-xs text-muted mt-1 font-mono">translate-y-[112%] to 0%</p>
+            <p class="text-xs text-muted mt-2 font-normal">Masked parents clip titles until ScrollTriggers slide them smoothly upwards.</p>
+          </div>
+        </div>
+
+        <!-- Floating Particles control -->
+        <div class="border border-navy/10 p-6 flex flex-col justify-between h-96 group bg-white hover:shadow-md transition-shadow duration-300">
+          <div>
+            <span class="text-[10px] font-semibold text-muted uppercase tracking-widest block mb-4">Background Floating Canvas</span>
+            <div class="flex flex-col justify-center items-center h-32 bg-cream border border-navy/10">
+              <button class="px-6 py-3 bg-navy text-white text-xs uppercase tracking-widest font-semibold transition-all duration-300" id="particle-toggle-btn" onclick="toggleParticles()">
+                Desativar Partículas
+              </button>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-lg text-navy font-semibold">Gold Dust Canvas</h4>
+            <p class="text-xs text-muted mt-1 font-mono">HTML5 Canvas Context2d API</p>
+            <p class="text-xs text-muted mt-2 font-normal">Controls standard floating golden particles across the whole background viewport.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Semantic Luxury Footer -->
+  <footer class="bg-navy text-white pt-24 pb-12 mt-16 border-t border-navy-mid">
+    <div class="max-w-screen-2xl mx-auto px-4 md:px-8">
+      <div class="flex flex-col items-center gap-6 text-center">
+        
+        <svg class="text-white w-10 h-10 glow-gold" fill="none" height="40" stroke-width="2" style="color: rgb(255, 255, 255);" viewbox="0 0 100 100" width="40" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 5 L93.3 30 V75 L50 95 L6.7 75 V30 L50 5Z" fill="none" stroke="currentColor" stroke-width="5"></path>
+          <text fill="currentColor" font-family="Cormorant Garamond" font-size="44" text-anchor="middle" x="50" y="65">MC</text>
+        </svg>
+
+        <span class="serif text-xl font-normal tracking-tight text-white">Machnick & Co. Design System</span>
+        
+        <p class="text-xs text-gold-light/80 max-w-md leading-relaxed font-normal">
+          Prosperidade com propósito, ordem e leveza.
+        </p>
+
+        <p class="text-[10px] text-muted mt-6 uppercase tracking-widest font-semibold">
+          © 2026 Machnick & Co. — Curitiba · Rio de Janeiro · Nova York.
+        </p>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- Combined JS Logic (Modal controllers, particle system, rotating copy text, and GSAP scrolls) -->
+  <script>
+    // 1. Particle System Setup
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+    let animationFrameId = null;
+    let particlesEnabled = true;
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.size = Math.random() * 1.5 + 0.35;
+        this.speedX = Math.random() * 0.25 - 0.125;
+        this.speedY = Math.random() * 0.22 - 0.11;
+        this.life = Math.random() * 100;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.life += 0.015;
+        
+        // Wrap edges
+        if (this.x < 0) this.x = width;
+        if (this.x > width) this.x = 0;
+        if (this.y < 0) this.y = height;
+        if (this.y > height) this.y = 0;
+      }
+      draw() {
+        // Floating sinusoidal opacity animation
+        const opacity = (Math.sin(this.life) + 1) / 2 * 0.28 + 0.05;
+        ctx.fillStyle = `rgba(212, 175, 55, ${opacity})`;
+        ctx.beginPath();
+        ctx.rect(this.x, this.y, this.size, this.size);
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      const particleCount = Math.min(100, Math.floor((width * height) / 16000));
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function animateParticles() {
+      if (!particlesEnabled) return;
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      animationFrameId = requestAnimationFrame(animateParticles);
+    }
+
+    if (particlesEnabled) {
+      initParticles();
+      animateParticles();
+    }
+
+    function toggleParticles() {
+      const btn = document.getElementById('particle-toggle-btn');
+      if (particlesEnabled) {
+        // Disable
+        particlesEnabled = false;
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        ctx.clearRect(0, 0, width, height);
+        btn.textContent = 'Ativar Partículas';
+        btn.classList.replace('bg-navy', 'bg-gold');
+      } else {
+        // Enable
+        particlesEnabled = true;
+        initParticles();
+        animateParticles();
+        btn.textContent = 'Desativar Partículas';
+        btn.classList.replace('bg-gold', 'bg-navy');
+      }
+    }
+
+
+    // 2. Interactive Modal Actions
+    function openShowcaseModal() {
+      const modal = document.getElementById('showcase-modal');
+      const content = document.getElementById('showcase-modal-content');
+      
+      modal.classList.remove('pointer-events-none');
+      modal.classList.add('opacity-100');
+      content.classList.remove('translate-y-8');
+      content.classList.add('translate-y-0');
+    }
+
+    function closeShowcaseModal(event) {
+      const modal = document.getElementById('showcase-modal');
+      const content = document.getElementById('showcase-modal-content');
+      
+      modal.classList.add('pointer-events-none');
+      modal.classList.remove('opacity-100');
+      content.classList.remove('translate-y-0');
+      content.classList.add('translate-y-8');
+    }
+
+
+    // 3. Replay GSAP reveal demo words
+    function triggerGsapDemo() {
+      const w1 = document.getElementById('gsap-demo-word-1');
+      const w2 = document.getElementById('gsap-demo-word-2');
+      
+      w1.style.transform = 'translateY(112%)';
+      w2.style.transform = 'translateY(112%)';
+      
+      setTimeout(() => {
+        w1.style.transform = 'translateY(0%)';
+      }, 150);
+      setTimeout(() => {
+        w2.style.transform = 'translateY(0%)';
+      }, 350);
+    }
+    // Run once initially
+    setTimeout(triggerGsapDemo, 500);
+
+
+    // 4. Hero copy metrics rotating carousel
+    const metricsCopy = [
+      "Prosperidade com propósito, ordem e leveza.",
+      "Estratégia, consultoria financeira e governança para escritórios que querem crescer.",
+      "13 anos de experiência. 200+ escritórios atendidos em todo o Brasil."
+    ];
+    const rotatingTextEl = document.getElementById('hero-rotating-copy');
+    const metricDots = document.querySelectorAll('.hero-dot');
+    let copyIndex = 0;
+
+    if (rotatingTextEl && metricDots.length) {
+      setInterval(() => {
+        copyIndex = (copyIndex + 1) % metricsCopy.length;
+        rotatingTextEl.style.opacity = '0';
+        
+        setTimeout(() => {
+          rotatingTextEl.textContent = metricsCopy[copyIndex];
+          metricDots.forEach((dot, dIdx) => {
+            if (dIdx === copyIndex) {
+              dot.classList.remove('bg-navy/20');
+              dot.classList.add('bg-gold');
+            } else {
+              dot.classList.remove('bg-gold');
+              dot.classList.add('bg-navy/20');
+            }
+          });
+          rotatingTextEl.style.opacity = '1';
+        }, 350);
+
+      }, 5000);
+    }
+
+
+    // 5. GSAP triggers for page sections
+    document.addEventListener("DOMContentLoaded", function() {
+      // Reveal words in hero section
+      gsap.to('.reveal-word', {
+        y: '0%',
+        duration: 1.25,
+        ease: 'power4.out',
+        stagger: 0.08
+      });
+
+      // Scroll reveals for headings
+      gsap.utils.toArray('section').forEach((sect) => {
+        const titleWords = sect.querySelectorAll('.section-reveal-word');
+        const cards = sect.querySelectorAll('.fade-section');
+
+        if (titleWords.length) {
+          gsap.to(titleWords, {
+            y: '0%',
+            duration: 1.2,
+            ease: 'power4.out',
+            stagger: 0.05,
+            scrollTrigger: {
+              trigger: sect,
+              start: 'top 80%',
+              once: true
+            }
+          });
+        }
+
+        if (cards.length) {
+          gsap.from(cards, {
+            y: 30,
+            opacity: 0,
+            duration: 1.0,
+            ease: 'power3.out',
+            stagger: 0.15,
+            scrollTrigger: {
+              trigger: cards[0],
+              start: 'top 85%',
+              once: true
+            }
+          });
+        }
+      });
+
+    });
+  </script>
+</body>
+</html>

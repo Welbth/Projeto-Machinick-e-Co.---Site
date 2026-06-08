@@ -1,0 +1,2078 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Machnick & Co. | Estratégia e Gestão para Escritórios de Advocacia</title>
+  <meta name="description" content="Estratégia, consultoria financeira e governança para escritórios de advocacia que querem crescer com método e sem ruído."/>
+
+  <!-- CDNs - Loaded in the specified order -->
+  <!-- 1. Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400&family=Sora:wght@400;600&display=swap" rel="stylesheet">
+  <!-- 2. Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 3. GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <!-- 4. ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- 5. Split-Type -->
+  <script src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
+  <!-- 6. Lenis -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <!-- 7. Iconify Icon -->
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+
+  <!-- Tailwind Configuration matching the design system -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              DEFAULT: '#152950',
+              mid: '#1e3d70',
+            },
+            gold: {
+              DEFAULT: '#D4AF37',
+              light: '#F5ECC8',
+            },
+            cream: '#F7F5F0',
+            white: '#FFFFFF',
+            ink: '#1a1a1a',
+            muted: '#888888',
+          },
+          fontFamily: {
+            sans: ['Sora', 'sans-serif'],
+            serif: ['Cormorant Garamond', 'serif'],
+          },
+          animation: {
+            'pulse-slow': 'pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            'pulse-slow': {
+              '0%, 100%': { opacity: '0.15' },
+              '50%': { opacity: '0.35' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom CSS for specialized layout, noise texture, and GSAP mask splits -->
+  <style>
+    body {
+      font-family: 'Sora', sans-serif;
+      font-weight: 400;
+      background-color: #F7F5F0;
+      color: #1a1a1a;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4, .serif {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+    }
+    
+    /* Noise Texture Overlay from the Design System */
+    .noise-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+      opacity: .28;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, .06), transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(36, 26, 22, .04), transparent 25%),
+        radial-gradient(circle at 50% 90%, rgba(212, 175, 55, .07), transparent 35%);
+    }
+
+    /* Canvas Particle Background */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0; /* Animated by GSAP to 0.5 */
+    }
+
+    /* Asymmetric Grid for Hero on Desktop (55/45 split) */
+    @media (min-width: 1024px) {
+      .hero-grid {
+        display: grid !important;
+        grid-template-columns: 55fr 45fr !important;
+      }
+    }
+
+    /* CSS styling for Split-Type reveal lines */
+    .line {
+      overflow: hidden;
+      display: block;
+      vertical-align: bottom;
+    }
+    .word {
+      display: inline-block;
+      transform: translateY(110%);
+    }
+
+    /* Hide scrollbar utility */
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Interactive Menu transitions */
+    .menu-item {
+      transition: background-color 300ms ease, border-color 300ms ease;
+    }
+    .menu-item .menu-num,
+    .menu-item .menu-title,
+    .menu-item .menu-desc-container,
+    .menu-item .menu-indicator {
+      transition: all 300ms ease;
+    }
+
+    /* Custom Ambient Glow Orb */
+    .mac-ambient-glow {
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, rgba(21, 41, 80, 0) 70%);
+      filter: blur(60px);
+    }
+
+    /* Layout Blueprint grids */
+    .blueprint-grid {
+      background-size: 20px 20px;
+      background-image: linear-gradient(to right, rgba(212, 175, 55, 0.05) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+    }
+    .blueprint-element {
+      border: 1px dashed #D4AF37;
+      background-color: rgba(212, 175, 55, 0.02);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-gold selection:text-white">
+
+  <!-- Background overlay textures -->
+  <div class="noise-bg"></div>
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Sticky Luxury Navigation -->
+  <nav class="fixed top-0 left-0 w-full z-50 bg-cream/80 backdrop-blur-md border-b border-navy/10 transition-all duration-300">
+    <div class="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 flex h-20 items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a class="flex items-center group" href="#">
+        <img class="h-16 w-auto object-contain transition-transform duration-500 group-hover:scale-102" src="Logo Machinick & Co..webp" alt="Machnick & Co. Logo" />
+      </a>
+      
+      <!-- Anchors Nav List (Horizontal scroll on mobile, flex on desktop) -->
+      <div class="flex gap-5 md:gap-6 text-[10px] uppercase tracking-widest font-semibold text-muted overflow-x-auto py-2 hide-scrollbar">
+        <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#servicos">Serviços</a>
+        <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#academia-mac">Academia</a>
+        <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#comunidade-mac">Comunidade</a>
+        <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#sobre">Sobre</a>
+        <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#depoimentos">Depoimentos</a>
+      </div>
+      
+      <!-- Launch Live CTA -->
+      <div class="hidden sm:flex items-center">
+        <a class="group relative px-5 py-2.5 bg-navy text-white text-[9px] uppercase tracking-widest font-semibold overflow-hidden border border-navy cursor-pointer" onclick="openShowcaseModal()">
+          <span class="relative z-10 group-hover:text-navy transition-colors duration-300 flex items-center gap-1.5">
+            Diagnóstico
+            <iconify-icon icon="lucide:arrow-right" width="12"></iconify-icon>
+          </span>
+          <div class="absolute inset-0 h-full w-full bg-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Main Section -->
+  <main class="w-full min-h-[80vh] lg:min-h-[85vh] flex flex-col items-center justify-start pt-32 pb-12 md:pt-40 md:pb-16 lg:pt-36 lg:pb-12">
+    <div class="hero-grid grid grid-cols-1 lg:gap-16 items-center w-full max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 gap-12">
+      
+      <!-- Left Column: Copy -->
+      <div class="flex flex-col justify-center items-start space-y-6 md:space-y-8 order-2 lg:order-1">
+        
+        <!-- Eyebrow -->
+        <div id="hero-eyebrow" class="flex items-center gap-4 text-[10px] md:text-xs uppercase tracking-[0.25em] text-gold font-semibold opacity-0">
+          <span class="w-12 h-[1px] bg-gold block shrink-0"></span>
+          <span>Curitiba · Rio de Janeiro · Nova York</span>
+        </div>
+        
+        <!-- H1 Title -->
+        <h1 id="hero-title" class="text-4xl md:text-5xl lg:text-[5.5rem] leading-[1.05] serif text-navy tracking-tight opacity-0">
+          Prosperidade com propósito, ordem e leveza.
+        </h1>
+
+        <!-- Decorative Gold Divider Line -->
+        <div id="hero-divider" class="w-12 h-[1px] bg-gold opacity-0 origin-left"></div>
+
+        <!-- Description Paragraph -->
+        <p id="hero-description" class="text-sm md:text-base lg:text-lg text-muted max-w-xl font-normal leading-relaxed opacity-0">
+          Estratégia, consultoria financeira e governança para escritórios de advocacia que querem crescer — com método e sem ruído.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div id="hero-ctas" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-6 w-full sm:w-auto opacity-0">
+          
+          <!-- Primary Navy Button -->
+          <a id="hero-primary-btn" class="group relative px-8 py-4 bg-navy text-white text-xs uppercase tracking-widest font-semibold text-center overflow-hidden border border-navy shadow-sm transition-all duration-300 opacity-0" href="#servicos">
+            <span class="relative z-10 transition-colors duration-300">Conheça nossos serviços</span>
+            <div class="absolute inset-0 h-full w-full bg-navy-mid transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+          </a>
+          
+          <!-- Secondary WhatsApp Link -->
+          <a id="hero-secondary-link" class="group flex items-center justify-center gap-3 text-xs uppercase tracking-widest font-semibold text-navy hover:text-gold transition-colors duration-300 opacity-0" href="https://wa.me/5541999999999">
+            <span>Falar com especialista</span>
+            <iconify-icon class="transform group-hover:translate-x-1 transition-transform duration-300 text-base" icon="lucide:arrow-right" width="16"></iconify-icon>
+          </a>
+          
+        </div>
+
+      </div>
+
+      <!-- Right Column: Image and Caption -->
+      <div class="flex flex-col items-center lg:items-start w-full order-1 lg:order-2">
+        
+        <!-- Image Container -->
+        <div id="hero-photo-container" class="w-full max-w-[340px] md:max-w-[380px] lg:max-w-[400px] aspect-[4/3] md:aspect-[3/4] bg-cream overflow-hidden shadow-[0_20px_50px_rgba(21,41,80,0.15)] opacity-0" style="clip-path: inset(100% 0 0 0);">
+          <img id="hero-photo" class="w-full h-full object-cover" src="foto-hero-bia-founder.webp" alt="Beatriz Machnick - Founder" />
+        </div>
+        
+        <!-- Caption -->
+        <div id="hero-caption" class="mt-4 flex flex-col items-center lg:items-start opacity-0">
+          <span class="text-sm font-semibold text-navy">Beatriz Machnick</span>
+          <span class="text-xs text-muted font-normal mt-0.5">Fundadora · Machnick & Co.</span>
+        </div>
+        
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Metrics Section -->
+  <section id="hero-metrics" class="w-full bg-cream py-12 md:py-16 border-t border-navy/10 relative z-10">
+    <div class="w-full max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-12 md:gap-y-16 md:gap-x-0 lg:gap-x-0">
+        
+        <!-- Metric Column 1: 13 years -->
+        <div class="flex flex-col justify-center items-start pb-8 md:pb-0 md:pr-8 lg:pr-12 border-b md:border-b-0 md:border-r border-navy/10 opacity-0 transform translate-y-5 metric-col">
+          <span class="metric-value font-serif text-[64px] md:text-[72px] text-navy leading-none font-normal" data-target="13">0</span>
+          <p class="text-xs text-muted font-normal leading-normal mt-2 max-w-[200px]">anos de experiência em gestão jurídica</p>
+        </div>
+
+        <!-- Metric Column 2: 200+ offices -->
+        <div class="flex flex-col justify-center items-start pt-8 pb-8 md:py-0 md:pl-8 lg:px-12 border-b md:border-b-0 border-navy/10 md:border-r-0 lg:border-r opacity-0 transform translate-y-5 metric-col">
+          <div class="flex items-start">
+            <span class="metric-value font-serif text-[64px] md:text-[72px] text-navy leading-none font-normal" data-target="200">0</span>
+            <span class="font-serif text-[36px] md:text-[40px] text-gold leading-none select-none font-normal mt-1">+</span>
+          </div>
+          <p class="text-xs text-muted font-normal leading-normal mt-2 max-w-[200px]">escritórios atendidos em todo o Brasil</p>
+        </div>
+
+        <!-- Metric Column 3: 5 books -->
+        <div class="flex flex-col justify-center items-start pt-8 pb-8 md:py-0 md:pr-8 lg:px-12 border-b md:border-b-0 md:border-r border-navy/10 opacity-0 transform translate-y-5 metric-col">
+          <span class="metric-value font-serif text-[64px] md:text-[72px] text-navy leading-none font-normal" data-target="5">0</span>
+          <p class="text-xs text-muted font-normal leading-normal mt-2 max-w-[200px]">livros publicados pela Editora Juruá</p>
+        </div>
+
+        <!-- Metric Column 4: 3 cities -->
+        <div class="flex flex-col justify-center items-start pt-8 md:pt-0 md:pl-8 lg:pl-12 opacity-0 transform translate-y-5 metric-col">
+          <span class="metric-value font-serif text-[64px] md:text-[72px] text-navy leading-none font-normal" data-target="3">0</span>
+          <div class="mt-2 flex flex-col">
+            <span class="text-xs text-muted font-normal leading-normal">cidades</span>
+            <span class="text-[10px] text-muted/75 font-normal mt-0.5 tracking-wide">Curitiba · Rio · Nova York</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section (Interactive Horizontal Tabs) -->
+  <section id="servicos" class="w-full bg-cream py-20 lg:py-24 border-t border-navy/10 relative z-10">
+    <div id="services-container" class="w-full max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 flex flex-col">
+      
+      <!-- TOPO DA SEÇÃO -->
+      <div class="flex flex-col items-start mb-12">
+        <span id="services-eyebrow" class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block mb-3 opacity-0">SERVIÇOS</span>
+        <h2 id="services-title" class="font-serif text-[clamp(32px,3.5vw,48px)] text-navy leading-tight font-normal opacity-0">
+          O que construímos para o seu escritório.
+        </h2>
+      </div>
+
+      <!-- BARRA DE TABS -->
+      <div id="services-tabs-container" class="w-full flex flex-row border-b border-navy/10 overflow-x-auto hide-scrollbar mb-12 opacity-0">
+        <button onclick="switchPanel(1)" id="menu-item-1" class="py-[14px] px-[32px] font-sans font-semibold text-[11px] uppercase tracking-wide rounded-none border-b-2 bg-transparent border-gold text-navy transition-colors duration-200 focus:outline-none whitespace-nowrap">
+          01 · Consultoria Financeira
+        </button>
+        <button onclick="switchPanel(2)" id="menu-item-2" class="py-[14px] px-[32px] font-sans font-semibold text-[11px] uppercase tracking-wide rounded-none border-b-2 bg-transparent border-transparent text-muted hover:text-navy transition-colors duration-200 focus:outline-none whitespace-nowrap">
+          02 · Terceirização Financeira
+        </button>
+        <button onclick="switchPanel(3)" id="menu-item-3" class="py-[14px] px-[32px] font-sans font-semibold text-[11px] uppercase tracking-wide rounded-none border-b-2 bg-transparent border-transparent text-muted hover:text-navy transition-colors duration-200 focus:outline-none whitespace-nowrap">
+          03 · Portal & Plataforma
+        </button>
+      </div>
+
+      <!-- ÁREA DE CONTEÚDO -->
+      <div id="services-panels-container" class="w-full relative">
+        
+        <!-- PAINEL 1 — Consultoria Financeira & Precificação -->
+        <div id="panel-1" class="w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          
+          <!-- Coluna Esquerda -->
+          <div class="flex flex-col justify-start items-start w-full">
+            <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block">SERVIÇO 01</span>
+            <h3 class="font-serif text-[clamp(32px,3.5vw,48px)] text-navy leading-tight font-normal mt-3">
+              Consultoria Financeira & Precificação
+            </h3>
+            <p class="font-sans text-[15px] text-ink leading-[1.7] mt-4 font-normal">
+              Construímos a engenharia financeira do escritório — do orçamento ao BI — para que cada decisão da sociedade seja feita com método, dado e tranquilidade.
+            </p>
+
+            <!-- List of deliveries -->
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2.5 mt-6 w-full">
+              <li class="flex items-start gap-3 text-[13px] text-ink font-sans font-normal">
+                <iconify-icon icon="lucide:check" class="text-gold mt-1 shrink-0" width="16"></iconify-icon>
+                <span>Potencial de faturamento e precificação de honorários</span>
+              </li>
+              <li class="flex items-start gap-3 text-[13px] text-ink font-sans font-normal">
+                <iconify-icon icon="lucide:check" class="text-gold mt-1 shrink-0" width="16"></iconify-icon>
+                <span>Lucratividade por contrato e linha de serviço</span>
+              </li>
+              <li class="flex items-start gap-3 text-[13px] text-ink font-sans font-normal">
+                <iconify-icon icon="lucide:check" class="text-gold mt-1 shrink-0" width="16"></iconify-icon>
+                <span>Orçamento anual e plano de carreira</span>
+              </li>
+              <li class="flex items-start gap-3 text-[13px] text-ink font-sans font-normal">
+                <iconify-icon icon="lucide:check" class="text-gold mt-1 shrink-0" width="16"></iconify-icon>
+                <span>Fluxo de caixa e gestão de capital de giro</span>
+              </li>
+              <li class="flex items-start gap-3 text-[13px] text-ink font-sans font-normal">
+                <iconify-icon icon="lucide:check" class="text-gold mt-1 shrink-0" width="16"></iconify-icon>
+                <span>Business Intelligence aplicado à advocacia</span>
+              </li>
+            </ul>
+
+            <!-- Highlight Card Portal -->
+            <div class="mt-5 p-[14px_18px] bg-gold-light border-l-2 border-gold w-full">
+              <span class="text-xs font-semibold text-navy font-sans block">Inclui acesso ao Portal do Cliente</span>
+              <span class="text-[13px] text-ink font-normal leading-relaxed font-sans mt-0.5 block">Entregas, documentos, cronograma e indicadores em tempo real.</span>
+            </div>
+
+            <!-- CTA -->
+            <div class="mt-5">
+              <a class="group inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-navy hover:text-gold transition-colors duration-300 cursor-pointer" onclick="openShowcaseModal()">
+                <span>Solicitar diagnóstico</span>
+                <span class="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Coluna Direita -->
+          <div class="w-full flex justify-center items-center">
+            <!-- Dashboard Mockup Card -->
+            <div class="bg-white border-[0.5px] border-navy/15 rounded-none p-6 w-full shadow-sm flex flex-col justify-between h-[320px]">
+              <!-- Top bar -->
+              <div class="flex justify-between items-center w-full">
+                <span class="text-[9px] font-sans font-semibold text-muted tracking-wider uppercase">DASHBOARD · CONSULTORIA</span>
+                <div class="flex items-center gap-1.5">
+                  <span class="relative flex h-1.5 w-1.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                  </span>
+                  <span class="text-[9px] font-sans font-semibold text-emerald-600 tracking-wider">AO VIVO</span>
+                </div>
+              </div>
+
+              <!-- KPIs grid -->
+              <div class="grid grid-cols-3 divide-x divide-navy/10 py-1 gap-1">
+                <div class="flex flex-col pr-2">
+                  <span class="text-[8px] font-sans font-semibold text-muted uppercase tracking-wider mb-1">RECEITA</span>
+                  <span class="text-2xl font-serif text-navy leading-none font-normal">R$ 3,77 mi</span>
+                  <span class="text-[9px] font-sans font-semibold text-emerald-600 mt-1.5">+18% YoY</span>
+                </div>
+                <div class="flex flex-col px-3">
+                  <span class="text-[8px] font-sans font-semibold text-muted uppercase tracking-wider mb-1">MARGEM</span>
+                  <span class="text-2xl font-serif text-navy leading-none font-normal">66%</span>
+                  <span class="text-[9px] font-sans font-semibold text-emerald-600 mt-1.5">+4 p.p.</span>
+                </div>
+                <div class="flex flex-col pl-3">
+                  <span class="text-[8px] font-sans font-semibold text-muted uppercase tracking-wider mb-1">TICKET MÉDIO</span>
+                  <span class="text-2xl font-serif text-navy leading-none font-normal">R$ 1.871</span>
+                  <span class="text-[9px] font-sans font-semibold text-emerald-600 mt-1.5">+9%</span>
+                </div>
+              </div>
+
+              <!-- SVG Graph Area -->
+              <div class="w-full relative flex flex-col justify-end">
+                <svg class="w-full h-[72px] overflow-visible" viewBox="0 0 400 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M 0 54 Q 80 50, 120 36 T 240 27 T 360 14 T 400 9 L 400 72 L 0 72 Z" fill="#152950" fill-opacity="0.1" />
+                  <path id="dashboard-chart-path" d="M 0 54 Q 80 50, 120 36 T 240 27 T 360 14 T 400 9" fill="none" stroke="#152950" stroke-width="1.5" />
+                </svg>
+                <div class="flex justify-between items-center text-[9px] font-sans font-semibold text-muted mt-1 px-1">
+                  <span>jan</span>
+                  <span>fev</span>
+                  <span>mar</span>
+                  <span>abr</span>
+                  <span>mai</span>
+                  <span>jun</span>
+                  <span>jul</span>
+                </div>
+              </div>
+
+              <!-- Footer of mockup -->
+              <div class="text-left">
+                <span class="text-[10px] font-sans text-muted font-normal">Modelo ilustrativo · indicadores customizados por escritório</span>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+
+        <!-- PAINEL 2 — Terceirização do Departamento Financeiro -->
+        <div id="panel-2" class="w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start hidden">
+          
+          <!-- Coluna Esquerda -->
+          <div class="flex flex-col justify-start items-start w-full">
+            <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block">SERVIÇO 02</span>
+            <h3 class="font-serif text-[clamp(32px,3.5vw,48px)] text-navy leading-tight font-normal mt-3">
+              Terceirização do Departamento Financeiro
+            </h3>
+            <p class="font-sans text-[15px] text-ink leading-[1.7] mt-4 font-normal">
+              Sua operação financeira sob nossa régua: contas a pagar e receber, conciliação, cobrança e relatórios — com governança, prazo e auditoria.
+            </p>
+
+            <!-- List of deliveries -->
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2.5 mt-6 w-full">
+              <li class="flex items-start gap-3 text-[13px] text-ink font-sans font-normal">
+                <iconify-icon icon="lucide:check" class="text-gold mt-1 shrink-0" width="16"></iconify-icon>
+                <span>Contas a pagar e a receber, com SLA</span>
+              </li>
+              <li class="flex items-start gap-3 text-[13px] text-ink font-sans font-normal">
+                <iconify-icon icon="lucide:check" class="text-gold mt-1 shrink-0" width="16"></iconify-icon>
+                <span>Emissão e gestão de notas fiscais</span>
+              </li>
+              <li class="flex items-start gap-3 text-[13px] text-ink font-sans font-normal">
+                <iconify-icon icon="lucide:check" class="text-gold mt-1 shrink-0" width="16"></iconify-icon>
+                <span>Conciliação bancária e gestão de caixa</span>
+              </li>
+              <li class="flex items-start gap-3 text-[13px] text-ink font-sans font-normal">
+                <iconify-icon icon="lucide:check" class="text-gold mt-1 shrink-0" width="16"></iconify-icon>
+                <span>Régua de cobrança consultiva</span>
+              </li>
+              <li class="flex items-start gap-3 text-[13px] text-ink font-sans font-normal">
+                <iconify-icon icon="lucide:check" class="text-gold mt-1 shrink-0" width="16"></iconify-icon>
+                <span>Relatórios mensais e reuniões de fechamento</span>
+              </li>
+            </ul>
+
+            <!-- Highlight Card Portal -->
+            <div class="mt-5 p-[14px_18px] bg-gold-light border-l-2 border-gold w-full">
+              <span class="text-xs font-semibold text-navy font-sans block">Inclui acesso ao Portal do Cliente</span>
+              <span class="text-[13px] text-ink font-normal leading-relaxed font-sans mt-0.5 block">Acompanhe lançamentos, entregas e indicadores do dia a dia.</span>
+            </div>
+
+            <!-- CTA -->
+            <div class="mt-5">
+              <a class="group inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-navy hover:text-gold transition-colors duration-300 cursor-pointer" onclick="openShowcaseModal()">
+                <span>Conhecer o BPO Financeiro</span>
+                <span class="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Coluna Direita -->
+          <div class="w-full flex justify-center items-center">
+            <!-- Table Mockup Card -->
+            <div class="bg-white border-[0.5px] border-navy/15 rounded-none p-0 w-full shadow-sm flex flex-col justify-between overflow-hidden">
+              <!-- Tabs -->
+              <div class="flex border-b-[0.5px] border-navy/10 gap-[24px] px-[24px] h-11 items-center text-[10px] font-sans tracking-wider">
+                <span class="text-navy font-semibold border-b-2 border-gold h-full flex items-center cursor-pointer select-none">CONTAS A PAGAR</span>
+                <span class="text-muted font-normal hover:text-navy cursor-pointer transition-colors duration-300 h-full flex items-center select-none">RECEBÍVEIS</span>
+                <span class="text-muted font-normal hover:text-navy cursor-pointer transition-colors duration-300 h-full flex items-center select-none">COBRANÇA</span>
+              </div>
+
+              <!-- Table -->
+              <div class="px-[24px] w-full overflow-x-auto hide-scrollbar">
+                <table class="w-full text-left font-sans text-ink table-fixed min-w-[380px]">
+                  <thead>
+                    <tr class="h-10 border-b border-navy/5 text-[8px] font-sans font-semibold text-muted uppercase tracking-wider">
+                      <th class="pb-1 w-14">Data</th>
+                      <th class="pb-1 text-left">Descrição</th>
+                      <th class="pb-1 text-center w-24">Status</th>
+                      <th class="pb-1 text-right w-20">Valor</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bpo-table-rows">
+                    <tr class="h-11 border-b-[0.5px] border-navy/[0.06] opacity-0">
+                      <td class="text-[11px] text-muted font-normal whitespace-nowrap">25 abr</td>
+                      <td class="text-[13px] text-ink font-normal truncate pr-2">Folha de pagamento — staff</td>
+                      <td class="text-center">
+                        <span class="text-[9px] font-semibold bg-[#F5ECC8] text-[#92400e] px-2 py-0.5 select-none uppercase tracking-wide rounded-none">A Vencer</span>
+                      </td>
+                      <td class="text-[13px] font-semibold text-navy text-right">R$ 87.731</td>
+                    </tr>
+                    <tr class="h-11 border-b-[0.5px] border-navy/[0.06] opacity-0">
+                      <td class="text-[11px] text-muted font-normal whitespace-nowrap">22 abr</td>
+                      <td class="text-[13px] text-ink font-normal truncate pr-2">Software jurídico · anual</td>
+                      <td class="text-center">
+                        <span class="text-[9px] font-semibold bg-navy/[0.08] text-navy px-2 py-0.5 select-none uppercase tracking-wide rounded-none">Conciliado</span>
+                      </td>
+                      <td class="text-[13px] font-semibold text-navy text-right">R$ 33.554</td>
+                    </tr>
+                    <tr class="h-11 border-b-[0.5px] border-navy/[0.06] opacity-0">
+                      <td class="text-[11px] text-muted font-normal whitespace-nowrap">20 abr</td>
+                      <td class="text-[13px] text-ink font-normal truncate pr-2">Plano de saúde sócios</td>
+                      <td class="text-center">
+                        <span class="text-[9px] font-semibold bg-[#e8f5e9] text-[#2e7d32] px-2 py-0.5 select-none uppercase tracking-wide rounded-none">Pago</span>
+                      </td>
+                      <td class="text-[13px] font-semibold text-navy text-right">R$ 42.077</td>
+                    </tr>
+                    <tr class="h-11 border-b-[0.5px] border-navy/[0.06] opacity-0">
+                      <td class="text-[11px] text-muted font-normal whitespace-nowrap">18 abr</td>
+                      <td class="text-[13px] text-ink font-normal truncate pr-2">Assessoria contábil</td>
+                      <td class="text-center">
+                        <span class="text-[9px] font-semibold bg-[#e8f5e9] text-[#2e7d32] px-2 py-0.5 select-none uppercase tracking-wide rounded-none">Pago</span>
+                      </td>
+                      <td class="text-[13px] font-semibold text-navy text-right">R$ 12.300</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Table Footer -->
+              <div class="border-t-[0.5px] border-navy/10 py-[14px] px-[24px] flex justify-between items-center bg-white">
+                <span class="text-[9px] font-sans font-semibold text-muted uppercase tracking-wider">SALDO PREVISTO · PRÓXIMOS 30 DIAS</span>
+                <span class="text-[28px] font-serif text-navy font-normal leading-none">R$ 1.240k</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- PAINEL 3 — Portal & Plataforma de Indicadores -->
+        <div id="panel-3" class="w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start hidden">
+          
+          <!-- Coluna Esquerda -->
+          <div class="flex flex-col justify-start items-start w-full">
+            <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block">TECNOLOGIA</span>
+            <h3 class="font-serif text-[clamp(32px,3.5vw,48px)] text-navy leading-tight font-normal mt-3">
+              Portal do Cliente e Plataforma de Indicadores.
+            </h3>
+            <p class="font-sans text-[15px] text-ink leading-[1.7] mt-4 font-normal">
+              Toda consultoria e operação financeira da Machnick & Co. é entregue com acesso a um ambiente digital próprio — para que sócios e gestores enxerguem, em tempo real, o que está sendo construído.
+            </p>
+          </div>
+          
+          <!-- Coluna Direita -->
+          <div class="flex flex-col gap-8 w-full">
+            <!-- Pillar 1 -->
+            <div class="flex flex-col items-start gap-2">
+              <div class="flex items-start">
+                <span class="font-serif text-[48px] text-gold leading-none select-none font-normal mt-0.5">+</span>
+                <span id="pilar-count" class="font-serif text-[48px] text-gold leading-none font-normal" data-target="50">0</span>
+              </div>
+              <span class="text-[9px] font-semibold text-gold/70 uppercase tracking-wide block">INDICADORES PRONTOS</span>
+              <p class="text-[13px] text-ink leading-[1.6] mt-1 font-normal">
+                Modelos financeiros e jurídicos consagrados, customizáveis para a operação do seu escritório.
+              </p>
+            </div>
+
+            <!-- Pillar 2 -->
+            <div class="flex flex-col items-start gap-2 border-t border-navy/10 pt-6">
+              <span class="font-serif text-[48px] text-navy leading-none font-normal">Real-time</span>
+              <span class="text-[9px] font-semibold text-muted uppercase tracking-wide block">ATUALIZAÇÃO CONTÍNUA</span>
+              <p class="text-[13px] text-ink leading-[1.6] mt-1 font-normal">
+                Integramos com seu sistema jurídico e financeiro — os números refletem o estado atual da operação.
+              </p>
+            </div>
+
+            <!-- Pillar 3 -->
+            <div class="flex flex-col items-start gap-2 border-t border-navy/10 pt-6">
+              <span class="font-serif text-[48px] text-navy leading-none font-normal">PDF · Excel</span>
+              <span class="text-[9px] font-semibold text-muted uppercase tracking-wide block">EXPORTAÇÃO EXECUTIVA</span>
+              <p class="text-[13px] text-ink leading-[1.6] mt-1 font-normal">
+                Relatórios prontos para a reunião da sociedade ou para a apresentação ao conselho.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Academia MAC Section -->
+  <section id="academia-mac" class="w-full bg-navy text-white py-20 lg:py-24 border-t border-navy-mid relative z-10 overflow-hidden">
+    <!-- Ambient Glow in Background -->
+    <div class="absolute -top-10 left-10 lg:left-1/3 w-[350px] h-[350px] bg-gold/5 mac-ambient-glow rounded-full filter blur-[90px] animate-pulse-slow pointer-events-none z-0"></div>
+    
+    <div class="w-full max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        
+        <!-- LEFT COLUMN: Copy Intro & Logistics -->
+        <div id="mac-copy-col" class="lg:col-span-5 flex flex-col justify-start items-start space-y-6 opacity-0 -translate-x-10">
+          
+          <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block">ACADEMIA MAC · IMERSÃO PRESENCIAL</span>
+          
+          <h2 class="font-serif text-[clamp(32px,3.5vw,48px)] text-white leading-tight font-normal mt-2">
+            A formação autoral para sócios que querem mudar o jogo.
+          </h2>
+          
+          <p class="font-sans text-[15px] text-white/70 leading-[1.7] max-w-lg font-normal mt-2">
+            A Academia MAC é o nosso programa autoral de Modernização da Advocacia Contemporânea — uma imersão de três dias com sócios e sócias de todo o Brasil sobre estratégia, governança e crescimento.
+          </p>
+
+          <!-- Logistics in 4 columns -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-y-6 gap-x-8 pt-8 w-full border-t border-white/10 mt-6">
+            
+            <!-- Item 1: LOCAL -->
+            <div class="flex flex-col space-y-1">
+              <span class="text-[9px] font-sans font-semibold text-gold tracking-wider uppercase">LOCAL</span>
+              <span class="text-sm font-sans text-white/80 font-normal">Curitiba — PR</span>
+            </div>
+            
+            <!-- Item 2: DATA -->
+            <div class="flex flex-col space-y-1">
+              <span class="text-[9px] font-sans font-semibold text-gold tracking-wider uppercase">DATA</span>
+              <span class="text-sm font-sans text-white/80 font-normal">Julho de 2026</span>
+            </div>
+
+            <!-- Item 3: VAGAS -->
+            <div class="flex flex-col space-y-1">
+              <span class="text-[9px] font-sans font-semibold text-gold tracking-wider uppercase">VAGAS</span>
+              <span class="text-sm font-sans text-white/80 font-normal">Limitadas</span>
+            </div>
+
+            <!-- Item 4: FORMATO -->
+            <div class="flex flex-col space-y-1">
+              <span class="text-[9px] font-sans font-semibold text-gold tracking-wider uppercase">FORMATO</span>
+              <span class="text-sm font-sans text-white/80 font-normal whitespace-nowrap">Imersão de 3 dias</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: Immersive Event Card -->
+        <div id="mac-card-col" class="lg:col-span-7 flex justify-center w-full opacity-0 translate-x-10">
+          <div class="w-full max-w-[620px] bg-white/5 border border-white/10 backdrop-blur-md p-8 lg:p-10 flex flex-col justify-between shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-none relative group hover:border-gold/30 transition-colors duration-500">
+            
+            <!-- Card Top Header -->
+            <div class="flex flex-col items-start w-full">
+              <span class="text-[9px] font-sans font-semibold text-gold tracking-wider uppercase bg-gold/10 border border-gold/25 px-2.5 py-1 select-none">
+                PRESENCIAL · CURITIBA · JULHO 2026
+              </span>
+              <h3 class="font-serif text-3xl text-white mt-4 font-normal">
+                Academia MAC Presencial
+              </h3>
+              <p class="font-sans text-[13px] text-white/60 leading-relaxed mt-2.5 font-normal">
+                Três dias com a fundação da Machnick & Co., convidados especiais e um grupo seleto de sócias e sócios — para sair do operacional e voltar à mesa estratégica do escritório.
+              </p>
+            </div>
+
+            <!-- 4 Modules 2x2 Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 w-full border-t border-b border-white/10 py-8">
+              
+              <!-- Module 1 -->
+              <div class="flex flex-col space-y-1.5 p-4 bg-white/[0.02] border border-white/5 hover:border-gold/20 hover:bg-white/[0.04] transition-all duration-300 relative group/mod select-none mac-module-item opacity-0 translate-y-4">
+                <span class="font-serif text-2xl text-gold font-normal block leading-none">01</span>
+                <span class="font-sans text-sm font-semibold text-white block">Estratégia & Posicionamento</span>
+                <p class="font-sans text-xs text-white/60 leading-relaxed font-normal">Da proposta de valor à precificação consultiva.</p>
+              </div>
+
+              <!-- Module 2 -->
+              <div class="flex flex-col space-y-1.5 p-4 bg-white/[0.02] border border-white/5 hover:border-gold/20 hover:bg-white/[0.04] transition-all duration-300 relative group/mod select-none mac-module-item opacity-0 translate-y-4">
+                <span class="font-serif text-2xl text-gold font-normal block leading-none">02</span>
+                <span class="font-sans text-sm font-semibold text-white block">Governança da sociedade</span>
+                <p class="font-sans text-xs text-white/60 leading-relaxed font-normal">Acordo, distribuição, plano de carreira e sucessão.</p>
+              </div>
+
+              <!-- Module 3 -->
+              <div class="flex flex-col space-y-1.5 p-4 bg-white/[0.02] border border-white/5 hover:border-gold/20 hover:bg-white/[0.04] transition-all duration-300 relative group/mod select-none mac-module-item opacity-0 translate-y-4">
+                <span class="font-serif text-2xl text-gold font-normal block leading-none">03</span>
+                <span class="font-sans text-sm font-semibold text-white block">Operação financeira</span>
+                <p class="font-sans text-xs text-white/60 leading-relaxed font-normal">BI, indicadores e o financeiro como vantagem competitiva.</p>
+              </div>
+
+              <!-- Module 4 -->
+              <div class="flex flex-col space-y-1.5 p-4 bg-white/[0.02] border border-white/5 hover:border-gold/20 hover:bg-white/[0.04] transition-all duration-300 relative group/mod select-none mac-module-item opacity-0 translate-y-4">
+                <span class="font-serif text-2xl text-gold font-normal block leading-none">04</span>
+                <span class="font-sans text-sm font-semibold text-white block">Cultura & Liderança</span>
+                <p class="font-sans text-xs text-white/60 leading-relaxed font-normal">Times de alta performance num escritório com leveza.</p>
+              </div>
+
+            </div>
+
+            <!-- CTA Button -->
+            <div class="mt-8 w-full">
+              <a class="group relative block w-full py-4 text-xs uppercase tracking-widest font-semibold text-center overflow-hidden border border-white/20 text-white hover:text-navy cursor-pointer transition-colors duration-300" onclick="openShowcaseModal()">
+                <span class="relative z-10">Garantir minha vaga</span>
+                <div class="absolute inset-0 h-full w-full bg-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MAC Empreendedoras Section -->
+  <section id="mac-empreendedoras" class="w-full bg-cream text-ink py-20 lg:py-24 border-t border-navy/10 relative z-10 overflow-hidden">
+    <!-- Asymmetric background watermark text -->
+    <div class="absolute -bottom-6 -right-10 text-[clamp(100px,12vw,200px)] font-serif text-navy/[0.02] select-none pointer-events-none z-0">
+      EMPREENDEDORAS
+    </div>
+
+    <div class="w-full max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        
+        <!-- LEFT COLUMN: Copy Intro & Highlighted Quote -->
+        <div id="empreendedoras-copy-col" class="lg:col-span-5 flex flex-col justify-start items-start space-y-6 opacity-0 -translate-x-10">
+          
+          <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block">MAC EMPREENDEDORAS · ENCONTRO PRESENCIAL</span>
+          
+          <h2 class="font-serif text-[clamp(32px,3.5vw,48px)] text-navy leading-tight font-normal mt-2">
+            Um encontro de mulheres que lideram escritórios.
+          </h2>
+          
+          <p class="font-sans text-[15px] text-ink/75 leading-[1.7] max-w-lg font-normal mt-2">
+            A vertente social do ecossistema MAC. Uma noite de mentoria, conexão e propósito, dedicada exclusivamente a advogadas empreendedoras — sem custo, com convidadas especiais.
+          </p>
+
+          <!-- Highlighted Quote Box -->
+          <div class="relative w-full pt-8 pb-4 border-t border-navy/10 mt-6 select-none">
+            <!-- Huge quote mark -->
+            <span class="absolute top-2 left-0 font-serif text-[120px] text-gold/15 leading-none select-none pointer-events-none font-normal">“</span>
+            <p class="font-serif text-xl md:text-2xl text-navy leading-relaxed font-normal relative z-10 pl-6">
+              Liderar um escritório como advogada é, antes de tudo, um ato de coragem. Esse encontro existe para que essa coragem não seja solitária.
+            </p>
+            <span class="block text-[10px] font-sans font-semibold text-gold tracking-widest uppercase mt-4 pl-6">— BEATRIZ MACHNICK</span>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: Event Card -->
+        <div id="empreendedoras-card-col" class="lg:col-span-7 flex justify-center w-full opacity-0 translate-x-10">
+          <div class="w-full max-w-[620px] bg-white border border-navy/10 p-8 lg:p-10 flex flex-col justify-between shadow-[0_15px_40px_rgba(21,41,80,0.05)] rounded-none relative group hover:border-gold/30 transition-colors duration-500">
+            
+            <!-- Card Top Header -->
+            <div class="flex flex-col items-start w-full">
+              <span class="text-[9px] font-sans font-semibold text-gold tracking-wider uppercase bg-gold-light/40 border border-gold/25 px-2.5 py-1 select-none">
+                SEM FINS LUCRATIVOS
+              </span>
+              <h3 class="font-serif text-3xl text-navy mt-4 font-normal">
+                MAC Empreendedoras.
+              </h3>
+              <p class="font-sans text-[13px] text-ink/65 leading-relaxed mt-2.5 font-normal">
+                Uma noite editorial, em ambiente cuidadosamente escolhido, para advogadas que estão construindo seus escritórios. Mentoria, depoimentos e a troca que muda a próxima década da sua sociedade.
+              </p>
+            </div>
+
+            <!-- 4 Highlights List -->
+            <ul class="flex flex-col space-y-4 my-8 border-t border-b border-navy/10 py-6 w-full">
+              <!-- Item 1 -->
+              <li class="flex items-start text-[13px] text-ink font-sans font-normal transition-colors duration-300 hover:text-navy group/item empreendedoras-list-item opacity-0 translate-y-3">
+                <span class="text-gold font-sans font-normal text-sm mr-3 mt-0.5 select-none transition-transform duration-300 group-hover/item:scale-125">✦</span>
+                <span>Mentoria com Beatriz Machnick & convidadas</span>
+              </li>
+              <!-- Item 2 -->
+              <li class="flex items-start text-[13px] text-ink font-sans font-normal transition-colors duration-300 hover:text-navy group/item empreendedoras-list-item opacity-0 translate-y-3">
+                <span class="text-gold font-sans font-normal text-sm mr-3 mt-0.5 select-none transition-transform duration-300 group-hover/item:scale-125">✦</span>
+                <span>Painéis temáticos sobre liderança feminina</span>
+              </li>
+              <!-- Item 3 -->
+              <li class="flex items-start text-[13px] text-ink font-sans font-normal transition-colors duration-300 hover:text-navy group/item empreendedoras-list-item opacity-0 translate-y-3">
+                <span class="text-gold font-sans font-normal text-sm mr-3 mt-0.5 select-none transition-transform duration-300 group-hover/item:scale-125">✦</span>
+                <span>Networking entre sócias de todo o país</span>
+              </li>
+              <!-- Item 4 -->
+              <li class="flex items-start text-[13px] text-ink font-sans font-normal transition-colors duration-300 hover:text-navy group/item empreendedoras-list-item opacity-0 translate-y-3">
+                <span class="text-gold font-sans font-normal text-sm mr-3 mt-0.5 select-none transition-transform duration-300 group-hover/item:scale-125">✦</span>
+                <span>Renda revertida ao Instituto Machnick</span>
+              </li>
+            </ul>
+
+            <!-- CTA Button -->
+            <div class="w-full">
+              <a class="group relative block w-full py-4 text-xs uppercase tracking-widest font-semibold text-center overflow-hidden border border-navy text-navy hover:text-white cursor-pointer transition-colors duration-300" onclick="openShowcaseModal()">
+                <span class="relative z-10">Saiba mais sobre o evento</span>
+                <div class="absolute inset-0 h-full w-full bg-navy transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Instituto Machnick Section -->
+  <section id="instituto-machnick" class="w-full bg-navy text-white py-20 lg:py-24 border-t border-navy-mid relative z-10 overflow-hidden">
+    <!-- Background Blueprint Grid Pattern -->
+    <div class="absolute inset-0 blueprint-grid opacity-20 pointer-events-none z-0"></div>
+
+    <div class="w-full max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 relative z-10">
+      
+      <!-- Row 1: Intro & Metrics/Quote (asymmetric grid) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        
+        <!-- Left Column: Copy Intro -->
+        <div id="instituto-copy-col" class="lg:col-span-6 flex flex-col justify-start items-start space-y-6 opacity-0 -translate-x-10">
+          
+          <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block">INSTITUTO MACHNICK · IMPACTO SOCIAL</span>
+          
+          <h2 class="font-serif text-[clamp(32px,3.5vw,48px)] text-white leading-tight font-normal mt-2">
+            O propósito que sustenta todo o resto.
+          </h2>
+          
+          <p class="font-sans text-[15px] text-white/70 leading-[1.7] max-w-xl font-normal mt-2">
+            O Instituto Machnick é o coração do nosso ecossistema. Uma organização sem fins lucrativos dedicada ao acolhimento de mulheres e crianças em situação de vulnerabilidade — sustentada pela renda dos cursos do MAC Empreendedoras e por doações de pessoas que acreditam, como nós, que prosperidade só faz sentido quando volta.
+          </p>
+
+          <p class="font-sans text-[15px] text-white/70 leading-[1.7] max-w-xl font-normal">
+            Cada curso, cada encontro, cada livro do ecossistema MAC carrega esse propósito: gerar prosperidade para devolvê-la onde ela é mais necessária.
+          </p>
+
+        </div>
+
+        <!-- Right Column: Metrics & Highlighted Quote Card -->
+        <div id="instituto-metrics-col" class="lg:col-span-6 flex flex-col space-y-8 w-full opacity-0 translate-x-10">
+          
+          <!-- 2 Metrics Grid -->
+          <div class="grid grid-cols-2 gap-8 border-b border-white/10 pb-6">
+            
+            <!-- Metric 1 -->
+            <div class="flex flex-col">
+              <span class="font-serif text-[54px] md:text-[64px] text-gold leading-none font-normal">+1.200</span>
+              <span class="text-xs text-white/75 font-normal leading-normal mt-2">mulheres e crianças atendidas anualmente</span>
+            </div>
+
+            <!-- Metric 2 -->
+            <div class="flex flex-col">
+              <span class="font-serif text-[54px] md:text-[64px] text-gold leading-none font-normal">100%</span>
+              <span class="text-xs text-white/75 font-normal leading-normal mt-2">da renda do MAC Empreendedoras destinada</span>
+            </div>
+
+          </div>
+
+          <!-- Highlighted Quote Card (blueprint style card) -->
+          <div class="blueprint-element p-6 md:p-8 relative rounded-none shadow-sm border-gold/30 bg-gold/5 mt-4">
+            <!-- Huge quote mark -->
+            <span class="absolute top-2 left-4 font-serif text-[120px] text-gold/10 leading-none select-none pointer-events-none font-normal">“</span>
+            <p class="font-serif text-lg md:text-xl text-white/90 leading-relaxed font-normal relative z-10 pl-6">
+              Nada do que construímos faz sentido se, no fim, não conseguir abrigar quem mais precisa.
+            </p>
+            <div class="mt-4 pl-6 flex flex-col">
+              <span class="text-xs font-sans font-semibold text-gold tracking-widest uppercase">Beatriz Machnick</span>
+              <span class="text-[10px] font-sans font-normal text-white/50 uppercase mt-0.5">Fundadora · Instituto Machnick</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Row 2: The 3 Pillars (3 columns grid) -->
+      <div id="instituto-pillars-row" class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 w-full">
+        
+        <!-- Pillar 1: Mulheres -->
+        <div class="bg-white/5 border border-white/10 hover:border-gold/30 hover:bg-white/[0.08] transition-all duration-300 p-8 rounded-none relative group/pillar select-none opacity-0 translate-y-5">
+          <!-- Subtle gold left line indicator that animates on hover -->
+          <div class="absolute left-0 top-0 bottom-0 w-[2px] bg-gold scale-y-0 group-hover/pillar:scale-y-100 transition-transform duration-500 origin-top"></div>
+          <span class="font-serif text-2xl text-gold font-normal block mb-2">Mulheres</span>
+          <p class="font-sans text-xs text-white/70 leading-relaxed font-normal">
+            Acolhimento, capacitação e reinserção para mulheres em situação de vulnerabilidade.
+          </p>
+        </div>
+
+        <!-- Pillar 2: Crianças -->
+        <div class="bg-white/5 border border-white/10 hover:border-gold/30 hover:bg-white/[0.08] transition-all duration-300 p-8 rounded-none relative group/pillar select-none opacity-0 translate-y-5">
+          <!-- Subtle gold left line indicator that animates on hover -->
+          <div class="absolute left-0 top-0 bottom-0 w-[2px] bg-gold scale-y-0 group-hover/pillar:scale-y-100 transition-transform duration-500 origin-top"></div>
+          <span class="font-serif text-2xl text-gold font-normal block mb-2">Crianças</span>
+          <p class="font-sans text-xs text-white/70 leading-relaxed font-normal">
+            Programas de educação, alimentação e desenvolvimento para crianças em comunidades parceiras.
+          </p>
+        </div>
+
+        <!-- Pillar 3: Comunidade -->
+        <div class="bg-white/5 border border-white/10 hover:border-gold/30 hover:bg-white/[0.08] transition-all duration-300 p-8 rounded-none relative group/pillar select-none opacity-0 translate-y-5">
+          <!-- Subtle gold left line indicator that animates on hover -->
+          <div class="absolute left-0 top-0 bottom-0 w-[2px] bg-gold scale-y-0 group-hover/pillar:scale-y-100 transition-transform duration-500 origin-top"></div>
+          <span class="font-serif text-2xl text-gold font-normal block mb-2">Comunidade</span>
+          <p class="font-sans text-xs text-white/70 leading-relaxed font-normal">
+            Parcerias institucionais com ONGs locais nas cidades onde a Machnick & Co. atua.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Row 3: CTAs (centered buttons) -->
+      <div id="instituto-ctas-row" class="flex flex-col sm:flex-row items-center justify-center gap-6 mt-16 w-full opacity-0 translate-y-4">
+        
+        <!-- Primary Button -->
+        <a class="group relative px-8 py-4 bg-white text-navy text-xs uppercase tracking-widest font-semibold text-center overflow-hidden border border-white/20 hover:text-navy w-full sm:w-auto cursor-pointer" onclick="openShowcaseModal()">
+          <span class="relative z-10">Conhecer o Instituto Machnick</span>
+          <div class="absolute inset-0 h-full w-full bg-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+        </a>
+
+        <!-- Secondary Link -->
+        <a class="group flex items-center justify-center gap-3 text-xs uppercase tracking-widest font-semibold text-white hover:text-gold transition-colors duration-300" href="#showcase-modal" onclick="openShowcaseModal()">
+          <span>Quero apoiar com uma doação</span>
+          <iconify-icon class="transform group-hover:translate-x-1.5 transition-transform duration-300 text-base text-gold" icon="lucide:arrow-right" width="16"></iconify-icon>
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Comunidade MAC Section -->
+  <section id="comunidade-mac" class="w-full bg-cream text-ink py-20 lg:py-24 border-t border-navy/10 relative z-10 overflow-hidden">
+    <!-- Asymmetric background watermark text -->
+    <div class="absolute -bottom-6 -left-10 text-[clamp(100px,12vw,200px)] font-serif text-navy/[0.02] select-none pointer-events-none z-0">
+      COMUNIDADE
+    </div>
+
+    <div class="w-full max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-[80px] items-center">
+        
+        <!-- COLUNA ESQUERDA — copy -->
+        <div id="comunidade-copy-col" class="flex flex-col justify-start items-start space-y-6 opacity-0 -translate-x-[32px]">
+          
+          <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block">COMUNIDADE MAC · 100% ONLINE</span>
+          
+          <h2 class="font-serif text-[clamp(32px,3.5vw,48px)] text-navy leading-tight font-normal mt-2">
+            Sua plataforma digital de gestão jurídica.
+          </h2>
+          
+          <p class="font-sans text-[14px] text-ink/75 leading-relaxed font-normal mt-2">
+            Acesso ilimitado, 24 horas por dia, de qualquer lugar. Cursos sob demanda, conteúdo exclusivo, encontros mensais ao vivo e uma comunidade ativa de advogados e advogadas comprometidos com gestão de excelência.
+          </p>
+
+          <div class="pt-4 w-full">
+            <a class="group relative block w-full py-4 text-xs uppercase tracking-widest font-semibold text-center overflow-hidden border border-navy text-white bg-navy hover:text-navy cursor-pointer transition-colors duration-300" onclick="openShowcaseModal()">
+              <span class="relative z-10">Acessar a Comunidade</span>
+              <div class="absolute inset-0 h-full w-full bg-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- COLUNA DIREITA — visual + features -->
+        <div class="flex flex-col gap-8 w-full">
+          
+          <!-- Bloco 1 — screenshot do app -->
+          <div id="comunidade-mockup-col" class="w-full opacity-0 translate-y-5">
+            <div class="w-full bg-navy rounded-none border border-navy-mid/30 shadow-[0_25px_50px_rgba(21,41,80,0.18)] aspect-[16/10] overflow-hidden relative p-4 flex flex-col z-10">
+              
+              <!-- Window Top Bar -->
+              <div class="flex justify-between items-center w-full border-b border-white/10 pb-3 mb-3 shrink-0">
+                <!-- Window dots controls -->
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80 inline-block"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-amber-500/80 inline-block"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block"></span>
+                </div>
+                <!-- Mockup Address Bar -->
+                <div class="bg-white/5 border border-white/10 rounded-sm text-[8px] text-white/40 px-6 py-1 text-center font-mono select-none w-1/2 truncate">
+                  comunidade.machnick.com.br/dashboard
+                </div>
+                <div class="w-10"></div>
+              </div>
+
+              <!-- Window Content Body -->
+              <div class="flex-grow grid grid-cols-[14fr_86fr] gap-3 overflow-hidden text-white/90">
+                
+                <!-- Sidebar Icons -->
+                <div class="border-r border-white/5 flex flex-col justify-start items-center space-y-5 pt-1">
+                  <iconify-icon icon="lucide:home" class="text-gold text-base cursor-pointer hover:text-white transition-colors" width="16"></iconify-icon>
+                  <iconify-icon icon="lucide:play-circle" class="text-white/40 text-base cursor-pointer hover:text-gold transition-colors" width="16"></iconify-icon>
+                  <iconify-icon icon="lucide:calendar" class="text-white/40 text-base cursor-pointer hover:text-gold transition-colors" width="16"></iconify-icon>
+                  <iconify-icon icon="lucide:folder" class="text-white/40 text-base cursor-pointer hover:text-gold transition-colors" width="16"></iconify-icon>
+                  <iconify-icon icon="lucide:users" class="text-white/40 text-base cursor-pointer hover:text-gold transition-colors" width="16"></iconify-icon>
+                </div>
+
+                <!-- Main Dashboard Panel -->
+                <div class="grid grid-rows-[62fr_38fr] gap-3 overflow-hidden pr-1">
+                  
+                  <!-- Top Card: Video Preview -->
+                  <div class="bg-white/[0.03] border border-white/10 p-4 flex flex-col justify-between relative overflow-hidden group/vid select-none cursor-pointer">
+                    <!-- Gradient overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/50 to-transparent opacity-70 z-0"></div>
+                    
+                    <!-- Card Top info -->
+                    <div class="flex justify-between items-center z-10">
+                      <span class="text-[8px] font-sans font-semibold text-gold/90 tracking-wider bg-gold/10 border border-gold/20 px-2 py-0.5 uppercase">AULA RECENTE</span>
+                      <span class="text-[8px] font-sans font-normal text-white/50 uppercase">MÓDULO 02 · GOVERNANÇA</span>
+                    </div>
+
+                    <!-- Interactive Glowing Play button -->
+                    <div class="absolute inset-0 flex items-center justify-center z-10">
+                      <div class="w-10 h-10 rounded-full bg-gold text-navy flex items-center justify-center shadow-md transform group-hover/vid:scale-110 transition-transform duration-300">
+                        <iconify-icon icon="lucide:play" width="16" class="ml-0.5 text-navy"></iconify-icon>
+                      </div>
+                    </div>
+
+                    <!-- Card Bottom description -->
+                    <div class="z-10 flex flex-col mt-auto">
+                      <span class="text-xs font-serif font-normal text-white">Mentoria Especial de Precificação Consultiva</span>
+                      <span class="text-[8px] font-sans text-white/50 mt-1 font-normal">Beatriz Machnick · 48 min de conteúdo</span>
+                    </div>
+                  </div>
+
+                  <!-- Bottom Widgets Row -->
+                  <div class="grid grid-cols-2 gap-3 overflow-hidden">
+                    
+                    <!-- Widget 1: Live Event -->
+                    <div class="bg-white/[0.03] border border-white/10 p-3 flex flex-col justify-between select-none">
+                      <div class="flex flex-col">
+                        <span class="text-[8px] font-sans font-semibold text-emerald-400 tracking-wider uppercase">PRÓXIMA SESSÃO</span>
+                        <span class="text-[11px] font-serif text-white font-normal mt-1 leading-snug">Mentoria Coletiva ao Vivo</span>
+                      </div>
+                      <div class="flex items-center gap-1.5 mt-2">
+                        <iconify-icon icon="lucide:calendar" width="10" class="text-gold"></iconify-icon>
+                        <span class="text-[8px] font-sans text-white/60">14 Jun · 19:00</span>
+                      </div>
+                    </div>
+
+                    <!-- Widget 2: Material Download -->
+                    <div class="bg-white/[0.03] border border-white/10 p-3 flex flex-col justify-between select-none">
+                      <div class="flex flex-col">
+                        <span class="text-[8px] font-sans font-semibold text-gold tracking-wider uppercase">BIBLIOTECA</span>
+                        <span class="text-[11px] font-serif text-white font-normal mt-1 leading-snug truncate">Checklist de Transição de Carreira</span>
+                      </div>
+                      <div class="flex items-center justify-between mt-2">
+                        <span class="text-[8px] font-sans text-white/40">PDF · 2.4 MB</span>
+                        <iconify-icon icon="lucide:download" width="12" class="text-gold cursor-pointer hover:text-white transition-colors"></iconify-icon>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Bloco 2 — 4 features em grid 2×2 -->
+          <div id="comunidade-features-grid" class="grid grid-cols-2 gap-x-6 gap-y-0 w-full">
+            
+            <!-- Item 01 -->
+            <div class="flex flex-col border-b border-navy/10 pb-2.5 select-none community-feature-item">
+              <span class="font-serif text-[18px] text-gold block leading-none mb-1">01</span>
+              <span class="font-sans text-[13px] font-semibold text-navy">Cursos sob demanda</span>
+              <p class="font-sans text-[12px] text-muted leading-relaxed font-normal mt-1">Trilhas completas para sócios, gestores e equipes.</p>
+            </div>
+
+            <!-- Item 02 -->
+            <div class="flex flex-col border-b border-navy/10 pb-2.5 select-none community-feature-item">
+              <span class="font-serif text-[18px] text-gold block leading-none mb-1">02</span>
+              <span class="font-sans text-[13px] font-semibold text-navy">Encontros mensais</span>
+              <p class="font-sans text-[12px] text-muted leading-relaxed font-normal mt-1">Convidados, casos reais e mentoria coletiva.</p>
+            </div>
+
+            <!-- Item 03 -->
+            <div class="flex flex-col pt-2.5 select-none community-feature-item">
+              <span class="font-serif text-[18px] text-gold block leading-none mb-1">03</span>
+              <span class="font-sans text-[13px] font-semibold text-navy">Biblioteca de materiais</span>
+              <p class="font-sans text-[12px] text-muted leading-relaxed font-normal mt-1">Manuais, modelos e checklists prontos para usar.</p>
+            </div>
+
+            <!-- Item 04 -->
+            <div class="flex flex-col pt-2.5 select-none community-feature-item">
+              <span class="font-serif text-[18px] text-gold block leading-none mb-1">04</span>
+              <span class="font-sans text-[13px] font-semibold text-navy">Networking entre sócios</span>
+              <p class="font-sans text-[12px] text-muted leading-relaxed font-normal mt-1">Comunidade ativa de escritórios em todo o país.</p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Editora Juruá Section -->
+  <section id="editora-jurua" class="w-full bg-navy text-white py-20 lg:py-24 border-t border-navy-mid relative z-10 overflow-hidden">
+    <!-- Asymmetric background watermark text -->
+    <div class="absolute -bottom-6 -right-10 text-[clamp(100px,12vw,200px)] font-serif text-white/[0.01] select-none pointer-events-none z-0">
+      LIVROS
+    </div>
+
+    <div class="w-full max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 relative z-10">
+      
+      <!-- Layer 1: Top Copy Row (centered copy and eyebrow) -->
+      <div id="jurua-copy-row" class="flex flex-col items-center text-center max-w-3xl mx-auto space-y-4 opacity-0 -translate-y-8">
+        
+        <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block">EDITORA JURUÁ</span>
+        
+        <h2 class="font-serif text-[clamp(32px,3.5vw,48px)] text-white leading-tight font-normal">
+          Cinco obras de referência na gestão da advocacia.
+        </h2>
+        
+        <p class="font-sans text-[14px] text-white/70 leading-relaxed font-normal max-w-xl">
+          Material aplicado, escrito por quem está em campo, sobre os temas mais críticos de quem dirige um escritório hoje — da precificação à controladoria.
+        </p>
+
+        <!-- Best seller badge -->
+        <span class="text-[9px] font-sans font-semibold text-gold tracking-wider uppercase bg-gold/10 border border-gold/25 px-2.5 py-1 select-none">
+          Entre os mais vendidos da Editora Juruá
+        </span>
+
+      </div>
+
+      <!-- Layer 2: Center Image Row (direct large centered books image) -->
+      <div id="jurua-image-row" class="flex justify-center items-center w-full relative z-10 py-10 opacity-0 translate-y-10">
+        <img class="w-full max-w-[680px] md:max-w-[760px] h-auto object-cover select-none pointer-events-none animate-float" src="livrtos.webp" alt="Livros da Editora Juruá" />
+      </div>
+
+      <!-- Layer 3: Bottom Bookshelf Row & Footer -->
+      <div id="jurua-books-row" class="w-full border-t border-white/10 pt-10 mt-6 flex flex-col space-y-8 opacity-0 translate-y-8">
+        
+        <!-- 5-Column Bookshelf Grid (Desktop horizontal row shelf, Mobile stacks) -->
+        <div id="jurua-books-list" class="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-8 w-full">
+          
+          <!-- Book 1 -->
+          <div class="flex flex-col group/book cursor-pointer transition-colors duration-300 border-b pb-4 md:border-b-0 md:pb-0 md:border-r border-white/10 md:pr-6 last:border-0 last:pr-0">
+            <span class="font-serif text-[22px] text-gold leading-none select-none mb-3">01</span>
+            <span class="font-sans text-xs font-semibold text-white/90 group-hover/book:text-gold transition-colors duration-300">
+              Gestão de Escritórios Previdenciários
+            </span>
+          </div>
+
+          <!-- Book 2 -->
+          <div class="flex flex-col group/book cursor-pointer transition-colors duration-300 border-b pb-4 md:border-b-0 md:pb-0 md:border-r border-white/10 md:pr-6 last:border-0 last:pr-0">
+            <span class="font-serif text-[22px] text-gold leading-none select-none mb-3">02</span>
+            <span class="font-sans text-xs font-semibold text-white/90 group-hover/book:text-gold transition-colors duration-300">
+              Precificação de Honorários — Controladoria Jurídica na Prática
+            </span>
+          </div>
+
+          <!-- Book 3 -->
+          <div class="flex flex-col group/book cursor-pointer transition-colors duration-300 border-b pb-4 md:border-b-0 md:pb-0 md:border-r border-white/10 md:pr-6 last:border-0 last:pr-0">
+            <span class="font-serif text-[22px] text-gold leading-none select-none mb-3">03</span>
+            <span class="font-sans text-xs font-semibold text-white/90 group-hover/book:text-gold transition-colors duration-300">
+              Gestão Financeira na Advocacia: Teoria e Prática
+            </span>
+          </div>
+
+          <!-- Book 4 -->
+          <div class="flex flex-col group/book cursor-pointer transition-colors duration-300 border-b pb-4 md:border-b-0 md:pb-0 md:border-r border-white/10 md:pr-6 last:border-0 last:pr-0">
+            <span class="font-serif text-[22px] text-gold leading-none select-none mb-3">04</span>
+            <span class="font-sans text-xs font-semibold text-white/90 group-hover/book:text-gold transition-colors duration-300">
+              Valorização dos Honorários Advocatícios
+            </span>
+          </div>
+
+          <!-- Book 5 -->
+          <div class="flex flex-col group/book cursor-pointer transition-colors duration-300 border-b pb-4 md:border-b-0 md:pb-0 last:border-0">
+            <span class="font-serif text-[22px] text-gold leading-none select-none mb-3">05</span>
+            <span class="font-sans text-xs font-semibold text-white/90 group-hover/book:text-gold transition-colors duration-300">
+              Honorários Advocatícios — Diretrizes e Estratégias na Formação de Preços para Consultivo e Contencioso
+            </span>
+          </div>
+
+        </div>
+
+        <!-- Footer block: Authors and CTA link -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between w-full gap-6 pt-6 border-t border-white/5">
+          
+          <div class="flex flex-col">
+            <span class="text-[9px] font-sans font-semibold text-white/40 uppercase tracking-wider">Autores recorrentes</span>
+            <span class="text-xs text-white/60 font-sans font-normal mt-1 leading-relaxed">
+              Beatriz Machnick · Renan Rabelo · Paloma Tavares
+            </span>
+          </div>
+
+          <a class="group flex items-center justify-center gap-3 text-xs uppercase tracking-widest font-semibold text-white hover:text-gold transition-colors duration-300 cursor-pointer" onclick="openShowcaseModal()">
+            <span>Ver todas as publicações na Juruá</span>
+            <iconify-icon class="transform group-hover:translate-x-1.5 transition-transform duration-300 text-base text-gold" icon="lucide:arrow-right" width="16"></iconify-icon>
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Seção Sobre -->
+  <section id="sobre" class="w-full bg-cream text-ink py-24 border-t border-navy/10 relative z-10 overflow-hidden">
+    <div class="w-full max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Coluna Esquerda: Foto -->
+        <div class="flex justify-center lg:justify-end w-full">
+          <div id="sobre-photo-container" class="w-full max-w-[420px] border border-navy/20 shadow-[8px_16px_0px_rgba(21,41,80,0.1)] overflow-hidden" style="clip-path: inset(0 0 100% 0);">
+            <img id="sobre-photo" class="w-full h-auto block" src="foto-hero-bia-founder.webp" alt="Beatriz Machnick" />
+          </div>
+        </div>
+        <!-- Coluna Direita: Copy -->
+        <div class="flex flex-col justify-center items-start">
+          <span id="sobre-eyebrow" class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block opacity-0">SOBRE A MACHNICK & CO.</span>
+          <h2 id="sobre-title" class="font-serif text-[clamp(32px,3.5vw,48px)] text-navy leading-tight font-normal mt-3 opacity-0">Começou no chão da operação. Virou um ecossistema.</h2>
+          <div id="sobre-paragraphs" class="mt-6 flex flex-col space-y-4">
+            <p class="font-sans text-[15px] text-ink/75 leading-[1.7] font-normal">
+              Beatriz Machnick é referência nacional em gestão de escritórios de advocacia. Ao longo de mais de uma década, construiu um corpo de trabalho aplicado, com escritórios atendidos em todo o Brasil — e uma metodologia autoral hoje conhecida como Método MAC.
+            </p>
+            <p class="font-sans text-[15px] text-ink/75 leading-[1.7] font-normal">
+              Hoje, ao lado de Renan Rabelo e do time Machnick & Co., atendemos escritórios em todo o Brasil — de Curitiba ao Rio de Janeiro, com atuação internacional em Nova York. Consultoria, terceirização, academia, comunidade, livros e plataforma de indicadores: um único ecossistema, com um único propósito — prosperidade com propósito, ordem e leveza.
+            </p>
+          </div>
+          <a id="sobre-link" href="https://instagram.com/biamachnick" target="_blank" class="group inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-navy hover:text-gold transition-colors duration-300 mt-8 opacity-0">
+            <span>@biamachnick — 80 mil profissionais acompanham</span>
+            <span class="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção Depoimentos -->
+  <section id="depoimentos" class="w-full bg-navy text-white py-24 border-t border-navy-mid relative z-10 overflow-hidden">
+    <div class="w-full max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 flex flex-col">
+      <!-- Topo centralizado -->
+      <div id="depoimentos-header" class="flex flex-col items-center text-center max-w-2xl mx-auto mb-16 opacity-0">
+        <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block">O QUE DIZEM</span>
+        <h2 class="font-serif text-[clamp(28px,3vw,42px)] text-white leading-tight font-normal mt-3">Sócias e sócios que prosperam com método.</h2>
+      </div>
+
+      <!-- 3 colunas em grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-y-12 lg:gap-y-0 lg:gap-px bg-transparent lg:bg-white/10 w-full">
+        
+        <!-- Depoimento 1 -->
+        <div class="depoimento-col bg-navy px-0 lg:px-10 py-6 flex flex-col justify-start items-start opacity-0">
+          <span class="font-serif text-[80px] text-gold/20 leading-none block mb-[-16px] select-none">“</span>
+          <p class="font-serif text-lg text-white leading-relaxed font-normal">
+            O trabalho da Machnick & Co. organizou a casa. Hoje sei exatamente onde está cada real e a precificação do escritório finalmente faz sentido.
+          </p>
+          <div class="w-6 h-[1px] bg-gold/40 my-6"></div>
+          <span class="font-sans text-[11px] font-semibold text-white tracking-widest uppercase block">Sócio</span>
+          <span class="font-sans text-[11px] text-gold/70 mt-1 block font-normal">Escritório previdenciário · São Paulo</span>
+        </div>
+
+        <!-- Depoimento 2 -->
+        <div class="depoimento-col bg-navy px-0 lg:px-10 py-6 flex flex-col justify-start items-start opacity-0">
+          <span class="font-serif text-[80px] text-gold/20 leading-none block mb-[-16px] select-none">“</span>
+          <p class="font-serif text-lg text-white leading-relaxed font-normal">
+            Saímos de uma operação artesanal para uma controladoria de verdade. A Academia MAC foi um divisor de águas para a sociedade.
+          </p>
+          <div class="w-6 h-[1px] bg-gold/40 my-6"></div>
+          <span class="font-sans text-[11px] font-semibold text-white tracking-widest uppercase block">Sócia-gestora</span>
+          <span class="font-sans text-[11px] text-gold/70 mt-1 block font-normal">Escritório empresarial · Curitiba</span>
+        </div>
+
+        <!-- Depoimento 3 -->
+        <div class="depoimento-col bg-navy px-0 lg:px-10 py-6 flex flex-col justify-start items-start opacity-0">
+          <span class="font-serif text-[80px] text-gold/20 leading-none block mb-[-16px] select-none">“</span>
+          <p class="font-serif text-lg text-white leading-relaxed font-normal">
+            Os dashboards são uma virada de chave. Tomamos decisões com dados — não com intuição — e crescemos 38% em um ano.
+          </p>
+          <div class="w-6 h-[1px] bg-gold/40 my-6"></div>
+          <span class="font-sans text-[11px] font-semibold text-white tracking-widest uppercase block">Sócio-fundador</span>
+          <span class="font-sans text-[11px] text-gold/70 mt-1 block font-normal">Escritório trabalhista · Rio de Janeiro</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção Contato -->
+  <section id="contato" class="w-full bg-cream text-ink py-24 relative z-10 border-t border-navy/10 overflow-hidden">
+    <div class="w-full max-w-[640px] mx-auto px-6 flex flex-col items-center">
+      
+      <!-- Topo centralizado -->
+      <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block text-center">FALE COM A GENTE</span>
+      <h2 id="contato-title" class="font-serif text-[clamp(32px,4vw,52px)] text-navy leading-tight font-normal text-center mt-3 opacity-0">Pronto para transformar a gestão do seu escritório?</h2>
+      <p id="contato-desc" class="font-sans text-sm md:text-[15px] text-ink/75 leading-[1.7] text-center mt-5 opacity-0">
+        Agende uma conversa de 30 minutos com a Machnick & Co. — e descubra, sem compromisso, o que é possível quando estratégia, número e propósito caminham juntos.
+      </p>
+
+      <!-- Formulário -->
+      <form class="w-full mt-12 flex flex-col" onsubmit="event.preventDefault(); openShowcaseModal();">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-6 w-full">
+          
+          <!-- Campo 1 -->
+          <div class="flex flex-col form-field opacity-0">
+            <label class="text-[9px] font-sans font-semibold text-muted tracking-widest uppercase mb-1">NOME COMPLETO</label>
+            <input type="text" placeholder="Como podemos te chamar?" class="bg-transparent border-none border-b border-navy/30 focus:border-gold focus:outline-none py-3 font-sans text-sm text-ink placeholder:text-muted/65 transition-colors duration-300 w-full rounded-none" required />
+          </div>
+
+          <!-- Campo 2 -->
+          <div class="flex flex-col form-field opacity-0">
+            <label class="text-[9px] font-sans font-semibold text-muted tracking-widest uppercase mb-1">E-MAIL PROFISSIONAL</label>
+            <input type="email" placeholder="voce@escritorio.com.br" class="bg-transparent border-none border-b border-navy/30 focus:border-gold focus:outline-none py-3 font-sans text-sm text-ink placeholder:text-muted/65 transition-colors duration-300 w-full rounded-none" required />
+          </div>
+
+          <!-- Campo 3 -->
+          <div class="flex flex-col form-field opacity-0">
+            <label class="text-[9px] font-sans font-semibold text-muted tracking-widest uppercase mb-1">WHATSAPP</label>
+            <input type="tel" placeholder="(00) 00000-0000" class="bg-transparent border-none border-b border-navy/30 focus:border-gold focus:outline-none py-3 font-sans text-sm text-ink placeholder:text-muted/65 transition-colors duration-300 w-full rounded-none" required />
+          </div>
+
+          <!-- Campo 4 -->
+          <div class="flex flex-col form-field opacity-0">
+            <label class="text-[9px] font-sans font-semibold text-muted tracking-widest uppercase mb-1">ÁREA DE INTERESSE</label>
+            <div class="relative w-full">
+              <select class="bg-transparent border-none border-b border-navy/30 focus:border-gold focus:outline-none py-3 font-sans text-sm text-ink transition-colors duration-300 w-full rounded-none cursor-pointer appearance-none pr-8" required>
+                <option value="" disabled selected class="text-muted bg-cream">Selecione...</option>
+                <option value="consultoria" class="bg-cream text-ink">Consultoria Financeira & Precificação</option>
+                <option value="bpo" class="bg-cream text-ink">Terceirização do Departamento Financeiro</option>
+                <option value="plataforma" class="bg-cream text-ink">Portal & Plataforma de Indicadores</option>
+                <option value="academia" class="bg-cream text-ink">Academia MAC</option>
+                <option value="comunidade" class="bg-cream text-ink">Comunidade MAC</option>
+                <option value="outro" class="bg-cream text-ink">Outro</option>
+              </select>
+              <!-- Arrow indicator inside the select -->
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-1 text-navy/40">
+                <iconify-icon icon="lucide:chevron-down" width="14"></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Botão -->
+        <button id="contato-btn" type="submit" class="group relative w-full py-[18px] bg-navy text-white text-[11px] uppercase tracking-widest font-semibold text-center overflow-hidden border border-navy transition-all duration-300 mt-8 opacity-0 rounded-none">
+          <span class="relative z-10 group-hover:text-navy transition-colors duration-300">Quero conversar com a Machnick & Co.</span>
+          <div class="absolute inset-0 h-full w-full bg-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+        </button>
+
+        <!-- Link alternativo -->
+        <p class="text-center mt-6 text-[13px] font-sans text-muted">
+          Ou escreva diretamente para <a href="mailto:renan@bmfinancas.com.br" class="text-navy hover:text-gold transition-colors duration-300 font-semibold">renan@bmfinancas.com.br</a>
+        </p>
+
+      </form>
+      
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer class="w-full bg-navy text-white pt-16 pb-8 border-t border-navy-mid relative z-10">
+    <div class="w-full max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 flex flex-col">
+      
+      <!-- Zona superior -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 w-full pb-12 border-b border-white/10 justify-items-start md:justify-items-center text-left">
+        
+        <!-- Coluna 1 — identidade -->
+        <div class="flex flex-col items-start">
+          <img class="h-14 w-auto object-contain mb-3" src="Logo Machinick & Co..webp" alt="Machnick & Co. Logo" />
+          <p class="font-sans text-[13px] text-white/50 leading-relaxed max-w-[200px] font-normal">
+            Prosperidade com propósito, ordem e leveza.
+          </p>
+          <div class="w-8 h-[1px] bg-gold mt-6"></div>
+        </div>
+
+        <!-- Coluna 2 — menu -->
+        <div class="flex flex-col items-start gap-2.5">
+          <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase mb-2">MENU</span>
+          <a href="#servicos" class="text-[13px] font-sans text-white/60 hover:text-white transition-colors duration-300 font-normal">Serviços</a>
+          <a href="#academia-mac" class="text-[13px] font-sans text-white/60 hover:text-white transition-colors duration-300 font-normal">Academia</a>
+          <a href="#comunidade-mac" class="text-[13px] font-sans text-white/60 hover:text-white transition-colors duration-300 font-normal">Comunidade</a>
+          <a href="#sobre" class="text-[13px] font-sans text-white/60 hover:text-white transition-colors duration-300 font-normal">Sobre</a>
+          <a href="#depoimentos" class="text-[13px] font-sans text-white/60 hover:text-white transition-colors duration-300 font-normal">Depoimentos</a>
+        </div>
+
+        <!-- Coluna 3 — contato -->
+        <div class="flex flex-col items-start">
+          <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase mb-4">CONTATO</span>
+          <a href="mailto:renan@bmfinancas.com.br" class="text-[13px] font-sans text-white/60 hover:text-gold transition-colors duration-300 font-normal">renan@bmfinancas.com.br</a>
+          <a href="tel:+554100000000" class="text-[13px] font-sans text-white/60 hover:text-gold transition-colors duration-300 font-normal mt-1">(41) 0000-0000</a>
+          <div class="mt-6 flex flex-col gap-1.5 items-start">
+            <span class="text-[12px] font-sans text-white/40 font-normal">Curitiba — Sede</span>
+            <span class="text-[12px] font-sans text-white/40 font-normal">Rio de Janeiro — Filial</span>
+            <span class="text-[12px] font-sans text-white/40 font-normal">Nova York — Internacional</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Zona inferior -->
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4 pt-6 px-1">
+        <span class="text-[11px] font-sans text-white/30 font-normal">© 2026 Machnick & Co. — Todos os direitos reservados.</span>
+        <span class="text-[9px] font-sans font-semibold text-gold/50 uppercase tracking-widest">Ordem · Leveza · Prosperidade</span>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Script logic for GSAP timelines, Canvas Particles, and Lenis -->
+  <script>
+    // 1. Particle System Setup
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+    let animationFrameId = null;
+    let particlesEnabled = true;
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      
+      // Particle visibility control based on screen width (disabled on mobile < 768px)
+      if (width < 768) {
+        particlesEnabled = false;
+        ctx.clearRect(0, 0, width, height);
+      } else {
+        particlesEnabled = true;
+        initParticles();
+      }
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.size = Math.random() * 1.5 + 0.35;
+        this.speedX = Math.random() * 0.25 - 0.125;
+        this.speedY = Math.random() * 0.22 - 0.11;
+        this.life = Math.random() * 100;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.life += 0.015;
+        
+        // Wrap boundaries
+        if (this.x < 0) this.x = width;
+        if (this.x > width) this.x = 0;
+        if (this.y < 0) this.y = height;
+        if (this.y > height) this.y = 0;
+      }
+      draw() {
+        // Opacity animation based on sinusoidal scale
+        const opacity = (Math.sin(this.life) + 1) / 2 * 0.28 + 0.05;
+        ctx.fillStyle = `rgba(212, 175, 55, ${opacity})`;
+        ctx.beginPath();
+        ctx.rect(this.x, this.y, this.size, this.size);
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      const particleCount = Math.min(100, Math.floor((width * height) / 16000));
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function animateParticles() {
+      if (!particlesEnabled) return;
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      animationFrameId = requestAnimationFrame(animateParticles);
+    }
+
+    // Shared countup helper functions
+    function easeOutQuad(t) {
+      return t * (2 - t);
+    }
+    
+    function animateNumber(element, start, end, duration, delay) {
+      setTimeout(() => {
+        let startTime = null;
+        function step(timestamp) {
+          if (!startTime) startTime = timestamp;
+          const elapsed = timestamp - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const easedProgress = easeOutQuad(progress);
+          const currentValue = Math.floor(start + easedProgress * (end - start));
+          element.textContent = currentValue;
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            element.textContent = end;
+          }
+        }
+        requestAnimationFrame(step);
+      }, delay);
+    }
+
+    // 2. Lenis Smooth Scroll Setup
+    document.addEventListener('DOMContentLoaded', () => {
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true
+      });
+      
+      lenis.on('scroll', ScrollTrigger.update);
+      
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      
+      requestAnimationFrame(raf);
+
+      // Trigger canvas resize initial
+      resizeCanvas();
+      if (particlesEnabled) {
+        animateParticles();
+      }
+
+      // Initialize SplitType for mask elements on H1
+      const splitH1 = new SplitType('#hero-title', { types: 'lines,words' });
+
+      // CSS display properties mapping for mask
+      document.querySelectorAll('#hero-title .line').forEach(line => {
+        line.classList.add('line');
+      });
+      document.querySelectorAll('#hero-title .word').forEach(word => {
+        word.classList.add('word');
+      });
+
+      // 3. GSAP Entrance Animations Timeline
+      const tl = gsap.timeline();
+
+      // t=0s: Particles fade in
+      tl.to('#bg-canvas', {
+        opacity: 0.5,
+        duration: 1.5,
+        ease: 'power1.inOut'
+      }, 0);
+
+      // t=0.2s: Eyebrow
+      tl.fromTo('#hero-eyebrow', 
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+        0.2
+      );
+
+      // t=0.3s: Photo Reveal (cortina de baixo para cima)
+      tl.fromTo('#hero-photo-container',
+        { opacity: 0, clipPath: 'inset(100% 0 0 0)' },
+        { opacity: 1, clipPath: 'inset(0% 0 0 0)', duration: 1.4, ease: 'power4.inOut' },
+        0.3
+      );
+
+      // t=0.5s: H1 Text words reveal
+      tl.to('#hero-title', { opacity: 1, duration: 0.1 }, 0.5);
+      tl.fromTo(splitH1.words,
+        { y: '110%' },
+        { y: '0%', duration: 1.4, ease: 'power4.out', stagger: 0.09 },
+        0.5
+      );
+
+      // t=1.2s: Gold Divider Line
+      tl.fromTo('#hero-divider',
+        { scaleX: 0, opacity: 0 },
+        { scaleX: 1, opacity: 1, duration: 0.6, ease: 'power3.out' },
+        1.2
+      );
+
+      // t=1.3s: Description Paragraph
+      tl.fromTo('#hero-description',
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+        1.3
+      );
+
+      // t=1.5s: CTAs Wrapper + Primary Button
+      tl.to('#hero-ctas', { opacity: 1, duration: 0.1 }, 1.5);
+      tl.fromTo('#hero-primary-btn',
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+        1.5
+      );
+
+      // t=1.65s: Secondary Button / WhatsApp Link
+      tl.fromTo('#hero-secondary-link',
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+        1.65
+      );
+
+      // t=1.8s: Caption
+      tl.fromTo('#hero-caption',
+        { opacity: 0, y: 8 },
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' },
+        1.8
+      );
+
+      // 4. Metrics CountUp and Scroll Reveal
+      const metricsSection = document.getElementById('hero-metrics');
+      const metricValues = document.querySelectorAll('.metric-value');
+      const metricCols = document.querySelectorAll('.metric-col');
+      
+      if (metricsSection) {
+        let animated = false;
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !animated) {
+              animated = true;
+              
+              // Fade in columns with GSAP (power3.out, 0.8s, stagger 120ms)
+              gsap.fromTo(metricCols, 
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12 }
+              );
+              
+              // CountUp numbers (duration 1.8s, stagger 120ms)
+              metricValues.forEach((el, index) => {
+                const target = parseInt(el.getAttribute('data-target'), 10);
+                animateNumber(el, 0, target, 1800, index * 120);
+              });
+              
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+        
+        observer.observe(metricsSection);
+      }
+
+      // 5. Register ScrollTrigger & trigger new split services panel reveal animations
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Scroll reveal for the Services Section
+      const servicesTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#servicos',
+          start: 'top 75%',
+          once: true,
+          onComplete: () => {
+            animateDashboardChart();
+          }
+        }
+      });
+
+      // Eyebrow + título: fade + y(16px)→0, stagger 0.1s
+      servicesTl.fromTo(['#services-eyebrow', '#services-title'],
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.1 },
+        0
+      );
+
+      // Tabs container fade in, and tabs: fade + y(8px)→0, stagger 0.06s, delay 0.2s
+      servicesTl.to('#services-tabs-container', { opacity: 1, duration: 0.1 }, 0.2);
+      servicesTl.fromTo('#services-tabs-container button',
+        { opacity: 0, y: 8 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.06 },
+        0.2
+      );
+
+      // Painel ativo: fade + y(20px)→0, delay 0.3s
+      servicesTl.fromTo('#panel-1',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+        0.3
+      );
+
+      // Scroll reveal for the Academia MAC Section
+      const academiaTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#academia-mac',
+          start: 'top 75%',
+          once: true
+        }
+      });
+
+      // Left column copy: opacity & x transition
+      academiaTl.fromTo('#mac-copy-col',
+        { opacity: 0, x: -10 },
+        { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' },
+        0
+      );
+
+      // Right column card: opacity & x transition
+      academiaTl.fromTo('#mac-card-col',
+        { opacity: 0, x: 10 },
+        { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' },
+        0.1
+      );
+
+      // Modules inside the card stagger reveal
+      academiaTl.fromTo('.mac-module-item',
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.08 },
+        0.4
+      );
+
+      // Scroll reveal for the MAC Empreendedoras Section
+      const empreendedorasTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#mac-empreendedoras',
+          start: 'top 75%',
+          once: true
+        }
+      });
+
+      // Left column copy: opacity & x transition
+      empreendedorasTl.fromTo('#empreendedoras-copy-col',
+        { opacity: 0, x: -15 },
+        { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' },
+        0
+      );
+
+      // Right column card: opacity & x transition
+      empreendedorasTl.fromTo('#empreendedoras-card-col',
+        { opacity: 0, x: 15 },
+        { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' },
+        0.1
+      );
+
+      // Highlights list items stagger reveal
+      empreendedorasTl.fromTo('.empreendedoras-list-item',
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.08 },
+        0.4
+      );
+
+      // Scroll reveal for the Instituto Machnick Section
+      const institutoTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#instituto-machnick',
+          start: 'top 75%',
+          once: true
+        }
+      });
+
+      // Left column copy: opacity & x transition
+      institutoTl.fromTo('#instituto-copy-col',
+        { opacity: 0, x: -20 },
+        { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' },
+        0
+      );
+
+      // Right column metrics & quote: opacity & x transition
+      institutoTl.fromTo('#instituto-metrics-col',
+        { opacity: 0, x: 20 },
+        { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' },
+        0.1
+      );
+
+      // The 3 Pillars grid stagger reveal
+      institutoTl.fromTo('#instituto-pillars-row > div',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.1 },
+        0.4
+      );
+
+      // CTAs centered block reveal
+      institutoTl.fromTo('#instituto-ctas-row',
+        { opacity: 0, y: 15 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+        0.7
+      );
+
+      // Scroll reveal for the Comunidade MAC Section
+      const comunidadeTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#comunidade-mac',
+          start: 'top 75%',
+          once: true
+        }
+      });
+
+      // Coluna esquerda: x(-32px)→0 + fade, power3.out, 0.9s
+      comunidadeTl.fromTo('#comunidade-copy-col',
+        { opacity: 0, x: -32 },
+        { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' },
+        0
+      );
+
+      // Screenshot: fade + y(20px)→0, power3.out, 0.9s, delay 0.15s
+      comunidadeTl.fromTo('#comunidade-mockup-col',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' },
+        0.15
+      );
+
+      // Features: stagger 0.08s, fade + y(12px)→0, delay 0.3s
+      comunidadeTl.fromTo('.community-feature-item',
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.08 },
+        0.3
+      );
+
+      // Scroll reveal for the Editora Juruá Section
+      const juruaTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#editora-jurua',
+          start: 'top 75%',
+          once: true
+        }
+      });
+
+      // Top row copy: opacity & y transition (slide down)
+      juruaTl.fromTo('#jurua-copy-row',
+        { opacity: 0, y: -20 },
+        { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' },
+        0
+      );
+
+      // Center row image: opacity & y transition (slide up)
+      juruaTl.fromTo('#jurua-image-row',
+        { opacity: 0, y: 35 },
+        { opacity: 1, y: 0, duration: 1.1, ease: 'power3.out' },
+        0.1
+      );
+
+      // Bottom row bookshelf: opacity & y transition (slide up)
+      juruaTl.fromTo('#jurua-books-row',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' },
+        0.2
+      );
+
+      // Interactive bookshelf list items stagger reveal
+      juruaTl.fromTo('#jurua-books-list > div',
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.08 },
+        0.4
+      );
+
+      // Scroll reveal for the Sobre Section
+      const sobreTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#sobre',
+          start: 'top 75%',
+          once: true
+        }
+      });
+
+      // Foto clip-path
+      sobreTl.fromTo('#sobre-photo-container',
+        { clipPath: 'inset(0 0 100% 0)' },
+        { clipPath: 'inset(0 0 0% 0)', duration: 1.2, ease: 'power4.inOut' },
+        0
+      );
+
+      // Eyebrow
+      sobreTl.fromTo('#sobre-eyebrow',
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+        0.2
+      );
+
+      // Title (SplitType words)
+      const splitSobreTitle = new SplitType('#sobre-title', { types: 'words' });
+      gsap.set('#sobre-title', { opacity: 1 });
+      sobreTl.fromTo(splitSobreTitle.words,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out', stagger: 0.05 },
+        0.3
+      );
+
+      // Paragraphs
+      sobreTl.fromTo('#sobre-paragraphs p',
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.15 },
+        0.5
+      );
+
+      // Link
+      sobreTl.fromTo('#sobre-link',
+        { opacity: 0, y: 8 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+        0.8
+      );
+
+      // Scroll reveal for the Depoimentos Section
+      const depoimentosTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#depoimentos',
+          start: 'top 75%',
+          once: true
+        }
+      });
+
+      // Título
+      depoimentosTl.fromTo('#depoimentos-header',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+        0
+      );
+
+      // Depoimentos columns
+      depoimentosTl.fromTo('.depoimento-col',
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.15 },
+        0.3
+      );
+
+      // Scroll reveal for the Contato Section
+      const contatoTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#contato',
+          start: 'top 75%',
+          once: true
+        }
+      });
+
+      // Title (SplitType words)
+      const splitContatoTitle = new SplitType('#contato-title', { types: 'words' });
+      gsap.set('#contato-title', { opacity: 1 });
+      contatoTl.fromTo(splitContatoTitle.words,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out', stagger: 0.05 },
+        0
+      );
+
+      // Paragraph
+      contatoTl.fromTo('#contato-desc',
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+        0.3
+      );
+
+      // Fields
+      contatoTl.fromTo('.form-field',
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.08 },
+        0.4
+      );
+
+      // Button
+      contatoTl.fromTo('#contato-btn',
+        { opacity: 0, y: 8 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+        0.8
+      );
+
+    });
+
+    // Dynamic panel switching logic and child animations
+    let currentActivePanel = 1;
+    let isTransitioning = false;
+
+    function switchPanel(panelNum) {
+      if (panelNum === currentActivePanel || isTransitioning) return;
+      isTransitioning = true;
+
+      // Update menu items active styles
+      for (let i = 1; i <= 3; i++) {
+        const item = document.getElementById(`menu-item-${i}`);
+        if (!item) continue;
+
+        if (i === panelNum) {
+          // Active state
+          item.classList.remove('border-transparent', 'text-muted');
+          item.classList.add('border-gold', 'text-navy');
+        } else {
+          // Inactive state
+          item.classList.remove('border-gold', 'text-navy');
+          item.classList.add('border-transparent', 'text-muted');
+        }
+      }
+
+      const currentPanelEl = document.getElementById(`panel-${currentActivePanel}`);
+      const newPanelEl = document.getElementById(`panel-${panelNum}`);
+
+      // Exit current active panel: opacity -> 0, x -> -16px, 200ms ease-in
+      gsap.to(currentPanelEl, {
+        opacity: 0,
+        x: -16,
+        duration: 0.2,
+        ease: 'power1.in',
+        onComplete: () => {
+          currentPanelEl.classList.add('hidden');
+          
+          // Enter new active panel: opacity 0 -> 1, x 16px -> 0, 380ms power3.out
+          newPanelEl.classList.remove('hidden');
+          gsap.fromTo(newPanelEl,
+            { opacity: 0, x: 16 },
+            {
+              opacity: 1,
+              x: 0,
+              duration: 0.38,
+              ease: 'power3.out',
+              onComplete: () => {
+                currentActivePanel = panelNum;
+                isTransitioning = false;
+
+                // Fire mockup/metric triggers
+                if (panelNum === 1) {
+                  animateDashboardChart();
+                } else if (panelNum === 2) {
+                  animateTableRows();
+                } else if (panelNum === 3) {
+                  animatePillarCount();
+                }
+              }
+            }
+          );
+        }
+      });
+    }
+
+    // SVG Line Chart Drawing Animation
+    function animateDashboardChart() {
+      const chartPath = document.getElementById('dashboard-chart-path');
+      if (chartPath) {
+        try {
+          const pathLength = chartPath.getTotalLength() || 500;
+          chartPath.style.strokeDasharray = pathLength;
+          chartPath.style.strokeDashoffset = pathLength;
+          gsap.killTweensOf(chartPath);
+          gsap.to(chartPath, {
+            strokeDashoffset: 0,
+            duration: 1.5,
+            ease: 'power2.out'
+          });
+        } catch (e) {
+          chartPath.style.strokeDasharray = 500;
+          chartPath.style.strokeDashoffset = 500;
+          gsap.killTweensOf(chartPath);
+          gsap.to(chartPath, {
+            strokeDashoffset: 0,
+            duration: 1.5,
+            ease: 'power2.out'
+          });
+        }
+      }
+    }
+
+    // BPO table rows stagger entry
+    function animateTableRows() {
+      const rows = document.querySelectorAll('#bpo-table-rows tr');
+      if (rows.length) {
+        gsap.killTweensOf(rows);
+        gsap.fromTo(rows,
+          { opacity: 0, y: 15 },
+          { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.06 }
+        );
+      }
+    }
+
+    // Pillar count animation countup
+    function animatePillarCount() {
+      const pilarVal = document.getElementById('pilar-count');
+      if (pilarVal) {
+        pilarVal.textContent = "0";
+        animateNumber(pilarVal, 0, 50, 1800, 0);
+      }
+    }
+
+  </script>
+</body>
+</html>
