@@ -156,10 +156,6 @@
       background-color: rgba(212, 175, 55, 0.02);
     }
 
-    @media (max-width: 1023px) {
-      #hero-title { text-align: center !important; }
-    }
-
     /* Smooth tap highlight removal mobile */
     * { -webkit-tap-highlight-color: transparent; }
 
@@ -183,7 +179,7 @@
       </a>
       
       <!-- Anchors Nav List (Horizontal scroll on mobile, flex on desktop) -->
-      <div class="hidden md:flex gap-5 md:gap-6 text-[10px] uppercase tracking-widest font-semibold text-muted overflow-x-auto py-2 hide-scrollbar">
+      <div class="hidden lg:flex gap-5 md:gap-6 text-[10px] uppercase tracking-widest font-semibold text-muted overflow-x-auto py-2 hide-scrollbar">
         <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#servicos">Serviços</a>
         <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#academia-mac">Academia</a>
         <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#comunidade-mac">Comunidade</a>
@@ -192,7 +188,7 @@
       </div>
       
       <!-- Launch Live CTA -->
-      <div class="hidden sm:flex items-center">
+      <div class="hidden lg:flex items-center">
         <a class="group relative px-5 py-2.5 bg-navy text-white text-[9px] uppercase tracking-widest font-semibold overflow-hidden border border-navy cursor-pointer" onclick="openShowcaseModal()">
           <span class="relative z-10 group-hover:text-navy transition-colors duration-300 flex items-center gap-1.5">
             Diagnóstico
@@ -203,13 +199,13 @@
       </div>
 
       <!-- Hamburger Menu Button -->
-      <button id="mobile-menu-btn" class="md:hidden flex items-center text-navy focus:outline-none select-none p-2 -mr-2">
+      <button id="mobile-menu-btn" class="lg:hidden flex items-center text-navy focus:outline-none select-none p-2 -mr-2">
         <iconify-icon icon="lucide:menu" class="pointer-events-none" width="20"></iconify-icon>
       </button>
     </div>
 
     <!-- Mobile Dropdown Menu -->
-    <div id="mobile-dropdown-menu" class="hidden absolute top-20 left-0 w-full bg-cream/95 backdrop-blur-md border-b border-navy/10 py-4 px-6 flex flex-col gap-1 z-50">
+    <div id="mobile-dropdown-menu" class="hidden lg:hidden absolute top-20 left-0 w-full bg-cream/95 backdrop-blur-md border-b border-navy/10 py-4 px-6 flex flex-col gap-1 z-50">
       <a class="font-sans font-semibold text-[12px] uppercase tracking-wide text-navy py-3 border-b border-navy/10 last:border-b-0" href="#servicos">Serviços</a>
       <a class="font-sans font-semibold text-[12px] uppercase tracking-wide text-navy py-3 border-b border-navy/10 last:border-b-0" href="#academia-mac">Academia</a>
       <a class="font-sans font-semibold text-[12px] uppercase tracking-wide text-navy py-3 border-b border-navy/10 last:border-b-0" href="#comunidade-mac">Comunidade</a>
@@ -223,7 +219,7 @@
     <div class="hero-grid grid grid-cols-1 lg:gap-16 items-center w-full max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 gap-12">
       
       <!-- Left Column: Copy -->
-      <div class="flex flex-col justify-center items-center lg:items-start text-center lg:text-left space-y-6 md:space-y-8 order-2 lg:order-1">
+      <div class="flex flex-col justify-center items-center lg:items-start text-center lg:text-left space-y-6 md:space-y-8 order-1">
         
         <!-- Eyebrow -->
         <div id="hero-eyebrow" class="flex items-center justify-center lg:justify-start gap-4 text-[10px] md:text-xs uppercase tracking-[0.25em] text-gold font-semibold opacity-0 text-center lg:text-left">
@@ -231,8 +227,19 @@
           <span>Curitiba · Rio de Janeiro · Nova York</span>
         </div>
         
-        <!-- H1 Title -->
-        <h1 id="hero-title" class="text-[2rem] sm:text-4xl md:text-5xl lg:text-[5.5rem] leading-[1.05] serif text-navy tracking-tight opacity-0 text-center lg:text-left">
+        <!-- H1 Mobile: visível apenas em mobile/tablet, sem SplitType -->
+        <h1 id="hero-title-mobile"
+            class="text-[2rem] sm:text-4xl md:text-5xl leading-[1.05]
+                   serif text-navy tracking-tight opacity-0
+                   text-center block lg:hidden">
+          Prosperidade com propósito, ordem e leveza.
+        </h1>
+
+        <!-- H1 Desktop: visível apenas em desktop, com SplitType -->
+        <h1 id="hero-title"
+            class="text-[5.5rem] leading-[1.05] serif text-navy
+                   tracking-tight opacity-0
+                   hidden lg:block">
           Prosperidade com propósito, ordem e leveza.
         </h1>
 
@@ -264,7 +271,7 @@
       </div>
 
       <!-- Right Column: Image and Caption -->
-      <div class="flex flex-col items-center lg:items-start w-full order-1 lg:order-2">
+      <div class="flex flex-col items-center lg:items-start w-full order-2">
         
         <!-- Image Container -->
         <div id="hero-photo-container" class="w-full max-w-[280px] sm:max-w-[340px] md:max-w-[380px] lg:max-w-[400px] aspect-[3/4] md:aspect-[3/4] bg-cream overflow-hidden shadow-[0_20px_50px_rgba(21,41,80,0.15)] opacity-0" style="clip-path: inset(100% 0 0 0);">
@@ -1588,11 +1595,7 @@
         animateParticles();
       }
 
-      const isMobile = window.innerWidth < 1024;
-      let splitH1 = null;
-      if (!isMobile) {
-        splitH1 = new SplitType('#hero-title', { types: 'lines,words' });
-      }
+      const splitH1 = new SplitType('#hero-title', { types: 'lines,words' });
 
       // CSS display properties mapping for mask
       document.querySelectorAll('#hero-title .line').forEach(line => {
@@ -1626,21 +1629,22 @@
         0.3
       );
 
-      // t=0.5s: H1 Text words reveal
+      // Desktop H1 — SplitType reveal
       tl.to('#hero-title', { opacity: 1, duration: 0.01 }, 0.5);
-      if (!isMobile && splitH1 && splitH1.words) {
+      if (splitH1 && splitH1.words) {
         tl.fromTo(splitH1.words,
           { y: '110%' },
           { y: '0%', duration: 1.4, ease: 'power4.out', stagger: 0.09 },
           0.5
         );
-      } else {
-        tl.fromTo('#hero-title',
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' },
-          0.5
-        );
       }
+
+      // Mobile H1 — fade simples
+      tl.fromTo('#hero-title-mobile',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' },
+        0.5
+      );
 
       // t=1.2s: Gold Divider Line
       tl.fromTo('#hero-divider',
