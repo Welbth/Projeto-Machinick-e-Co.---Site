@@ -1722,25 +1722,14 @@
 
       if (videoEl && videoSource) {
         const isMobile = window.innerWidth < 768;
-
         if (isMobile) {
-          // Mobile: não carregar vídeo, usar fundo cream sólido
-          videoEl.pause();
-          videoEl.removeAttribute('autoplay');
-          videoSource.src = '';
-          videoEl.load();
-          if (videoOverlay) {
-            videoOverlay.style.background = '#F7F5F0';
-            videoOverlay.style.opacity = '1';
-            videoOverlay.style.zIndex = '0';
-          }
+          videoSource.src = 'hero-mobile.mp4';
         } else {
-          // Desktop/tablet: carregar hero-desktop.mp4
           videoSource.src = 'hero-desktop.mp4';
-          videoEl.load();
-          videoEl.playbackRate = 0.75;
-          videoEl.play().catch(() => {});
         }
+        videoEl.load();
+        videoEl.playbackRate = 0.75;
+        videoEl.play().catch(() => {});
       }
 
       // Mobile menu toggle
