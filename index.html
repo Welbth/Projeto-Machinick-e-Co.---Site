@@ -161,30 +161,168 @@
 
     /* Prevent horizontal overflow */
     section, main, footer { max-width: 100vw; overflow-x: hidden; }
+
+    @media (min-width: 1024px) {
+      body { cursor: none; }
+      .custom-cursor {
+        position: fixed;
+        width: 6px;
+        height: 6px;
+        background: #D4AF37;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: transform 0.2s ease;
+      }
+      .custom-cursor-ring {
+        position: fixed;
+        width: 24px;
+        height: 24px;
+        border: 1px solid #D4AF37;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+      }
+      .custom-cursor-ring.expand {
+        width: 44px;
+        height: 44px;
+        background-color: rgba(212, 175, 55, 0.08);
+        border-color: #D4AF37;
+      }
+    }
+
+    /* Desabilitar animações complexas em mobile para performance */
+    @media (max-width: 1023px) {
+      .custom-cursor, .custom-cursor-ring { display: none !important; }
+    }
+
+    /* Reduzir motion para usuários que preferem */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .btn-shimmer {
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-shimmer::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 60%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          transparent 0%,
+          rgba(212, 175, 55, 0.18) 40%,
+          rgba(212, 175, 55, 0.32) 50%,
+          rgba(212, 175, 55, 0.18) 60%,
+          transparent 100%
+        );
+        transform: skewX(-20deg);
+        pointer-events: none;
+      }
+      .card-glow {
+        transition: box-shadow 0.4s ease, border-color 0.4s ease;
+      }
+      .card-glow:hover {
+        box-shadow:
+          0 0 0 1px rgba(212, 175, 55, 0.3),
+          0 0 20px rgba(212, 175, 55, 0.08),
+          0 8px 32px rgba(21, 41, 80, 0.10);
+        border-color: rgba(212, 175, 55, 0.3) !important;
+      }
+    }
+
+    .nav-link-underline {
+      position: relative;
+    }
+    .nav-link-underline::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0%;
+      height: 1px;
+      background: #D4AF37;
+      transition: none;
+    }
+    #hero-photo-container { contain: layout style; }
+    #orb-1, #orb-2 { contain: layout style paint; }
+    nav { transition: box-shadow 0.3s ease; }
+
+    @media (prefers-reduced-motion: reduce) {
+      #hero-video-bg { display: none; }
+      #video-overlay {
+        background: #F7F5F0 !important;
+        opacity: 1 !important;
+        z-index: 0 !important;
+      }
+    }
   </style>
 </head>
 <body class="antialiased selection:bg-gold selection:text-white">
+  <div id="video-bg-wrapper" aria-hidden="true">
+    <video
+      id="hero-video-bg"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      style="position:fixed;top:0;left:0;width:100%;height:100%;
+             object-fit:cover;z-index:-2;pointer-events:none;">
+      <source id="video-source" src="" type="video/mp4">
+    </video>
+    <div id="video-overlay"
+         style="position:fixed;top:0;left:0;width:100%;height:100%;
+                background:rgba(247,245,240,0.90);z-index:-1;
+                pointer-events:none;"></div>
+  </div>
+  <div class="custom-cursor hidden lg:block" id="custom-cursor"></div>
+  <div class="custom-cursor-ring hidden lg:block" id="custom-cursor-ring"></div>
 
   <!-- Background overlay textures -->
   <div class="noise-bg"></div>
+  <div id="orb-1"
+       class="hidden lg:block pointer-events-none fixed z-[-1]"
+       style="width:500px;height:500px;border-radius:50%;
+              background:radial-gradient(circle,rgba(212,175,55,0.05) 0%,transparent 70%);
+              filter:blur(50px);top:-80px;left:-80px;
+              will-change:transform;contain:layout style paint;"></div>
+
+  <div id="orb-2"
+       class="hidden lg:block pointer-events-none fixed z-[-1]"
+       style="width:440px;height:440px;border-radius:50%;
+              background:radial-gradient(circle,rgba(21,41,80,0.07) 0%,transparent 70%);
+              filter:blur(55px);bottom:-60px;right:-60px;
+              will-change:transform;contain:layout style paint;"></div>
   <canvas id="bg-canvas"></canvas>
 
   <!-- Sticky Luxury Navigation -->
-  <nav class="fixed top-0 left-0 w-full z-50 bg-cream/80 backdrop-blur-md border-b border-navy/10 transition-all duration-300">
+  <nav class="fixed top-0 left-0 w-full z-50 bg-cream/90 backdrop-blur-md border-b border-navy/10 transition-all duration-300">
     <div class="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 flex h-20 items-center justify-between">
       
       <!-- Brand Logo -->
-      <a class="flex items-center group" href="#">
+      <a class="flex items-center group cursor-pointer" href="./" onclick="window.location.href = window.location.pathname; return false;">
         <img class="h-16 w-auto object-contain transition-transform duration-500 group-hover:scale-102" src="Logo Machinick &amp; Co..webp" alt="Machnick &amp; Co. Logo" />
       </a>
       
       <!-- Anchors Nav List (Horizontal scroll on mobile, flex on desktop) -->
       <div class="hidden lg:flex gap-5 md:gap-6 text-[10px] uppercase tracking-widest font-semibold text-muted overflow-x-auto py-2 hide-scrollbar">
-        <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#servicos">Serviços</a>
-        <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#academia-mac">Academia</a>
-        <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#comunidade-mac">Comunidade</a>
-        <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#sobre">Sobre</a>
-        <a class="hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#depoimentos">Depoimentos</a>
+        <a class="nav-link-underline hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#servicos">Serviços</a>
+        <a class="nav-link-underline hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#academia-mac">Academia</a>
+        <a class="nav-link-underline hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#comunidade-mac">Comunidade</a>
+        <a class="nav-link-underline hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#sobre">Sobre</a>
+        <a class="nav-link-underline hover:text-gold transition-colors duration-300 whitespace-nowrap" href="#depoimentos">Depoimentos</a>
       </div>
       
       <!-- Launch Live CTA -->
@@ -215,7 +353,7 @@
   </nav>
 
   <!-- Hero Main Section -->
-  <main class="w-full min-h-[80vh] lg:min-h-[85vh] flex flex-col items-center justify-start pt-32 pb-12 md:pt-40 md:pb-16 lg:pt-36 lg:pb-12">
+  <main class="w-full min-h-[80vh] lg:min-h-[85vh] flex flex-col items-center justify-start pt-32 pb-12 md:pt-40 md:pb-16 lg:pt-36 lg:pb-12 relative z-10">
     <div class="hero-grid grid grid-cols-1 lg:gap-16 items-center w-full max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 gap-12">
       
       <!-- Left Column: Copy -->
@@ -252,16 +390,16 @@
         </p>
 
         <!-- CTA Buttons -->
-        <div id="hero-ctas" class="flex flex-col lg:flex-row items-center lg:items-start gap-6 w-full lg:w-auto opacity-0">
+        <div id="hero-ctas" class="flex flex-col lg:flex-row items-center lg:items-center gap-6 w-full lg:w-auto opacity-0">
           
           <!-- Primary Navy Button -->
-          <a id="hero-primary-btn" class="group relative px-8 py-4 bg-navy text-white text-xs uppercase tracking-widest font-semibold text-center overflow-hidden border border-navy shadow-sm transition-all duration-300 opacity-0" href="#servicos">
+          <a id="hero-primary-btn" class="btn-shimmer group relative px-8 py-4 bg-navy text-white text-xs uppercase tracking-widest font-semibold text-center overflow-hidden border border-navy shadow-sm transition-all duration-300 opacity-0" href="#servicos">
             <span class="relative z-10 transition-colors duration-300">Conheça nossos serviços</span>
             <div class="absolute inset-0 h-full w-full bg-navy-mid transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
           </a>
           
           <!-- Secondary WhatsApp Link -->
-          <a id="hero-secondary-link" class="group flex items-center justify-center gap-3 text-xs uppercase tracking-widest font-semibold text-navy hover:text-gold transition-colors duration-300 opacity-0" href="https://wa.me/5541999999999">
+          <a id="hero-secondary-link" class="cta-link-hover group flex items-center justify-center gap-3 text-xs uppercase tracking-widest font-semibold text-navy hover:text-gold transition-colors duration-300 opacity-0" href="https://wa.me/5541999999999">
             <span>Falar com especialista</span>
             <iconify-icon class="transform group-hover:translate-x-1 transition-transform duration-300 text-base" icon="lucide:arrow-right" width="16"></iconify-icon>
           </a>
@@ -290,7 +428,7 @@
   </main>
 
   <!-- Metrics Section -->
-  <section id="hero-metrics" class="w-full bg-cream py-12 md:py-16 border-t border-navy/10 relative z-10">
+  <section id="hero-metrics" class="w-full bg-transparent py-12 md:py-16 border-t border-navy/10 relative z-10">
     <div class="w-full max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-6 md:gap-y-16 md:gap-x-0 lg:gap-x-0">
         
@@ -327,8 +465,25 @@
     </div>
   </section>
 
+  <div class="w-full overflow-hidden border-t border-b border-navy/10 py-4 bg-transparent relative z-10" id="marquee-strip">
+    <div id="marquee-inner" class="flex items-center whitespace-nowrap">
+      <span class="marquee-group flex items-center">
+        <span class="font-serif text-[13px] text-navy/30 px-10">Consultoria Jurídica</span>
+        <span class="text-gold/30 text-[8px] px-2">◆</span>
+        <span class="font-serif text-[13px] text-navy/30 px-10">Gestão com Método</span>
+        <span class="text-gold/30 text-[8px] px-2">◆</span>
+        <span class="font-serif text-[13px] text-navy/30 px-10">Ordem e Leveza</span>
+        <span class="text-gold/30 text-[8px] px-2">◆</span>
+        <span class="font-serif text-[13px] text-navy/30 px-10">Machnick & Co.</span>
+        <span class="text-gold/30 text-[8px] px-2">◆</span>
+        <span class="font-serif text-[13px] text-navy/30 px-10">Prosperidade com Propósito</span>
+        <span class="text-gold/30 text-[8px] px-2">◆</span>
+      </span>
+    </div>
+  </div>
+
   <!-- Services Section (Interactive Horizontal Tabs) -->
-  <section id="servicos" class="w-full bg-cream py-20 lg:py-24 border-t border-navy/10 relative z-10">
+  <section id="servicos" class="w-full bg-transparent py-20 lg:py-24 border-t border-navy/10 relative z-10">
     <div id="services-container" class="w-full max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16 flex flex-col">
       
       <!-- TOPO DA SEÇÃO -->
@@ -393,16 +548,16 @@
             </ul>
 
             <!-- Highlight Card Portal -->
-            <div class="mt-5 p-[14px_18px] bg-gold-light border-l-2 border-gold w-full">
+            <div class="card-glow mt-5 p-[14px_18px] bg-gold-light border-l-2 border-gold w-full">
               <span class="text-xs font-semibold text-navy font-sans block">Inclui acesso ao Portal do Cliente</span>
               <span class="text-[13px] text-ink font-normal leading-relaxed font-sans mt-0.5 block">Entregas, documentos, cronograma e indicadores em tempo real.</span>
             </div>
 
             <!-- CTA -->
             <div class="mt-5">
-              <a class="group inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-navy hover:text-gold transition-colors duration-300 cursor-pointer" onclick="openShowcaseModal()">
+              <a class="cta-link-hover group inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-navy hover:text-gold transition-colors duration-300 cursor-pointer" onclick="openShowcaseModal()">
                 <span>Solicitar diagnóstico</span>
-                <span class="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+                <span class="arrow-icon transform group-hover:translate-x-1 transition-transform duration-300">→</span>
               </a>
             </div>
           </div>
@@ -410,7 +565,7 @@
           <!-- Coluna Direita -->
           <div class="w-full flex justify-center items-center">
             <!-- Dashboard Mockup Card -->
-            <div class="bg-white border-[0.5px] border-navy/15 rounded-none p-4 sm:p-6 w-full shadow-sm flex flex-col justify-between h-[320px]">
+            <div class="card-glow bg-white border-[0.5px] border-navy/15 rounded-none p-4 sm:p-6 w-full shadow-sm flex flex-col justify-between h-[320px]">
               <!-- Top bar -->
               <div class="flex justify-between items-center w-full">
                 <span class="text-[9px] font-sans font-semibold text-muted tracking-wider uppercase">DASHBOARD · CONSULTORIA</span>
@@ -506,16 +661,16 @@
             </ul>
 
             <!-- Highlight Card Portal -->
-            <div class="mt-5 p-[14px_18px] bg-gold-light border-l-2 border-gold w-full">
+            <div class="card-glow mt-5 p-[14px_18px] bg-gold-light border-l-2 border-gold w-full">
               <span class="text-xs font-semibold text-navy font-sans block">Inclui acesso ao Portal do Cliente</span>
               <span class="text-[13px] text-ink font-normal leading-relaxed font-sans mt-0.5 block">Acompanhe lançamentos, entregas e indicadores do dia a dia.</span>
             </div>
 
             <!-- CTA -->
             <div class="mt-5">
-              <a class="group inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-navy hover:text-gold transition-colors duration-300 cursor-pointer" onclick="openShowcaseModal()">
+              <a class="cta-link-hover group inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-navy hover:text-gold transition-colors duration-300 cursor-pointer" onclick="openShowcaseModal()">
                 <span>Conhecer o BPO Financeiro</span>
-                <span class="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+                <span class="arrow-icon transform group-hover:translate-x-1 transition-transform duration-300">→</span>
               </a>
             </div>
           </div>
@@ -523,7 +678,7 @@
           <!-- Coluna Direita -->
           <div class="w-full flex justify-center items-center">
             <!-- Table Mockup Card -->
-            <div class="bg-white border-[0.5px] border-navy/15 rounded-none p-0 w-full shadow-sm flex flex-col justify-between overflow-hidden">
+            <div class="card-glow bg-white border-[0.5px] border-navy/15 rounded-none p-0 w-full shadow-sm flex flex-col justify-between overflow-hidden">
               <!-- Tabs -->
               <div class="flex border-b-[0.5px] border-navy/10 gap-[24px] px-4 sm:px-[24px] h-11 items-center text-[10px] font-sans tracking-wider">
                 <span class="text-navy font-semibold border-b-2 border-gold h-full flex items-center cursor-pointer select-none">CONTAS A PAGAR</span>
@@ -656,7 +811,7 @@
           
           <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block">ACADEMIA MAC · IMERSÃO PRESENCIAL</span>
           
-          <h2 class="font-serif text-[clamp(32px,3.5vw,48px)] text-white leading-tight font-normal mt-2">
+          <h2 id="academia-title" class="font-serif text-[clamp(32px,3.5vw,48px)] text-white leading-tight font-normal mt-2">
             A formação autoral para sócios que querem mudar o jogo.
           </h2>
           
@@ -697,7 +852,7 @@
 
         <!-- RIGHT COLUMN: Immersive Event Card -->
         <div id="mac-card-col" class="lg:col-span-7 flex justify-center w-full opacity-0 translate-x-10">
-          <div class="w-full max-w-[620px] bg-white/5 border border-white/10 backdrop-blur-md p-8 lg:p-10 flex flex-col justify-between shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-none relative group hover:border-gold/30 transition-colors duration-500">
+          <div class="card-glow w-full max-w-[620px] bg-white/5 border border-white/10 backdrop-blur-md p-8 lg:p-10 flex flex-col justify-between shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-none relative group hover:border-gold/30 transition-colors duration-500">
             
             <!-- Card Top Header -->
             <div class="flex flex-col items-start w-full">
@@ -747,7 +902,7 @@
 
             <!-- CTA Button -->
             <div class="mt-8 w-full">
-              <a class="group relative block w-full py-4 text-xs uppercase tracking-widest font-semibold text-center overflow-hidden border border-white/20 text-white hover:text-navy cursor-pointer transition-colors duration-300" onclick="openShowcaseModal()">
+              <a class="btn-shimmer group relative block w-full py-4 text-xs uppercase tracking-widest font-semibold text-center overflow-hidden border border-white/20 text-white hover:text-navy cursor-pointer transition-colors duration-300" onclick="openShowcaseModal()">
                 <span class="relative z-10">Garantir minha vaga</span>
                 <div class="absolute inset-0 h-full w-full bg-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
               </a>
@@ -761,7 +916,7 @@
   </section>
 
   <!-- MAC Empreendedoras Section -->
-  <section id="mac-empreendedoras" class="w-full bg-cream text-ink py-20 lg:py-24 border-t border-navy/10 relative z-10 overflow-hidden">
+  <section id="mac-empreendedoras" class="w-full bg-transparent text-ink py-20 lg:py-24 border-t border-navy/10 relative z-10 overflow-hidden">
     <!-- Asymmetric background watermark text -->
     <div class="absolute -bottom-6 -right-10 text-[clamp(100px,12vw,200px)] font-serif text-navy/[0.02] select-none pointer-events-none z-0">
       EMPREENDEDORAS
@@ -775,7 +930,7 @@
           
           <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block">MAC EMPREENDEDORAS · ENCONTRO PRESENCIAL</span>
           
-          <h2 class="font-serif text-[clamp(32px,3.5vw,48px)] text-navy leading-tight font-normal mt-2">
+          <h2 id="empreendedoras-title" class="font-serif text-[clamp(32px,3.5vw,48px)] text-navy leading-tight font-normal mt-2">
             Um encontro de mulheres que lideram escritórios.
           </h2>
           
@@ -797,7 +952,7 @@
 
         <!-- RIGHT COLUMN: Event Card -->
         <div id="empreendedoras-card-col" class="lg:col-span-7 flex justify-center w-full opacity-0 translate-x-10">
-          <div class="w-full max-w-full sm:max-w-[620px] bg-white border border-navy/10 p-8 lg:p-10 flex flex-col justify-between shadow-[0_15px_40px_rgba(21,41,80,0.05)] rounded-none relative group hover:border-gold/30 transition-colors duration-500">
+          <div class="card-glow w-full max-w-full sm:max-w-[620px] bg-white border border-navy/10 p-8 lg:p-10 flex flex-col justify-between shadow-[0_15px_40px_rgba(21,41,80,0.05)] rounded-none relative group hover:border-gold/30 transition-colors duration-500">
             
             <!-- Card Top Header -->
             <div class="flex flex-col items-start w-full">
@@ -866,7 +1021,7 @@
           
           <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block">INSTITUTO MACHNICK · IMPACTO SOCIAL</span>
           
-          <h2 class="font-serif text-[clamp(32px,3.5vw,48px)] text-white leading-tight font-normal mt-2">
+          <h2 id="instituto-title" class="font-serif text-[clamp(32px,3.5vw,48px)] text-white leading-tight font-normal mt-2">
             O propósito que sustenta todo o resto.
           </h2>
           
@@ -888,13 +1043,13 @@
             
             <!-- Metric 1 -->
             <div class="flex flex-col items-center lg:items-start text-center lg:text-left">
-              <span class="font-serif text-[40px] md:text-[54px] lg:text-[64px] text-gold leading-none font-normal">+1.200</span>
+              <span class="font-serif text-[40px] md:text-[54px] lg:text-[64px] text-gold leading-none font-normal">+<span id="instituto-num-1" data-target="1200">0</span></span>
               <span class="text-xs text-white/75 font-normal leading-normal mt-2">mulheres e crianças atendidas anualmente</span>
             </div>
 
             <!-- Metric 2 -->
             <div class="flex flex-col items-center lg:items-start text-center lg:text-left">
-              <span class="font-serif text-[40px] md:text-[54px] lg:text-[64px] text-gold leading-none font-normal">100%</span>
+              <span class="font-serif text-[40px] md:text-[54px] lg:text-[64px] text-gold leading-none font-normal"><span id="instituto-num-2" data-target="100">0</span>%</span>
               <span class="text-xs text-white/75 font-normal leading-normal mt-2">da renda do MAC Empreendedoras destinada</span>
             </div>
 
@@ -962,7 +1117,7 @@
         </a>
 
         <!-- Secondary Link -->
-        <a class="group flex items-center justify-center gap-3 text-xs uppercase tracking-widest font-semibold text-white hover:text-gold transition-colors duration-300" href="#showcase-modal" onclick="openShowcaseModal()">
+        <a class="cta-link-hover group flex items-center justify-center gap-3 text-xs uppercase tracking-widest font-semibold text-white hover:text-gold transition-colors duration-300" href="#showcase-modal" onclick="openShowcaseModal()">
           <span>Quero apoiar com uma doação</span>
           <iconify-icon class="transform group-hover:translate-x-1.5 transition-transform duration-300 text-base text-gold" icon="lucide:arrow-right" width="16"></iconify-icon>
         </a>
@@ -973,7 +1128,7 @@
   </section>
 
   <!-- Comunidade MAC Section -->
-  <section id="comunidade-mac" class="w-full bg-cream text-ink py-20 lg:py-24 border-t border-navy/10 relative z-10 overflow-hidden">
+  <section id="comunidade-mac" class="w-full bg-transparent text-ink py-20 lg:py-24 border-t border-navy/10 relative z-10 overflow-hidden">
     <!-- Asymmetric background watermark text -->
     <div class="absolute -bottom-6 -left-10 text-[clamp(100px,12vw,200px)] font-serif text-navy/[0.02] select-none pointer-events-none z-0">
       COMUNIDADE
@@ -987,7 +1142,7 @@
           
           <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block">COMUNIDADE MAC · 100% ONLINE</span>
           
-          <h2 class="font-serif text-[clamp(32px,3.5vw,48px)] text-navy leading-tight font-normal mt-2">
+          <h2 id="comunidade-title" class="font-serif text-[clamp(32px,3.5vw,48px)] text-navy leading-tight font-normal mt-2">
             Sua plataforma digital de gestão jurídica.
           </h2>
           
@@ -1155,7 +1310,7 @@
         
         <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block">EDITORA JURUÁ</span>
         
-        <h2 class="font-serif text-[clamp(32px,3.5vw,48px)] text-white leading-tight font-normal">
+        <h2 id="jurua-title" class="font-serif text-[clamp(32px,3.5vw,48px)] text-white leading-tight font-normal">
           Cinco obras de referência na gestão da advocacia.
         </h2>
         
@@ -1233,7 +1388,7 @@
             </span>
           </div>
 
-          <a class="group flex items-center justify-center gap-3 text-xs uppercase tracking-widest font-semibold text-white hover:text-gold transition-colors duration-300 cursor-pointer" onclick="openShowcaseModal()">
+          <a class="cta-link-hover group flex items-center justify-center gap-3 text-xs uppercase tracking-widest font-semibold text-white hover:text-gold transition-colors duration-300 cursor-pointer" onclick="openShowcaseModal()">
             <span>Ver todas as publicações na Juruá</span>
             <iconify-icon class="transform group-hover:translate-x-1.5 transition-transform duration-300 text-base text-gold" icon="lucide:arrow-right" width="16"></iconify-icon>
           </a>
@@ -1246,7 +1401,7 @@
   </section>
 
   <!-- Seção Sobre -->
-  <section id="sobre" class="w-full bg-cream text-ink py-24 border-t border-navy/10 relative z-10 overflow-hidden">
+  <section id="sobre" class="w-full bg-transparent text-ink py-24 border-t border-navy/10 relative z-10 overflow-hidden">
     <div class="w-full max-w-[1280px] mx-auto px-6 md:px-12 lg:px-16">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <!-- Coluna Esquerda: Foto -->
@@ -1267,9 +1422,9 @@
               Hoje, ao lado de Renan Rabelo e do time Machnick & Co., atendemos escritórios em todo o Brasil — de Curitiba ao Rio de Janeiro, com atuação internacional em Nova York. Consultoria, terceirização, academia, comunidade, livros e plataforma de indicadores: um único ecossistema, com um único propósito — prosperidade com propósito, ordem e leveza.
             </p>
           </div>
-          <a id="sobre-link" href="https://instagram.com/biamachnick" target="_blank" class="group inline-flex items-center justify-center lg:justify-start gap-2 text-[11px] font-semibold uppercase tracking-wider text-navy hover:text-gold transition-colors duration-300 mt-8 opacity-0 w-full lg:w-auto">
+          <a id="sobre-link" href="https://instagram.com/biamachnick" target="_blank" class="cta-link-hover group inline-flex items-center justify-center lg:justify-start gap-2 text-[11px] font-semibold uppercase tracking-wider text-navy hover:text-gold transition-colors duration-300 mt-8 opacity-0 w-full lg:w-auto">
             <span>@biamachnick — 80 mil profissionais acompanham</span>
-            <span class="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+            <span class="arrow-icon transform group-hover:translate-x-1 transition-transform duration-300">→</span>
           </a>
         </div>
       </div>
@@ -1282,41 +1437,41 @@
       <!-- Topo centralizado -->
       <div id="depoimentos-header" class="flex flex-col items-center text-center max-w-2xl mx-auto mb-16 opacity-0">
         <span class="text-[9px] font-sans font-semibold text-gold tracking-widest uppercase block">O QUE DIZEM</span>
-        <h2 class="font-serif text-[clamp(28px,3vw,42px)] text-white leading-tight font-normal mt-3">Sócias e sócios que prosperam com método.</h2>
+        <h2 id="depoimentos-title" class="font-serif text-[clamp(28px,3vw,42px)] text-white leading-tight font-normal mt-3">Sócias e sócios que prosperam com método.</h2>
       </div>
 
       <!-- 3 colunas em grid -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-y-6 lg:gap-y-0 lg:gap-px bg-transparent lg:bg-white/10 w-full">
         
         <!-- Depoimento 1 -->
-        <div class="depoimento-col bg-navy px-0 sm:px-6 lg:px-10 py-4 border-b border-white/10 pb-6 lg:py-6 lg:border-b-0 flex flex-col justify-start items-center lg:items-start text-center lg:text-left opacity-0">
+        <div class="depoimento-col card-glow bg-navy px-0 sm:px-6 lg:px-10 py-4 border-b border-white/10 pb-6 lg:py-6 lg:border-b-0 flex flex-col justify-start items-center lg:items-start text-center lg:text-left opacity-0">
           <span class="font-serif text-[80px] text-gold/20 leading-none block mb-[-16px] select-none mx-auto lg:mx-0">“</span>
           <p class="font-serif text-base lg:text-lg text-white leading-relaxed font-normal">
             O trabalho da Machnick & Co. organizou a casa. Hoje sei exatamente onde está cada real e a precificação do escritório finalmente faz sentido.
           </p>
-          <div class="w-6 h-[1px] bg-gold/40 my-6 mx-auto lg:mx-0"></div>
+          <div class="depoimento-line w-6 h-[1px] bg-gold/40 my-6 mx-auto lg:mx-0"></div>
           <span class="font-sans text-[11px] font-semibold text-white tracking-widest uppercase block">Sócio</span>
           <span class="font-sans text-[11px] text-gold/70 mt-1 block font-normal">Escritório previdenciário · São Paulo</span>
         </div>
 
         <!-- Depoimento 2 -->
-        <div class="depoimento-col bg-navy px-0 sm:px-6 lg:px-10 py-4 border-b border-white/10 pb-6 lg:py-6 lg:border-b-0 flex flex-col justify-start items-center lg:items-start text-center lg:text-left opacity-0">
+        <div class="depoimento-col card-glow bg-navy px-0 sm:px-6 lg:px-10 py-4 border-b border-white/10 pb-6 lg:py-6 lg:border-b-0 flex flex-col justify-start items-center lg:items-start text-center lg:text-left opacity-0">
           <span class="font-serif text-[80px] text-gold/20 leading-none block mb-[-16px] select-none mx-auto lg:mx-0">“</span>
           <p class="font-serif text-base lg:text-lg text-white leading-relaxed font-normal">
             Saímos de uma operação artesanal para uma controladoria de verdade. A Academia MAC foi um divisor de águas para a sociedade.
           </p>
-          <div class="w-6 h-[1px] bg-gold/40 my-6 mx-auto lg:mx-0"></div>
+          <div class="depoimento-line w-6 h-[1px] bg-gold/40 my-6 mx-auto lg:mx-0"></div>
           <span class="font-sans text-[11px] font-semibold text-white tracking-widest uppercase block">Sócia-gestora</span>
           <span class="font-sans text-[11px] text-gold/70 mt-1 block font-normal">Escritório empresarial · Curitiba</span>
         </div>
 
         <!-- Depoimento 3 -->
-        <div class="depoimento-col bg-navy px-0 sm:px-6 lg:px-10 py-4 lg:py-6 flex flex-col justify-start items-center lg:items-start text-center lg:text-left opacity-0">
+        <div class="depoimento-col card-glow bg-navy px-0 sm:px-6 lg:px-10 py-4 lg:py-6 flex flex-col justify-start items-center lg:items-start text-center lg:text-left opacity-0">
           <span class="font-serif text-[80px] text-gold/20 leading-none block mb-[-16px] select-none mx-auto lg:mx-0">“</span>
           <p class="font-serif text-base lg:text-lg text-white leading-relaxed font-normal">
             Os dashboards são uma virada de chave. Tomamos decisões com dados — não com intuição — e crescemos 38% em um ano.
           </p>
-          <div class="w-6 h-[1px] bg-gold/40 my-6 mx-auto lg:mx-0"></div>
+          <div class="depoimento-line w-6 h-[1px] bg-gold/40 my-6 mx-auto lg:mx-0"></div>
           <span class="font-sans text-[11px] font-semibold text-white tracking-widest uppercase block">Sócio-fundador</span>
           <span class="font-sans text-[11px] text-gold/70 mt-1 block font-normal">Escritório trabalhista · Rio de Janeiro</span>
         </div>
@@ -1326,7 +1481,7 @@
   </section>
 
   <!-- Seção Contato -->
-  <section id="contato" class="w-full bg-cream text-ink py-24 relative z-10 border-t border-navy/10 overflow-hidden">
+  <section id="contato" class="w-full bg-transparent text-ink py-24 relative z-10 border-t border-navy/10 overflow-hidden">
     <div class="w-full max-w-[640px] mx-auto px-6 flex flex-col items-center">
       
       <!-- Topo centralizado -->
@@ -1381,7 +1536,7 @@
         </div>
 
         <!-- Botão -->
-        <button id="contato-btn" type="submit" class="group relative w-full py-[18px] bg-navy text-white text-[11px] uppercase tracking-widest font-semibold text-center overflow-hidden border border-navy transition-all duration-300 mt-8 opacity-0 rounded-none">
+        <button id="contato-btn" type="submit" class="btn-shimmer group relative w-full py-[18px] bg-navy text-white text-[11px] uppercase tracking-widest font-semibold text-center overflow-hidden border border-navy transition-all duration-300 mt-8 opacity-0 rounded-none">
           <span class="relative z-10 group-hover:text-navy transition-colors duration-300">Quero conversar com a Machnick & Co.</span>
           <div class="absolute inset-0 h-full w-full bg-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
         </button>
@@ -1405,7 +1560,9 @@
         
         <!-- Coluna 1 — identidade -->
         <div class="flex flex-col items-center lg:items-start">
-          <img class="h-14 w-auto object-contain mb-3 mx-auto lg:mx-0" src="Logo Machinick &amp; Co. - White.webp" alt="Machnick &amp; Co. Logo" />
+          <a class="flex items-center group cursor-pointer" href="./" onclick="window.location.href = window.location.pathname; return false;">
+            <img class="h-14 w-auto object-contain mb-3 mx-auto lg:mx-0 transition-transform duration-500 group-hover:scale-102" src="Logo Machinick &amp; Co. - White.webp" alt="Machnick &amp; Co. Logo" />
+          </a>
           <p class="font-sans text-[13px] text-white/50 leading-relaxed max-w-[200px] font-normal mx-auto lg:mx-0">
             Prosperidade com propósito, ordem e leveza.
           </p>
@@ -1448,106 +1605,144 @@
   <!-- Script logic for GSAP timelines, Canvas Particles, and Lenis -->
   <script>
     // 1. Particle System Setup
+    // 1. Particle System Setup
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
-    let width, height;
     let particles = [];
-    let animationFrameId = null;
-    let particlesEnabled = true;
+    const PARTICLE_COUNT = window.innerWidth < 768 ? 0 :
+                           window.innerWidth < 1024 ? 0 : 40;
+
+    let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
 
     function resizeCanvas() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      
-      // Particle visibility control based on screen width (disabled on mobile < 768px)
-      if (width < 768) {
-        particlesEnabled = false;
-        ctx.clearRect(0, 0, width, height);
-      } else {
-        particlesEnabled = true;
-        initParticles();
-      }
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
     window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Mouse throttled para performance
+    let mouseThrottle;
+    window.addEventListener('mousemove', (e) => {
+      if (mouseThrottle) return;
+      mouseThrottle = requestAnimationFrame(() => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        mouseThrottle = null;
+      });
+    });
 
     class Particle {
-      constructor() {
-        this.reset();
-      }
-      reset() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.size = Math.random() * 1.5 + 0.35;
-        this.speedX = Math.random() * 0.25 - 0.125;
-        this.speedY = Math.random() * 0.22 - 0.11;
-        this.life = Math.random() * 100;
+      constructor() { this.reset(true); }
+      reset(initial = false) {
+        this.x = Math.random() * canvas.width;
+        this.y = initial ? Math.random() * canvas.height : canvas.height + 10;
+        this.size = Math.random() * 1.2 + 0.3;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = -(Math.random() * 0.4 + 0.1);
+        this.opacity = Math.random() * 0.4 + 0.1;
+        this.life = 0;
+        this.maxLife = Math.random() * 300 + 200;
       }
       update() {
+        this.life++;
+        if (PARTICLE_COUNT > 0) {
+          const dx = this.x - mouse.x;
+          const dy = this.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            const force = (120 - dist) / 120;
+            this.x += dx / dist * force * 0.8;
+            this.y += dy / dist * force * 0.8;
+          }
+        }
         this.x += this.speedX;
         this.y += this.speedY;
-        this.life += 0.015;
-        
-        // Wrap boundaries
-        if (this.x < 0) this.x = width;
-        if (this.x > width) this.x = 0;
-        if (this.y < 0) this.y = height;
-        if (this.y > height) this.y = 0;
+        const progress = this.life / this.maxLife;
+        const fade = progress < 0.1 ? progress / 0.1 :
+                     progress > 0.8 ? (1 - progress) / 0.2 : 1;
+        this.currentOpacity = this.opacity * fade;
+        if (this.life >= this.maxLife || this.y < -10) this.reset();
       }
       draw() {
-        // Opacity animation based on sinusoidal scale
-        const opacity = (Math.sin(this.life) + 1) / 2 * 0.28 + 0.05;
-        ctx.fillStyle = `rgba(212, 175, 55, ${opacity})`;
         ctx.beginPath();
-        ctx.rect(this.x, this.y, this.size, this.size);
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(212, 175, 55, ${this.currentOpacity})`;
         ctx.fill();
       }
     }
 
-    function initParticles() {
-      particles = [];
-      const particleCount = Math.min(100, Math.floor((width * height) / 16000));
-      for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-      }
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push(new Particle());
     }
 
+    const prefersReduced = window.matchMedia(
+      '(prefers-reduced-motion: reduce)').matches;
+
+    let particleAnimId;
     function animateParticles() {
-      if (!particlesEnabled) return;
-      ctx.clearRect(0, 0, width, height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-      animationFrameId = requestAnimationFrame(animateParticles);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => { p.update(); p.draw(); });
+      particleAnimId = requestAnimationFrame(animateParticles);
+    }
+
+    if (PARTICLE_COUNT > 0 && !prefersReduced) {
+      animateParticles();
     }
 
     // Shared countup helper functions
-    function easeOutQuad(t) {
-      return t * (2 - t);
-    }
-    
-    function animateNumber(element, start, end, duration, delay) {
-      setTimeout(() => {
-        let startTime = null;
-        function step(timestamp) {
-          if (!startTime) startTime = timestamp;
-          const elapsed = timestamp - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          const easedProgress = easeOutQuad(progress);
-          const currentValue = Math.floor(start + easedProgress * (end - start));
-          element.textContent = currentValue;
-          if (progress < 1) {
-            requestAnimationFrame(step);
-          } else {
-            element.textContent = end;
-          }
+    function animateNumber(el, from, to, duration, delay = 0) {
+      if (!el) return;
+      const overshoot = to > 10 ? Math.round(to * 1.06) : to + 1;
+      const startTime = performance.now() + delay;
+      function update(now) {
+        if (now < startTime) { requestAnimationFrame(update); return; }
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const phase1End = 0.75;
+        let current;
+        if (progress < phase1End) {
+          const p = progress / phase1End;
+          current = Math.round(from + (overshoot - from) * (1 - Math.pow(1 - p, 3)));
+        } else {
+          const p = (progress - phase1End) / (1 - phase1End);
+          current = Math.round(overshoot + (to - overshoot) * p);
         }
-        requestAnimationFrame(step);
-      }, delay);
+        el.textContent = current.toLocaleString('pt-BR');
+        if (progress < 1) requestAnimationFrame(update);
+        else el.textContent = to.toLocaleString('pt-BR');
+      }
+      requestAnimationFrame(update);
     }
 
-    // 2. Lenis Smooth Scroll Setup
     document.addEventListener('DOMContentLoaded', () => {
+      const videoEl = document.getElementById('hero-video-bg');
+      const videoSource = document.getElementById('video-source');
+      const videoOverlay = document.getElementById('video-overlay');
+
+      if (videoEl && videoSource) {
+        const isMobile = window.innerWidth < 768;
+
+        if (isMobile) {
+          // Mobile: não carregar vídeo, usar fundo cream sólido
+          videoEl.pause();
+          videoEl.removeAttribute('autoplay');
+          videoSource.src = '';
+          videoEl.load();
+          if (videoOverlay) {
+            videoOverlay.style.background = '#F7F5F0';
+            videoOverlay.style.opacity = '1';
+            videoOverlay.style.zIndex = '0';
+          }
+        } else {
+          // Desktop/tablet: carregar hero-desktop.mp4
+          videoSource.src = 'hero-desktop.mp4';
+          videoEl.load();
+          videoEl.playbackRate = 0.75;
+          videoEl.play().catch(() => {});
+        }
+      }
+
       // Mobile menu toggle
       const mobileMenuBtn = document.getElementById('mobile-menu-btn');
       const mobileDropdownMenu = document.getElementById('mobile-dropdown-menu');
@@ -1589,11 +1784,16 @@
       
       requestAnimationFrame(raf);
 
-      // Trigger canvas resize initial
-      resizeCanvas();
-      if (particlesEnabled) {
-        animateParticles();
-      }
+      const navEl = document.querySelector('nav');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 80) {
+          gsap.to(navEl, { height: 64, duration: 0.35, ease: 'power2.out' });
+          navEl.classList.add('shadow-sm');
+        } else {
+          gsap.to(navEl, { height: 80, duration: 0.35, ease: 'power2.out' });
+          navEl.classList.remove('shadow-sm');
+        }
+      }, { passive: true });
 
       const splitH1 = new SplitType('#hero-title', { types: 'lines,words' });
 
@@ -1682,6 +1882,32 @@
         1.8
       );
 
+      if (!prefersReduced) {
+        tl.call(() => {
+          const photoEl = document.getElementById('hero-photo-container');
+          if (photoEl) {
+            photoEl.style.willChange = 'transform';
+            gsap.to(photoEl, {
+              y: -14,
+              duration: 3.8,
+              ease: 'sine.inOut',
+              repeat: -1,
+              yoyo: true
+            });
+          }
+        }, [], 2.2);
+
+        tl.call(() => {
+          gsap.to('#hero-divider', {
+            opacity: 0.35,
+            duration: 2.2,
+            ease: 'sine.inOut',
+            repeat: -1,
+            yoyo: true
+          });
+        }, [], 2.0);
+      }
+
       // 4. Metrics CountUp and Scroll Reveal
       const metricsSection = document.getElementById('hero-metrics');
       const metricValues = document.querySelectorAll('.metric-value');
@@ -1718,12 +1944,80 @@
       // 5. Register ScrollTrigger & trigger new split services panel reveal animations
       gsap.registerPlugin(ScrollTrigger);
 
+      if (window.innerWidth >= 1024 && !prefersReduced) {
+        // Parallax sutil na foto da hero
+        gsap.to('#hero-photo-container', {
+          yPercent: -10,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: 'main',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1.5
+          }
+        });
+
+        // Parallax nas partículas
+        gsap.to('#bg-canvas', {
+          yPercent: -6,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: 'body',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 3
+          }
+        });
+
+        // Elementos saem sutilmente ao scrollar para longe deles
+        const exitSelectors = [
+          '#services-eyebrow', '#services-title',
+          '#services-tabs-container',
+          '#mac-copy-col', '#mac-card-col',
+          '#empreendedoras-copy-col', '#empreendedoras-card-col',
+          '#instituto-copy-col', '#instituto-metrics-col',
+          '#instituto-pillars-row',
+          '#comunidade-copy-col', '#comunidade-mockup-col',
+          '#jurua-copy-row', '#jurua-image-row', '#jurua-books-row',
+          '#sobre-photo-container', '#sobre-eyebrow', '#sobre-paragraphs',
+          '#depoimentos-header', '.depoimento-col',
+          '#contato-title', '#contato-desc'
+        ];
+
+        exitSelectors.forEach(selector => {
+          const els = document.querySelectorAll(selector);
+          els.forEach(el => {
+            ScrollTrigger.create({
+              trigger: el,
+              start: 'bottom top+=120',
+              end: 'bottom top-=40',
+              onLeave: () => {
+                gsap.to(el, {
+                  opacity: 0,
+                  y: -20,
+                  duration: 0.5,
+                  ease: 'power2.in'
+                });
+              },
+              onEnterBack: () => {
+                gsap.to(el, {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.6,
+                  ease: 'power3.out'
+                });
+              }
+            });
+          });
+        });
+      }
+
       // Scroll reveal for the Services Section
       const servicesTl = gsap.timeline({
         scrollTrigger: {
           trigger: '#servicos',
-          start: 'top 75%',
-          once: true,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse',
           onComplete: () => {
             animateDashboardChart();
           }
@@ -1731,10 +2025,15 @@
       });
 
       // Eyebrow + título: fade + y(16px)→0, stagger 0.1s
-      servicesTl.fromTo(['#services-eyebrow', '#services-title'],
+      servicesTl.fromTo('#services-eyebrow',
         { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.1 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
         0
+      );
+      servicesTl.fromTo('#services-title',
+        { opacity: 0, y: 24, clipPath: 'inset(0 0 100% 0)' },
+        { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1.0, ease: 'power4.out' },
+        0.1
       );
 
       // Tabs container fade in, and tabs: fade + y(8px)→0, stagger 0.06s, delay 0.2s
@@ -1756,8 +2055,8 @@
       const academiaTl = gsap.timeline({
         scrollTrigger: {
           trigger: '#academia-mac',
-          start: 'top 75%',
-          once: true
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
         }
       });
 
@@ -1766,6 +2065,11 @@
         { opacity: 0, x: -10 },
         { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' },
         0
+      );
+      academiaTl.fromTo('#academia-title',
+        { opacity: 0, y: 24, clipPath: 'inset(0 0 100% 0)' },
+        { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1.0, ease: 'power4.out' },
+        0.15
       );
 
       // Right column card: opacity & x transition
@@ -1786,8 +2090,8 @@
       const empreendedorasTl = gsap.timeline({
         scrollTrigger: {
           trigger: '#mac-empreendedoras',
-          start: 'top 75%',
-          once: true
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
         }
       });
 
@@ -1796,6 +2100,11 @@
         { opacity: 0, x: -15 },
         { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' },
         0
+      );
+      empreendedorasTl.fromTo('#empreendedoras-title',
+        { opacity: 0, y: 24, clipPath: 'inset(0 0 100% 0)' },
+        { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1.0, ease: 'power4.out' },
+        0.15
       );
 
       // Right column card: opacity & x transition
@@ -1816,8 +2125,8 @@
       const institutoTl = gsap.timeline({
         scrollTrigger: {
           trigger: '#instituto-machnick',
-          start: 'top 75%',
-          once: true
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
         }
       });
 
@@ -1826,6 +2135,11 @@
         { opacity: 0, x: -20 },
         { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' },
         0
+      );
+      institutoTl.fromTo('#instituto-title',
+        { opacity: 0, y: 24, clipPath: 'inset(0 0 100% 0)' },
+        { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1.0, ease: 'power4.out' },
+        0.15
       );
 
       // Right column metrics & quote: opacity & x transition
@@ -1849,12 +2163,26 @@
         0.7
       );
 
+      const institutoNumObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animateNumber(document.getElementById('instituto-num-1'),
+              0, 1200, 2000, 400);
+            animateNumber(document.getElementById('instituto-num-2'),
+              0, 100, 1800, 600);
+            institutoNumObserver.disconnect();
+          }
+        });
+      }, { threshold: 0.3 });
+      const institutoSection = document.getElementById('instituto-machnick');
+      if (institutoSection) institutoNumObserver.observe(institutoSection);
+
       // Scroll reveal for the Comunidade MAC Section
       const comunidadeTl = gsap.timeline({
         scrollTrigger: {
           trigger: '#comunidade-mac',
-          start: 'top 75%',
-          once: true
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
         }
       });
 
@@ -1863,6 +2191,11 @@
         { opacity: 0, x: -32 },
         { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' },
         0
+      );
+      comunidadeTl.fromTo('#comunidade-title',
+        { opacity: 0, y: 24, clipPath: 'inset(0 0 100% 0)' },
+        { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1.0, ease: 'power4.out' },
+        0.15
       );
 
       // Screenshot: fade + y(20px)→0, power3.out, 0.9s, delay 0.15s
@@ -1883,8 +2216,8 @@
       const juruaTl = gsap.timeline({
         scrollTrigger: {
           trigger: '#editora-jurua',
-          start: 'top 75%',
-          once: true
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
         }
       });
 
@@ -1893,6 +2226,11 @@
         { opacity: 0, y: -20 },
         { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' },
         0
+      );
+      juruaTl.fromTo('#jurua-title',
+        { opacity: 0, y: 24, clipPath: 'inset(0 0 100% 0)' },
+        { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1.0, ease: 'power4.out' },
+        0.15
       );
 
       // Center row image: opacity & y transition (slide up)
@@ -1920,8 +2258,8 @@
       const sobreTl = gsap.timeline({
         scrollTrigger: {
           trigger: '#sobre',
-          start: 'top 75%',
-          once: true
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
         }
       });
 
@@ -1966,8 +2304,8 @@
       const depoimentosTl = gsap.timeline({
         scrollTrigger: {
           trigger: '#depoimentos',
-          start: 'top 75%',
-          once: true
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
         }
       });
 
@@ -1977,11 +2315,16 @@
         { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
         0
       );
+      depoimentosTl.fromTo('#depoimentos-title',
+        { opacity: 0, y: 24, clipPath: 'inset(0 0 100% 0)' },
+        { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1.0, ease: 'power4.out' },
+        0.15
+      );
 
       // Depoimentos columns
       depoimentosTl.fromTo('.depoimento-col',
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.15 },
+        { opacity: 0, y: 40, scale: 0.97 },
+        { opacity: 1, y: 0, scale: 1, duration: 1.0, ease: 'power4.out', stagger: 0.2 },
         0.3
       );
 
@@ -1989,8 +2332,8 @@
       const contatoTl = gsap.timeline({
         scrollTrigger: {
           trigger: '#contato',
-          start: 'top 75%',
-          once: true
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
         }
       });
 
@@ -2024,7 +2367,187 @@
         0.8
       );
 
+      if (window.innerWidth >= 1024 && !prefersReduced) {
+        gsap.to('#orb-1', {
+          x: 100, y: 70,
+          duration: 14,
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true
+        });
+        gsap.to('#orb-2', {
+          x: -90, y: -55,
+          duration: 17,
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true
+        });
+      }
     });
+
+    if (window.innerWidth >= 1024) {
+      // Shimmer nos botões primários
+      document.querySelectorAll('.btn-shimmer').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          let shimmer = btn.querySelector('.shimmer-el');
+          if (!shimmer) {
+            shimmer = document.createElement('span');
+            shimmer.className = 'shimmer-el pointer-events-none absolute inset-0';
+            shimmer.style.cssText = `
+              background: linear-gradient(120deg,
+                transparent 0%,
+                rgba(212,175,55,0.15) 40%,
+                rgba(212,175,55,0.30) 50%,
+                rgba(212,175,55,0.15) 60%,
+                transparent 100%);
+              transform: skewX(-20deg) translateX(-100%);
+              width: 60%;
+              top: 0; bottom: 0; left: 0;
+              position: absolute;
+              z-index: 5;
+            `;
+            btn.style.position = 'relative';
+            btn.style.overflow = 'hidden';
+            btn.appendChild(shimmer);
+          }
+          gsap.fromTo(shimmer,
+            { x: '-100%' },
+            { x: '280%', duration: 0.7, ease: 'power2.out' }
+          );
+        });
+      });
+
+      // Underline gold nos links de nav
+      document.querySelectorAll('.nav-link-underline').forEach(link => {
+        link.addEventListener('mouseenter', () => {
+          let line = link.querySelector('.nav-underline-el');
+          if (!line) {
+            line = document.createElement('span');
+            line.className = 'nav-underline-el';
+            line.style.cssText = `
+              position: absolute; bottom: -2px; left: 0;
+              width: 0%; height: 1px;
+              background: #D4AF37;
+              display: block;
+            `;
+            link.style.position = 'relative';
+            link.appendChild(line);
+          }
+          gsap.to(line, { width: '100%', duration: 0.35, ease: 'power2.out' });
+        });
+        link.addEventListener('mouseleave', () => {
+          const line = link.querySelector('.nav-underline-el');
+          if (line) gsap.to(line, { width: '0%', duration: 0.25, ease: 'power2.in' });
+        });
+      });
+
+      // Linha gold nos CTAs secundários
+      document.querySelectorAll('.cta-link-hover').forEach(link => {
+        let line = link.querySelector('.cta-underline-el');
+        if (!line) {
+          line = document.createElement('span');
+          line.className = 'cta-underline-el';
+          line.style.cssText = `
+            position: absolute; bottom: -2px; left: 0;
+            width: 0%; height: 1px;
+            background: #D4AF37; display: block;
+          `;
+          link.style.position = 'relative';
+          link.appendChild(line);
+        }
+        link.addEventListener('mouseenter', () => {
+          gsap.to(line, { width: '100%', duration: 0.3, ease: 'power2.out' });
+          const arrow = link.querySelector('iconify-icon, .arrow-icon');
+          if (arrow) gsap.to(arrow, { x: 4, duration: 0.3, ease: 'power2.out' });
+        });
+        link.addEventListener('mouseleave', () => {
+          gsap.to(line, { width: '0%', duration: 0.2, ease: 'power2.in' });
+          const arrow = link.querySelector('iconify-icon, .arrow-icon');
+          if (arrow) gsap.to(arrow, { x: 0, duration: 0.25, ease: 'power2.out' });
+        });
+      });
+
+      // Hover nos depoimentos
+      document.querySelectorAll('.depoimento-col').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          gsap.to(card, { y: -6, duration: 0.4, ease: 'power2.out' });
+          const line = card.querySelector('.depoimento-line');
+          if (line) gsap.to(line, { width: 40, duration: 0.4, ease: 'power2.out' });
+        });
+        card.addEventListener('mouseleave', () => {
+          gsap.to(card, { y: 0, duration: 0.5, ease: 'elastic.out(1, 0.5)' });
+          const line = card.querySelector('.depoimento-line');
+          if (line) gsap.to(line, { width: 24, duration: 0.4, ease: 'power2.out' });
+        });
+      });
+
+      // Cursor personalizado trailing dual-ring
+      const cursorDot = document.getElementById('custom-cursor');
+      const cursorRing = document.getElementById('custom-cursor-ring');
+      if (cursorDot && cursorRing) {
+        window.addEventListener('mousemove', (e) => {
+          gsap.to(cursorDot, {
+            x: e.clientX, y: e.clientY,
+            duration: 0.06, ease: 'power2.out'
+          });
+          gsap.to(cursorRing, {
+            x: e.clientX, y: e.clientY,
+            duration: 0.28, ease: 'power2.out'
+          });
+        });
+        document.querySelectorAll('a, button, [onclick], .card-glow').forEach(el => {
+          el.addEventListener('mouseenter', () => {
+            cursorRing.classList.add('expand');
+            gsap.to(cursorDot, { scale: 1.5, duration: 0.2 });
+          });
+          el.addEventListener('mouseleave', () => {
+            cursorRing.classList.remove('expand');
+            gsap.to(cursorDot, { scale: 1.0, duration: 0.25 });
+          });
+        });
+      }
+
+      // Hover nos cards — elevação com sombra via GSAP (exceto depoimentos que possuem animação própria)
+      document.querySelectorAll('.card-glow:not(.depoimento-col)').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          gsap.to(card, {
+            y: -5,
+            boxShadow: '0 16px 48px rgba(21,41,80,0.14), 0 0 0 1px rgba(212,175,55,0.22)',
+            duration: 0.35,
+            ease: 'power2.out'
+          });
+        });
+        card.addEventListener('mouseleave', () => {
+          gsap.to(card, {
+            y: 0,
+            boxShadow: '0 4px 16px rgba(21,41,80,0.06)',
+            duration: 0.45,
+            ease: 'power2.out'
+          });
+        });
+      });
+    }
+
+    function initMarquee() {
+      const inner = document.getElementById('marquee-inner');
+      if (!inner) return;
+      const group = inner.querySelector('.marquee-group');
+      if (!group) return;
+      for (let i = 0; i < 4; i++) {
+        inner.appendChild(group.cloneNode(true));
+      }
+      const totalWidth = group.offsetWidth;
+      gsap.to(inner, {
+        x: -totalWidth,
+        duration: 32,
+        ease: 'none',
+        repeat: -1,
+        modifiers: {
+          x: gsap.utils.unitize(x => parseFloat(x) % totalWidth)
+        }
+      });
+    }
+    initMarquee();
 
     // Dynamic panel switching logic and child animations
     let currentActivePanel = 1;
