@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MACHINICK &amp; CO. - Design System V2</title>
+    <!-- External Scripts from original site -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom animations and scrollbar overrides from original site -->
+    <style>
+        /* Hide scrollbar for ticker but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Custom animation for infinite marquee */
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-ticker {
+            animation: ticker 20s linear infinite;
+        }
+        
+        /* Interactive Spec Grid styling */
+        .spec-bg {
+            background-size: 20px 20px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+        }
+        .spec-bg-dark {
+            background-size: 20px 20px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-[#f5f5f3] text-neutral-900 font-sans antialiased selection:bg-[#d4ff00] selection:text-black overflow-x-hidden pt-20">
+
+    <!-- NAVIGATION BAR (Exact logo styling & custom page navigation links) -->
+    <nav class="fixed top-0 w-full bg-[#f5f5f3]/90 backdrop-blur-md z-50 border-b border-neutral-300">
+        <div class="w-full px-6 lg:px-12 flex justify-between items-center h-20">
+            <!-- Logo -->
+            <a href="#" class="text-xl font-medium tracking-tight flex items-start gap-1">
+                MACHINICK &amp; CO.<span class="text-[0.65rem] border border-neutral-900 px-1.5 py-0.5 rounded-sm bg-neutral-900 text-white font-mono leading-none">SYSTEM V2</span>
+            </a>
+
+            <!-- Desktop Links -->
+            <div class="hidden lg:flex items-center gap-8">
+                <a href="#hero" class="text-xs uppercase tracking-widest hover:text-neutral-500 transition-colors font-light">Hero</a>
+                <a href="#typography" class="text-xs uppercase tracking-widest hover:text-neutral-500 transition-colors font-light">Typography</a>
+                <a href="#colors" class="text-xs uppercase tracking-widest hover:text-neutral-500 transition-colors font-light">Colors</a>
+                <a href="#components" class="text-xs uppercase tracking-widest hover:text-neutral-500 transition-colors font-light">Components</a>
+                <a href="#layout" class="text-xs uppercase tracking-widest hover:text-neutral-500 transition-colors font-light">Layout</a>
+                <a href="#motion" class="text-xs uppercase tracking-widest hover:text-neutral-500 transition-colors font-light">Motion</a>
+                <a href="#icons" class="text-xs uppercase tracking-widest hover:text-neutral-500 transition-colors font-light">Icons</a>
+            </div>
+
+            <!-- Desktop CTA -->
+            <a href="index.html" class="hidden lg:flex items-center gap-3 border border-neutral-900 px-6 py-2.5 text-xs uppercase tracking-widest hover:bg-neutral-900 hover:text-white transition-colors group">
+                Back to Site
+                <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" stroke-width="1.5"></i>
+            </a>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-btn" class="lg:hidden p-2 flex flex-col gap-1.5 items-end z-50 relative">
+                <span class="w-6 h-[1.5px] bg-neutral-900 transition-transform origin-right"></span>
+                <span class="w-4 h-[1.5px] bg-neutral-900 transition-all origin-right"></span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-[#f5f5f3] h-[calc(100vh-5rem)] flex flex-col p-6 border-b border-neutral-300">
+            <a href="#hero" class="text-3xl font-medium uppercase tracking-tight py-4 border-b border-neutral-300">Hero</a>
+            <a href="#typography" class="text-3xl font-medium uppercase tracking-tight py-4 border-b border-neutral-300">Typography</a>
+            <a href="#colors" class="text-3xl font-medium uppercase tracking-tight py-4 border-b border-neutral-300">Colors</a>
+            <a href="#components" class="text-3xl font-medium uppercase tracking-tight py-4 border-b border-neutral-300">Components</a>
+            <a href="#layout" class="text-3xl font-medium uppercase tracking-tight py-4 border-b border-neutral-300">Layout</a>
+            <a href="#motion" class="text-3xl font-medium uppercase tracking-tight py-4 border-b border-neutral-300">Motion</a>
+            <a href="#icons" class="text-3xl font-medium uppercase tracking-tight py-4 border-b border-neutral-300">Icons</a>
+            <a href="index.html" class="mt-8 flex items-center justify-between border border-neutral-900 px-6 py-4 text-sm uppercase tracking-widest bg-[#d4ff00]">
+                Back to Site <i data-lucide="arrow-up-right" class="w-5 h-5" stroke-width="1.5"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- SECTION 0: HERO (Exact Clone with Adapted Text) -->
+    <header id="hero" class="min-h-screen flex flex-col lg:flex-row border-b border-neutral-300">
+        <!-- Left Content -->
+        <div class="w-full lg:w-[55%] px-6 py-16 lg:px-16 lg:py-24 flex flex-col justify-center relative">
+            
+            <div class="flex items-center gap-3 mb-10 lg:mb-16">
+                <span class="text-xs uppercase tracking-widest font-light">Design System &amp; Patterns</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-neutral-900"></div>
+            </div>
+
+            <h1 class="text-[3.5rem] leading-[0.85] lg:text-[6.5rem] xl:text-[8rem] font-semibold uppercase tracking-tighter mb-10 lg:mb-16">
+                Machinick &amp; Co.<br>
+                Design System.<br>
+                Extract Version 2.<br>
+            </h1>
+
+            <div class="flex flex-col lg:flex-row gap-6 lg:items-start mb-16 lg:mb-24">
+                <i data-lucide="plus" class="w-10 h-10 text-neutral-400 shrink-0" stroke-width="1.5"></i>
+                <p class="text-sm uppercase tracking-wider leading-relaxed max-w-md font-light text-neutral-800">
+                    A living pattern library containing the typography scale, color palette, custom components, layout patterns, motion gallery, and icons of the application.
+                </p>
+            </div>
+
+            <!-- CTA Group -->
+            <div class="flex items-stretch mb-20 lg:mb-32 w-fit group cursor-pointer">
+                <div class="bg-[#171717] text-white px-8 lg:px-12 py-5 text-xs lg:text-sm uppercase tracking-widest flex items-center justify-center font-light transition-colors group-hover:bg-neutral-800">
+                    Explore System
+                </div>
+                <div class="bg-[#d4ff00] px-5 flex items-center justify-center text-neutral-900 border-l border-neutral-800">
+                    <i data-lucide="arrow-up-right" class="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" stroke-width="1.5"></i>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-8 border-t border-neutral-300 pt-8 w-full max-w-2xl">
+                <div class="lg:border-r border-neutral-300 flex flex-col pr-6">
+                    <span class="text-3xl lg:text-4xl font-medium tracking-tight">1.0.0</span>
+                    <span class="text-xs uppercase tracking-widest text-neutral-500 mt-2 font-light">System<br>Version</span>
+                </div>
+                <div class="lg:border-r border-neutral-300 flex flex-col pr-6 lg:pl-6">
+                    <span class="text-3xl lg:text-4xl font-medium tracking-tight">12+</span>
+                    <span class="text-xs uppercase tracking-widest text-neutral-500 mt-2 font-light">Global<br>Tokens</span>
+                </div>
+                <div class="lg:border-r border-neutral-300 flex flex-col pr-6 lg:pl-6">
+                    <span class="text-3xl lg:text-4xl font-medium tracking-tight">10+</span>
+                    <span class="text-xs uppercase tracking-widest text-neutral-500 mt-2 font-light">Core<br>Patterns</span>
+                </div>
+                <div class="flex flex-col lg:pl-6">
+                    <span class="text-3xl lg:text-4xl font-medium tracking-tight">100%</span>
+                    <span class="text-xs uppercase tracking-widest text-neutral-500 mt-2 font-light">Aesthetic<br>Match</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Image Area -->
+        <div class="hidden lg:block w-[45%] bg-neutral-200 relative overflow-hidden border-l border-neutral-300">
+            <!-- Background Image -->
+            <img src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=2000&auto=format&fit=crop" alt="Abstract Brutalist Architecture" class="w-full h-full object-cover object-center grayscale contrast-125 brightness-90">
+            
+            <!-- Dark Overlay for contrast -->
+            <div class="absolute inset-0 bg-gradient-to-tr from-black/40 to-transparent"></div>
+
+            <!-- Overlay Elements -->
+            
+            <!-- Top Right Box -->
+            <div class="absolute top-20 right-12 flex items-start gap-4">
+                <div class="w-2.5 h-2.5 bg-[#d4ff00] mt-1.5"></div>
+                <div class="text-[0.65rem] uppercase tracking-[0.2em] text-white font-light leading-relaxed">
+                    Consistent.<br>Scalable.<br>Refined.
+                </div>
+            </div>
+
+            <!-- Center Crosshair -->
+            <div class="absolute top-1/3 right-1/4">
+                <div class="w-12 h-[1px] bg-white/50 absolute top-1/2 -translate-y-1/2 -left-6"></div>
+                <div class="w-[1px] h-12 bg-white/50 absolute left-1/2 -translate-x-1/2 -top-6"></div>
+            </div>
+
+            <!-- Center Right abstract markers -->
+            <div class="absolute top-2/3 right-1/4 flex gap-4">
+                <div class="w-[1px] h-4 bg-[#d4ff00]/60"></div>
+                <div class="w-[1px] h-4 bg-[#d4ff00]/60"></div>
+                <div class="w-[1px] h-4 bg-[#d4ff00]/60"></div>
+                <div class="w-[1px] h-4 bg-[#d4ff00]/60"></div>
+            </div>
+
+            <!-- Bottom Right Scroll Indicator -->
+            <div class="absolute bottom-12 right-12 flex flex-col items-center gap-6">
+                <span class="text-[0.65rem] uppercase tracking-[0.3em] text-white font-light [writing-mode:vertical-rl] rotate-180">Scroll to Spec</span>
+                <div class="w-[1px] h-24 bg-white/30 relative">
+                    <div class="w-[1px] h-1/2 bg-white absolute top-0 left-0 animate-pulse"></div>
+                </div>
+                <i data-lucide="arrow-down" class="w-4 h-4 text-white" stroke-width="1.5"></i>
+            </div>
+
+            <!-- Overlapping Left Neon Box -->
+            <div class="absolute -left-8 bottom-32 bg-[#d4ff00] w-24 h-24 flex items-center justify-center z-20 shadow-2xl">
+                <i data-lucide="plus" class="w-6 h-6 text-neutral-900" stroke-width="1.5"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 1: TYPOGRAPHY -->
+    <section id="typography" class="py-24 lg:py-32 px-6 lg:px-16 border-b border-neutral-300 bg-white relative">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-xs uppercase tracking-[0.2em] font-light mb-4">01 / Typography</h2>
+            <h3 class="text-5xl lg:text-7xl font-semibold tracking-tight uppercase leading-none mb-16">Typography Scale</h3>
+            
+            <div class="flex flex-col border-t border-neutral-300">
+                <!-- Header row -->
+                <div class="border-b border-neutral-300 py-4 hidden md:flex items-center text-xs uppercase tracking-wider text-neutral-400">
+                    <div class="w-1/4">Style Name</div>
+                    <div class="flex-1">Live Text Preview</div>
+                    <div class="w-1/4 text-right">Size / Line-Height</div>
+                </div>
+
+                <!-- Heading 1 -->
+                <div class="border-b border-neutral-300 py-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="w-full md:w-1/4 text-xs uppercase tracking-widest text-neutral-400 font-mono">Heading 1</div>
+                    <div class="flex-1">
+                        <h1 class="text-[3.5rem] leading-[0.85] lg:text-[6.5rem] xl:text-[8rem] font-semibold uppercase tracking-tighter text-neutral-900">
+                            System Spec
+                        </h1>
+                    </div>
+                    <div class="w-full md:w-1/4 md:text-right font-mono text-xs text-neutral-500">
+                        56px / 48px <br class="hidden md:block"> (128px / 108px Desktop)
+                    </div>
+                </div>
+
+                <!-- Heading 2 Section Label -->
+                <div class="border-b border-neutral-300 py-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="w-full md:w-1/4 text-xs uppercase tracking-widest text-neutral-400 font-mono">Heading 2 (Label)</div>
+                    <div class="flex-1">
+                        <h2 class="text-xs uppercase tracking-[0.2em] font-light text-neutral-900">
+                            01 / Deployment Protocol
+                        </h2>
+                    </div>
+                    <div class="w-full md:w-1/4 md:text-right font-mono text-xs text-neutral-500">
+                        12px / 16px
+                    </div>
+                </div>
+
+                <!-- Heading 2 Giant Footer -->
+                <div class="border-b border-neutral-300 py-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="w-full md:w-1/4 text-xs uppercase tracking-widest text-neutral-400 font-mono">Heading 2 (Giant Footer)</div>
+                    <div class="flex-1">
+                        <h2 class="text-5xl md:text-7xl lg:text-[10rem] font-semibold tracking-tighter uppercase leading-[0.85] text-neutral-900">
+                            Build.
+                        </h2>
+                    </div>
+                    <div class="w-full md:w-1/4 md:text-right font-mono text-xs text-neutral-500">
+                        48px / 40px <br class="hidden md:block"> (160px / 136px Desktop)
+                    </div>
+                </div>
+
+                <!-- Heading 3 -->
+                <div class="border-b border-neutral-300 py-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="w-full md:w-1/4 text-xs uppercase tracking-widest text-neutral-400 font-mono">Heading 3</div>
+                    <div class="flex-1">
+                        <h3 class="text-5xl lg:text-7xl font-semibold tracking-tight uppercase leading-none text-neutral-900">
+                            How We Engineer.
+                        </h3>
+                    </div>
+                    <div class="w-full md:w-1/4 md:text-right font-mono text-xs text-neutral-500">
+                        48px / 48px <br class="hidden md:block"> (72px / 72px Desktop)
+                    </div>
+                </div>
+
+                <!-- Heading 3 Gradient -->
+                <div class="border-b border-neutral-300 py-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="w-full md:w-1/4 text-xs uppercase tracking-widest text-neutral-400 font-mono">Heading 3 (Gradient)</div>
+                    <div class="flex-1">
+                        <h3 class="text-4xl md:text-6xl lg:text-8xl font-semibold tracking-tighter uppercase leading-none text-transparent bg-clip-text bg-gradient-to-r from-neutral-900 to-neutral-400">
+                            Scale. Speed.
+                        </h3>
+                    </div>
+                    <div class="w-full md:w-1/4 md:text-right font-mono text-xs text-neutral-500">
+                        36px / 36px <br class="hidden md:block"> (96px / 96px Desktop)
+                    </div>
+                </div>
+
+                <!-- Heading 4 -->
+                <div class="border-b border-neutral-300 py-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="w-full md:w-1/4 text-xs uppercase tracking-widest text-neutral-400 font-mono">Heading 4</div>
+                    <div class="flex-1">
+                        <h4 class="text-2xl font-semibold tracking-tight uppercase text-neutral-900">
+                            Custom Agent Development
+                        </h4>
+                    </div>
+                    <div class="w-full md:w-1/4 md:text-right font-mono text-xs text-neutral-500">
+                        24px / 32px
+                    </div>
+                </div>
+
+                <!-- Heading 4 Alternate -->
+                <div class="border-b border-neutral-300 py-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="w-full md:w-1/4 text-xs uppercase tracking-widest text-neutral-400 font-mono">Heading 4 (Bento Primary)</div>
+                    <div class="flex-1">
+                        <h4 class="text-3xl font-semibold tracking-tight uppercase mb-4 leading-none text-neutral-900">
+                            Initialize<br>Project
+                        </h4>
+                    </div>
+                    <div class="w-full md:w-1/4 md:text-right font-mono text-xs text-neutral-500">
+                        30px / 30px
+                    </div>
+                </div>
+
+                <!-- Bold L -->
+                <div class="border-b border-neutral-300 py-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="w-full md:w-1/4 text-xs uppercase tracking-widest text-neutral-400 font-mono">Bold L</div>
+                    <div class="flex-1">
+                        <span class="text-6xl font-medium tracking-tighter text-neutral-900">
+                            01
+                        </span>
+                    </div>
+                    <div class="w-full md:w-1/4 md:text-right font-mono text-xs text-neutral-500">
+                        60px / 60px
+                    </div>
+                </div>
+
+                <!-- Bold M -->
+                <div class="border-b border-neutral-300 py-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="w-full md:w-1/4 text-xs uppercase tracking-widest text-neutral-400 font-mono">Bold M</div>
+                    <div class="flex-1">
+                        <span class="text-3xl lg:text-4xl font-medium tracking-tight text-neutral-900">
+                            50+ Deployed
+                        </span>
+                    </div>
+                    <div class="w-full md:w-1/4 md:text-right font-mono text-xs text-neutral-500">
+                        30px / 36px <br class="hidden md:block"> (36px / 40px Desktop)
+                    </div>
+                </div>
+
+                <!-- Bold S -->
+                <div class="border-b border-neutral-300 py-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="w-full md:w-1/4 text-xs uppercase tracking-widest text-neutral-400 font-mono">Bold S</div>
+                    <div class="flex-1">
+                        <div class="text-sm font-semibold tracking-wide uppercase text-neutral-900">
+                            Marcus Chen
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/4 md:text-right font-mono text-xs text-neutral-500">
+                        14px / 20px
+                    </div>
+                </div>
+
+                <!-- Paragraph -->
+                <div class="border-b border-neutral-300 py-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="w-full md:w-1/4 text-xs uppercase tracking-widest text-neutral-400 font-mono">Paragraph (Large Body)</div>
+                    <div class="flex-1">
+                        <p class="text-3xl lg:text-5xl font-medium tracking-tight uppercase leading-[1.1] text-neutral-900">
+                            The era of static software is over. We engineer dynamic intelligence.
+                        </p>
+                    </div>
+                    <div class="w-full md:w-1/4 md:text-right font-mono text-xs text-neutral-500">
+                        30px / 33px <br class="hidden md:block"> (48px / 53px Desktop)
+                    </div>
+                </div>
+
+                <!-- Paragraph Alt -->
+                <div class="border-b border-neutral-300 py-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="w-full md:w-1/4 text-xs uppercase tracking-widest text-neutral-400 font-mono">Paragraph (Quote Body)</div>
+                    <div class="flex-1">
+                        <p class="text-2xl lg:text-4xl font-medium tracking-tight leading-snug text-neutral-800">
+                            "Agentic didn't just automate our processes; they re-architected computational labor."
+                        </p>
+                    </div>
+                    <div class="w-full md:w-1/4 md:text-right font-mono text-xs text-neutral-500">
+                        24px / 32px <br class="hidden md:block"> (36px / 48px Desktop)
+                    </div>
+                </div>
+
+                <!-- Regular L -->
+                <div class="border-b border-neutral-300 py-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="w-full md:w-1/4 text-xs uppercase tracking-widest text-neutral-400 font-mono">Regular L</div>
+                    <div class="flex-1">
+                        <p class="text-base font-light text-neutral-600 leading-relaxed">
+                            RPA (Robotic Process Automation) follows strict, pre-programmed rules. AI Agents possess semantic understanding.
+                        </p>
+                    </div>
+                    <div class="w-full md:w-1/4 md:text-right font-mono text-xs text-neutral-500">
+                        16px / 26px
+                    </div>
+                </div>
+
+                <!-- Regular M -->
+                <div class="border-b border-neutral-300 py-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="w-full md:w-1/4 text-xs uppercase tracking-widest text-neutral-400 font-mono">Regular M</div>
+                    <div class="flex-1">
+                        <p class="text-sm font-light text-neutral-500 uppercase tracking-wider">
+                            We design and develop intelligent AI agents that automate workflows.
+                        </p>
+                    </div>
+                    <div class="w-full md:w-1/4 md:text-right font-mono text-xs text-neutral-500">
+                        14px / 20px
+                    </div>
+                </div>
+
+                <!-- Regular S -->
+                <div class="border-b border-neutral-300 py-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="w-full md:w-1/4 text-xs uppercase tracking-widest text-neutral-400 font-mono">Regular S</div>
+                    <div class="flex-1">
+                        <div class="text-[0.65rem] uppercase tracking-widest font-light text-neutral-500">
+                            Autonomous. Adaptive. Actionable.
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/4 md:text-right font-mono text-xs text-neutral-500">
+                        10px / 14px
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: COLORS & SURFACES -->
+    <section id="colors" class="py-24 lg:py-32 px-6 lg:px-16 border-b border-neutral-300 bg-[#f5f5f3] relative">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-xs uppercase tracking-[0.2em] font-light mb-4">02 / Colors &amp; Surfaces</h2>
+            <h3 class="text-5xl lg:text-7xl font-semibold tracking-tight uppercase leading-none mb-16">Color Palette &amp; Materials</h3>
+
+            <!-- Color Swatches Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <!-- Page Background -->
+                <div class="border border-neutral-300 bg-white p-4 flex flex-col justify-between h-48 relative">
+                    <div class="w-full h-24 bg-[#f5f5f3] border border-neutral-300"></div>
+                    <div class="mt-4">
+                        <div class="text-xs uppercase tracking-wider text-neutral-500 font-mono">Page BG</div>
+                        <div class="text-sm font-semibold mt-1">#F5F5F3</div>
+                        <div class="text-[0.65rem] text-neutral-400 uppercase tracking-widest mt-1">Light Neutral Canvas</div>
+                    </div>
+                </div>
+
+                <!-- Pure White -->
+                <div class="border border-neutral-300 bg-white p-4 flex flex-col justify-between h-48 relative">
+                    <div class="w-full h-24 bg-white border border-neutral-200"></div>
+                    <div class="mt-4">
+                        <div class="text-xs uppercase tracking-wider text-neutral-500 font-mono">Card BG / Light</div>
+                        <div class="text-sm font-semibold mt-1">#FFFFFF</div>
+                        <div class="text-[0.65rem] text-neutral-400 uppercase tracking-widest mt-1">Content Backgrounds</div>
+                    </div>
+                </div>
+
+                <!-- Dark Charcoal -->
+                <div class="border border-neutral-300 bg-white p-4 flex flex-col justify-between h-48 relative">
+                    <div class="w-full h-24 bg-[#171717]"></div>
+                    <div class="mt-4">
+                        <div class="text-xs uppercase tracking-wider text-neutral-500 font-mono">Primary Dark / Text</div>
+                        <div class="text-sm font-semibold mt-1">#171717</div>
+                        <div class="text-[0.65rem] text-neutral-400 uppercase tracking-widest mt-1">Deep Stark Charcoal</div>
+                    </div>
+                </div>
+
+                <!-- Accent Neon -->
+                <div class="border border-neutral-300 bg-white p-4 flex flex-col justify-between h-48 relative">
+                    <div class="w-full h-24 bg-[#d4ff00]"></div>
+                    <div class="mt-4">
+                        <div class="text-xs uppercase tracking-wider text-neutral-500 font-mono">Accent Neon</div>
+                        <div class="text-sm font-semibold mt-1">#D4FF00</div>
+                        <div class="text-[0.65rem] text-neutral-400 uppercase tracking-widest mt-1">Stark Lime Highlight</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Borders, Overlays, and Gradients -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Borders and Overlays Spec -->
+                <div class="border border-neutral-300 bg-white p-8 lg:p-12">
+                    <h4 class="text-lg font-semibold tracking-tight uppercase mb-8">Borders, Dividers, &amp; Overlays</h4>
+                    
+                    <div class="space-y-6">
+                        <!-- Light Border -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs uppercase tracking-wider text-neutral-500 font-mono">Light Divider / Border</span>
+                                <span class="text-xs text-neutral-500 font-mono">border-neutral-300</span>
+                            </div>
+                            <div class="border-t border-neutral-300 w-full py-2"></div>
+                        </div>
+
+                        <!-- Dark Border -->
+                        <div class="bg-[#171717] p-4 text-white">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs uppercase tracking-wider text-neutral-400 font-mono">Dark Divider / Border</span>
+                                <span class="text-xs text-neutral-400 font-mono">border-neutral-800</span>
+                            </div>
+                            <div class="border-t border-neutral-800 w-full py-2"></div>
+                        </div>
+
+                        <!-- Dark Image Overlay -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs uppercase tracking-wider text-neutral-500 font-mono">Image Contrast Overlay</span>
+                                <span class="text-xs text-neutral-500 font-mono">from-black/40 to-transparent</span>
+                            </div>
+                            <div class="relative h-24 bg-neutral-400 overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-tr from-black/40 to-transparent"></div>
+                                <span class="absolute bottom-2 left-2 text-white text-[0.65rem] uppercase tracking-widest">Overlay effect applied</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gradients & Radial Specs -->
+                <div class="border border-neutral-300 bg-white p-8 lg:p-12">
+                    <h4 class="text-lg font-semibold tracking-tight uppercase mb-8">System Gradients</h4>
+
+                    <div class="space-y-6">
+                        <!-- Text Linear Gradient -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs uppercase tracking-wider text-neutral-500 font-mono">Text Linear Gradient</span>
+                                <span class="text-xs text-neutral-500 font-mono">from-neutral-900 to-neutral-400</span>
+                            </div>
+                            <div class="py-4">
+                                <h3 class="text-4xl font-semibold uppercase leading-none text-transparent bg-clip-text bg-gradient-to-r from-neutral-900 to-neutral-400">
+                                    Scale. Speed. Efficiency.
+                                </h3>
+                            </div>
+                        </div>
+
+                        <!-- Radial Bento Glow -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs uppercase tracking-wider text-neutral-500 font-mono">Radial Dark Swarm Glow</span>
+                                <span class="text-xs text-neutral-500 font-mono">from-neutral-800/50 to-transparent</span>
+                            </div>
+                            <div class="relative w-full h-28 bg-[#171717] border border-neutral-700 flex items-center justify-center">
+                                <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-neutral-800/50 to-transparent"></div>
+                                <i data-lucide="shield-check" class="w-10 h-10 text-neutral-600 relative z-10" stroke-width="1"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: UI COMPONENTS -->
+    <section id="components" class="py-24 lg:py-32 px-6 lg:px-16 border-b border-neutral-300 bg-white relative">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-xs uppercase tracking-[0.2em] font-light mb-4">03 / UI Components</h2>
+            <h3 class="text-5xl lg:text-7xl font-semibold tracking-tight uppercase leading-none mb-16">Interactive Components</h3>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Interactive Button Swatches -->
+                <div class="border border-neutral-300 p-8 lg:p-12 flex flex-col justify-between">
+                    <div>
+                        <h4 class="text-lg font-semibold tracking-tight uppercase mb-8">Button Variants &amp; States</h4>
+                        
+                        <div class="space-y-8">
+                            <!-- Primary CTA -->
+                            <div>
+                                <span class="text-[0.65rem] uppercase tracking-widest text-neutral-400 block mb-3 font-mono">01. Primary Split CTA (Interactive)</span>
+                                <div class="flex items-stretch w-fit group cursor-pointer">
+                                    <div class="bg-[#171717] text-white px-8 py-4 text-xs uppercase tracking-widest flex items-center justify-center font-light transition-colors group-hover:bg-neutral-800">
+                                        Build Your Agent
+                                    </div>
+                                    <div class="bg-[#d4ff00] px-4 flex items-center justify-center text-neutral-900 border-l border-neutral-800">
+                                        <i data-lucide="arrow-up-right" class="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" stroke-width="1.5"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Primary CTA Disabled -->
+                            <div>
+                                <span class="text-[0.65rem] uppercase tracking-widest text-neutral-400 block mb-3 font-mono">02. Primary Split CTA (Disabled State)</span>
+                                <div class="flex items-stretch w-fit opacity-40 cursor-not-allowed">
+                                    <div class="bg-[#171717] text-white px-8 py-4 text-xs uppercase tracking-widest flex items-center justify-center font-light">
+                                        Build Your Agent
+                                    </div>
+                                    <div class="bg-[#d4ff00] px-4 flex items-center justify-center text-neutral-900 border-l border-neutral-800">
+                                        <i data-lucide="arrow-up-right" class="w-5 h-5" stroke-width="1.5"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Secondary Let's Build CTA -->
+                            <div>
+                                <span class="text-[0.65rem] uppercase tracking-widest text-neutral-400 block mb-3 font-mono">03. Secondary Navigation CTA (Interactive)</span>
+                                <a href="#" class="inline-flex items-center gap-3 border border-neutral-900 px-6 py-2.5 text-xs uppercase tracking-widest hover:bg-neutral-900 hover:text-white transition-colors group">
+                                    Let's Build
+                                    <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" stroke-width="1.5"></i>
+                                </a>
+                            </div>
+
+                            <!-- Inline Neon CTA -->
+                            <div>
+                                <span class="text-[0.65rem] uppercase tracking-widest text-neutral-400 block mb-3 font-mono">04. Accent Text CTA (Interactive)</span>
+                                <a href="#" class="inline-flex items-center gap-2 text-sm uppercase tracking-widest text-[#d4ff00] hover:text-neutral-900 bg-[#171717] px-4 py-2 hover:bg-[#d4ff00] hover:text-black transition-colors border-b border-[#d4ff00] pb-1 w-fit">
+                                    View Technical Specs
+                                    <i data-lucide="arrow-right" class="w-4 h-4" stroke-width="1.5"></i>
+                                </a>
+                            </div>
+
+                            <!-- Slider controls -->
+                            <div>
+                                <span class="text-[0.65rem] uppercase tracking-widest text-neutral-400 block mb-3 font-mono">05. Slider Arrow Controls (Interactive)</span>
+                                <div class="flex gap-4">
+                                    <button class="w-12 h-12 border border-neutral-900 flex items-center justify-center hover:bg-neutral-900 hover:text-white transition-colors">
+                                        <i data-lucide="arrow-left" class="w-5 h-5" stroke-width="1.5"></i>
+                                    </button>
+                                    <button class="w-12 h-12 bg-neutral-900 text-white flex items-center justify-center hover:bg-neutral-800 transition-colors">
+                                        <i data-lucide="arrow-right" class="w-5 h-5" stroke-width="1.5"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bento & Component Patterns -->
+                <div class="space-y-8">
+                    <!-- Standard Bento Card (Interactive) -->
+                    <div class="border border-neutral-300 p-6 bg-[#f5f5f3]">
+                        <span class="text-[0.65rem] uppercase tracking-widest text-neutral-400 block mb-3 font-mono">06. Bento Dark Card (Interactive)</span>
+                        <div class="bg-[#171717] p-8 hover:bg-[#1f1f1f] transition-colors group relative overflow-hidden text-white">
+                            <div class="absolute top-4 right-4 text-neutral-700 group-hover:text-[#d4ff00] transition-colors">
+                                <i data-lucide="network" class="w-6 h-6" stroke-width="1.5"></i>
+                            </div>
+                            <div class="text-[0.65rem] uppercase tracking-widest text-neutral-500 mb-8 border border-neutral-700 px-2 py-1 w-fit">Module 01</div>
+                            <h4 class="text-2xl font-semibold tracking-tight uppercase mb-4 group-hover:text-[#d4ff00] transition-colors">Custom Agent Development</h4>
+                            <p class="text-base font-light text-neutral-400 leading-relaxed">Bespoke LLM-powered entities trained on your proprietary data.</p>
+                        </div>
+                    </div>
+
+                    <!-- Accent Bento Card (Interactive) -->
+                    <div class="border border-neutral-300 p-6 bg-[#f5f5f3]">
+                        <span class="text-[0.65rem] uppercase tracking-widest text-neutral-400 block mb-3 font-mono">07. Bento Accent Card (Interactive)</span>
+                        <div class="bg-[#d4ff00] p-8 text-[#171717] group relative cursor-pointer overflow-hidden flex flex-col justify-between h-48">
+                            <div>
+                                <div class="text-[0.65rem] uppercase tracking-widest text-neutral-600 mb-4 border border-neutral-600 px-2 py-1 w-fit">Engage</div>
+                                <h4 class="text-2xl font-semibold tracking-tight uppercase leading-none">Initialize Project</h4>
+                            </div>
+                            <div class="flex justify-end">
+                                <div class="w-10 h-10 bg-[#171717] flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <i data-lucide="arrow-up-right" class="w-5 h-5 text-[#d4ff00]" stroke-width="1.5"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item (Interactive Accordion) -->
+                    <div class="border border-neutral-300 p-6 bg-[#f5f5f3]">
+                        <span class="text-[0.65rem] uppercase tracking-widest text-neutral-400 block mb-3 font-mono">08. FAQ Accordion Item (Interactive)</span>
+                        <div class="border-t border-b border-neutral-300 bg-white px-4">
+                            <button class="faq-btn w-full py-6 flex justify-between items-center text-left hover:text-neutral-600 transition-colors">
+                                <span class="text-lg font-medium tracking-tight uppercase">What makes an agent different from traditional RPA?</span>
+                                <i data-lucide="plus" class="lucide-plus w-5 h-5 transition-transform duration-300" stroke-width="1.5"></i>
+                            </button>
+                            <div class="hidden pb-6 text-sm font-light text-neutral-600 leading-relaxed max-w-3xl">
+                                RPA (Robotic Process Automation) follows strict, pre-programmed rules. AI Agents possess semantic understanding and reasoning capabilities to adapt to changing environments.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: LAYOUT & SPACING -->
+    <section id="layout" class="py-24 lg:py-32 px-6 lg:px-16 border-b border-neutral-300 bg-[#f5f5f3] relative">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-xs uppercase tracking-[0.2em] font-light mb-4">04 / Layout &amp; Spacing</h2>
+            <h3 class="text-5xl lg:text-7xl font-semibold tracking-tight uppercase leading-none mb-16">Grid &amp; Column Patterns</h3>
+
+            <div class="space-y-12">
+                <!-- Pattern 1: Hero Split Layout (Desktop Representation) -->
+                <div class="border border-neutral-300 bg-white p-8">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-neutral-500 mb-6 font-mono">01. Hero Split Screen Layout Spec (lg:grid-cols-[55%_45%])</h4>
+                    <div class="flex flex-col lg:flex-row border border-neutral-300 h-64 spec-bg text-center text-xs font-mono">
+                        <div class="w-full lg:w-[55%] flex flex-col justify-center items-center bg-neutral-100 p-4 border-r border-neutral-300">
+                            <span class="font-bold text-neutral-700">Left Content Panel (55% Width)</span>
+                            <span class="text-[0.65rem] text-neutral-500 mt-2">Paddings: px-6 py-16 | lg:px-16 lg:py-24</span>
+                        </div>
+                        <div class="hidden lg:flex w-[45%] flex-col justify-center items-center bg-neutral-200 p-4">
+                            <span class="font-bold text-neutral-700">Right Graphic Panel (45% Width)</span>
+                            <span class="text-[0.65rem] text-neutral-500 mt-2">Responsive: hidden on mobile | block on lg</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pattern 2: Bento Grid Layout -->
+                <div class="border border-neutral-300 bg-white p-8">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-neutral-500 mb-6 font-mono">02. Services Matrix Bento Grid Layout (gap-[1px] bg-neutral-800)</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-1 bg-neutral-800 border border-neutral-800 text-white font-mono text-[0.65rem] text-center">
+                        <div class="bg-[#171717] py-12 flex flex-col justify-center items-center">
+                            <span>Col 1</span>
+                            <span class="text-neutral-500 mt-1">Module 01</span>
+                        </div>
+                        <div class="bg-[#171717] py-12 flex flex-col justify-center items-center">
+                            <span>Col 2</span>
+                            <span class="text-neutral-500 mt-1">Module 02</span>
+                        </div>
+                        <div class="bg-[#171717] py-12 flex flex-col justify-center items-center">
+                            <span>Col 3</span>
+                            <span class="text-neutral-500 mt-1">Module 03</span>
+                        </div>
+                        <div class="bg-[#171717] py-12 md:col-span-2 flex flex-col justify-center items-center border-t border-neutral-800 md:border-t-0">
+                            <span>Col Span 2</span>
+                            <span class="text-neutral-500 mt-1">Module 04 (Security Layer)</span>
+                        </div>
+                        <div class="bg-[#d4ff00] text-black py-12 flex flex-col justify-center items-center">
+                            <span class="font-bold">Accent Col</span>
+                            <span class="text-neutral-700 mt-1">Initialize Project</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pattern 3: Sticky Steps Layout -->
+                <div class="border border-neutral-300 bg-white p-8">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-neutral-500 mb-6 font-mono">03. Sticky Steps Split Layout (lg:flex-row)</h4>
+                    <div class="flex flex-col lg:flex-row border border-neutral-300 h-64 spec-bg text-center text-xs font-mono">
+                        <div class="w-full lg:w-1/2 flex flex-col justify-center items-center bg-neutral-100 p-4 border-b lg:border-b-0 lg:border-r border-neutral-300">
+                            <span class="font-bold text-neutral-700">Left Sticky Section Header (50%)</span>
+                            <span class="text-[0.65rem] text-neutral-500 mt-2">lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)]</span>
+                        </div>
+                        <div class="w-full lg:w-1/2 flex flex-col justify-center items-center bg-white p-4 overflow-y-auto">
+                            <span class="font-bold text-neutral-700">Right Scrollable Step List (50%)</span>
+                            <span class="text-[0.65rem] text-neutral-500 mt-2">Scrollable steps content stacked vertically</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: MOTION & INTERACTION -->
+    <section id="motion" class="py-24 lg:py-32 px-6 lg:px-16 border-b border-neutral-300 bg-white relative">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-xs uppercase tracking-[0.2em] font-light mb-4">05 / Motion &amp; Interaction</h2>
+            <h3 class="text-5xl lg:text-7xl font-semibold tracking-tight uppercase leading-none mb-16">Motion Gallery</h3>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Infinite Logo Marquee Showcase -->
+                <div class="border border-neutral-300 p-8 lg:p-12">
+                    <h4 class="text-lg font-semibold tracking-tight uppercase mb-4">01. Logo Ticker Loop</h4>
+                    <p class="text-sm font-light text-neutral-600 leading-relaxed mb-8">
+                        Infinite marquee animation triggered by the `@keyframes ticker` CSS block and the `.animate-ticker` class utility.
+                    </p>
+                    
+                    <div class="py-6 border border-neutral-300 bg-white overflow-hidden relative flex items-center">
+                        <div class="absolute left-4 z-10 text-[0.65rem] uppercase tracking-widest text-neutral-400 bg-white px-2">Ticker</div>
+                        <div class="w-full flex whitespace-nowrap animate-ticker items-center text-xl font-medium tracking-tight uppercase text-neutral-800">
+                            <span class="mx-8">Palantir</span> <span class="mx-8 text-[#d4ff00]">/</span>
+                            <span class="mx-8">Stripe</span> <span class="mx-8 text-[#d4ff00]">/</span>
+                            <span class="mx-8">OpenAI</span> <span class="mx-8 text-[#d4ff00]">/</span>
+                            <span class="mx-8">Scale</span> <span class="mx-8 text-[#d4ff00]">/</span>
+                            <!-- Repeated set for infinite loop visual matching -->
+                            <span class="mx-8">Palantir</span> <span class="mx-8 text-[#d4ff00]">/</span>
+                            <span class="mx-8">Stripe</span> <span class="mx-8 text-[#d4ff00]">/</span>
+                            <span class="mx-8">OpenAI</span> <span class="mx-8 text-[#d4ff00]">/</span>
+                            <span class="mx-8">Scale</span> <span class="mx-8 text-[#d4ff00]">/</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grayscale Card Hover Transition -->
+                <div class="border border-neutral-300 p-8 lg:p-12">
+                    <h4 class="text-lg font-semibold tracking-tight uppercase mb-4">02. Grayscale &amp; Scale Zoom (Interactive)</h4>
+                    <p class="text-sm font-light text-neutral-600 leading-relaxed mb-8">
+                        Hover transitions configured with `duration-700 ease-in-out`. Translates opacity, filters, and scale on cursor enter.
+                    </p>
+
+                    <div class="w-full max-w-sm aspect-[4/3] bg-neutral-200 relative overflow-hidden group cursor-pointer border border-neutral-300">
+                        <img alt="Corporate architecture" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=2000&auto=format&fit=crop">
+                        <div class="absolute top-4 left-4 bg-white px-3 py-1 text-[0.65rem] uppercase tracking-widest font-semibold">Hover Me</div>
+                        <div class="absolute bottom-4 right-4 w-10 h-10 bg-[#d4ff00] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-4 group-hover:translate-y-0">
+                            <i data-lucide="arrow-up-right" class="w-5 h-5 text-black" stroke-width="1.5"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progressive Scroll-Reveal Simulation -->
+                <div class="border border-neutral-300 p-8 lg:p-12 lg:col-span-2">
+                    <h4 class="text-lg font-semibold tracking-tight uppercase mb-4">03. Scroll-Driven Reveal Engine</h4>
+                    <p class="text-sm font-light text-neutral-600 leading-relaxed mb-8">
+                        Offline progressive reveal utilizes custom transitions and coordinates opacity + transform offsets dynamically as elements enter the viewport.
+                    </p>
+
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="flex-1 p-6 border border-neutral-300 bg-neutral-50 flex flex-col justify-center items-center text-center">
+                            <span class="text-xs font-mono text-neutral-400 mb-4">DEMO PREVIEW</span>
+                            <div id="reveal-target" class="opacity-0 translate-y-8 transition-all duration-700 ease-[cubic-bezier(.16,1,.3,1)] bg-white p-6 border border-neutral-300 max-w-xs shadow-md">
+                                <h4 class="text-lg font-semibold uppercase mb-2">Systems Architecture</h4>
+                                <p class="text-xs text-neutral-600 font-light">This panel was revealed dynamically using the ease transition.</p>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-80 flex flex-col justify-center gap-4">
+                            <button id="trigger-reveal" class="w-full bg-[#171717] text-white px-6 py-4 text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors">
+                                Trigger Reveal
+                            </button>
+                            <button id="trigger-reset" class="w-full border border-neutral-900 px-6 py-4 text-xs uppercase tracking-widest hover:bg-neutral-900 hover:text-white transition-colors">
+                                Reset Demo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: ICONS -->
+    <section id="icons" class="py-24 lg:py-32 px-6 lg:px-16 border-b border-neutral-300 bg-[#f5f5f3] relative">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-xs uppercase tracking-[0.2em] font-light mb-4">06 / Icons</h2>
+            <h3 class="text-5xl lg:text-7xl font-semibold tracking-tight uppercase leading-none mb-16">Iconography &amp; Markup</h3>
+
+            <!-- Icons Grid Showcase -->
+            <div class="border border-neutral-300 bg-white p-8 lg:p-12">
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 text-center">
+                    
+                    <!-- Plus -->
+                    <div class="flex flex-col items-center justify-center p-4 border border-neutral-200 bg-neutral-50 hover:bg-neutral-100 transition-colors">
+                        <i data-lucide="plus" class="w-6 h-6 text-neutral-900" stroke-width="1.5"></i>
+                        <span class="text-[0.65rem] font-mono mt-4 text-neutral-500">plus</span>
+                    </div>
+
+                    <!-- Arrow Up Right -->
+                    <div class="flex flex-col items-center justify-center p-4 border border-neutral-200 bg-neutral-50 hover:bg-neutral-100 transition-colors">
+                        <i data-lucide="arrow-up-right" class="w-6 h-6 text-neutral-900" stroke-width="1.5"></i>
+                        <span class="text-[0.65rem] font-mono mt-4 text-neutral-500">arrow-up-right</span>
+                    </div>
+
+                    <!-- Arrow Left -->
+                    <div class="flex flex-col items-center justify-center p-4 border border-neutral-200 bg-neutral-50 hover:bg-neutral-100 transition-colors">
+                        <i data-lucide="arrow-left" class="w-6 h-6 text-neutral-900" stroke-width="1.5"></i>
+                        <span class="text-[0.65rem] font-mono mt-4 text-neutral-500">arrow-left</span>
+                    </div>
+
+                    <!-- Arrow Right -->
+                    <div class="flex flex-col items-center justify-center p-4 border border-neutral-200 bg-neutral-50 hover:bg-neutral-100 transition-colors">
+                        <i data-lucide="arrow-right" class="w-6 h-6 text-neutral-900" stroke-width="1.5"></i>
+                        <span class="text-[0.65rem] font-mono mt-4 text-neutral-500">arrow-right</span>
+                    </div>
+
+                    <!-- Arrow Down -->
+                    <div class="flex flex-col items-center justify-center p-4 border border-neutral-200 bg-neutral-50 hover:bg-neutral-100 transition-colors">
+                        <i data-lucide="arrow-down" class="w-6 h-6 text-neutral-900" stroke-width="1.5"></i>
+                        <span class="text-[0.65rem] font-mono mt-4 text-neutral-500">arrow-down</span>
+                    </div>
+
+                    <!-- Network -->
+                    <div class="flex flex-col items-center justify-center p-4 border border-neutral-200 bg-neutral-50 hover:bg-neutral-100 transition-colors">
+                        <i data-lucide="network" class="w-6 h-6 text-neutral-900" stroke-width="1.5"></i>
+                        <span class="text-[0.65rem] font-mono mt-4 text-neutral-500">network</span>
+                    </div>
+
+                    <!-- Workflow -->
+                    <div class="flex flex-col items-center justify-center p-4 border border-neutral-200 bg-neutral-50 hover:bg-neutral-100 transition-colors">
+                        <i data-lucide="workflow" class="w-6 h-6 text-neutral-900" stroke-width="1.5"></i>
+                        <span class="text-[0.65rem] font-mono mt-4 text-neutral-500">workflow</span>
+                    </div>
+
+                    <!-- Database Zap -->
+                    <div class="flex flex-col items-center justify-center p-4 border border-neutral-200 bg-neutral-50 hover:bg-neutral-100 transition-colors">
+                        <i data-lucide="database-zap" class="w-6 h-6 text-neutral-900" stroke-width="1.5"></i>
+                        <span class="text-[0.65rem] font-mono mt-4 text-neutral-500">database-zap</span>
+                    </div>
+
+                    <!-- Shield Check -->
+                    <div class="flex flex-col items-center justify-center p-4 border border-neutral-200 bg-neutral-50 hover:bg-neutral-100 transition-colors">
+                        <i data-lucide="shield-check" class="w-6 h-6 text-neutral-900" stroke-width="1.5"></i>
+                        <span class="text-[0.65rem] font-mono mt-4 text-neutral-500">shield-check</span>
+                    </div>
+
+                    <!-- CPU -->
+                    <div class="flex flex-col items-center justify-center p-4 border border-neutral-200 bg-neutral-50 hover:bg-neutral-100 transition-colors">
+                        <i data-lucide="cpu" class="w-6 h-6 text-neutral-900" stroke-width="1.5"></i>
+                        <span class="text-[0.65rem] font-mono mt-4 text-neutral-500">cpu</span>
+                    </div>
+
+                    <!-- Check -->
+                    <div class="flex flex-col items-center justify-center p-4 border border-neutral-200 bg-neutral-50 hover:bg-neutral-100 transition-colors">
+                        <i data-lucide="check" class="w-6 h-6 text-neutral-900" stroke-width="2"></i>
+                        <span class="text-[0.65rem] font-mono mt-4 text-neutral-500">check</span>
+                    </div>
+
+                    <!-- Quote -->
+                    <div class="flex flex-col items-center justify-center p-4 border border-neutral-200 bg-neutral-50 hover:bg-neutral-100 transition-colors">
+                        <i data-lucide="quote" class="w-6 h-6 text-neutral-900" stroke-width="1.5"></i>
+                        <span class="text-[0.65rem] font-mono mt-4 text-neutral-500">quote</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Icon Size & Color Specs -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
+                <!-- Size Variants -->
+                <div class="border border-neutral-300 bg-white p-8">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-neutral-500 mb-6 font-mono">Size Scalability</h4>
+                    <div class="flex items-end gap-8 border border-neutral-200 p-6 bg-neutral-50">
+                        <div class="text-center">
+                            <i data-lucide="plus" class="w-4 h-4 text-neutral-900 mx-auto" stroke-width="1.5"></i>
+                            <span class="text-[0.55rem] font-mono text-neutral-400 block mt-2">w-4 / h-4 (16px)</span>
+                        </div>
+                        <div class="text-center">
+                            <i data-lucide="plus" class="w-6 h-6 text-neutral-900 mx-auto" stroke-width="1.5"></i>
+                            <span class="text-[0.55rem] font-mono text-neutral-400 block mt-2">w-6 / h-6 (24px)</span>
+                        </div>
+                        <div class="text-center">
+                            <i data-lucide="plus" class="w-10 h-10 text-neutral-900 mx-auto" stroke-width="1.5"></i>
+                            <span class="text-[0.55rem] font-mono text-neutral-400 block mt-2">w-10 / h-10 (40px)</span>
+                        </div>
+                        <div class="text-center">
+                            <i data-lucide="plus" class="w-16 h-16 text-neutral-900 mx-auto" stroke-width="1"></i>
+                            <span class="text-[0.55rem] font-mono text-neutral-400 block mt-2">w-16 / h-16 (64px)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Color inheritance -->
+                <div class="border border-neutral-300 bg-white p-8">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-neutral-500 mb-6 font-mono">Color Swatches &amp; Fills</h4>
+                    <div class="flex gap-8 justify-around border border-neutral-200 p-6 bg-[#171717]">
+                        <div class="text-center">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6 text-white mx-auto" stroke-width="1.5"></i>
+                            <span class="text-[0.55rem] font-mono text-neutral-400 block mt-2">text-white</span>
+                        </div>
+                        <div class="text-center">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6 text-neutral-500 mx-auto" stroke-width="1.5"></i>
+                            <span class="text-[0.55rem] font-mono text-neutral-400 block mt-2">text-neutral-500</span>
+                        </div>
+                        <div class="text-center">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6 text-[#d4ff00] mx-auto" stroke-width="1.5"></i>
+                            <span class="text-[0.55rem] font-mono text-neutral-400 block mt-2">text-[#d4ff00]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER SECTION (Styling matches index.html footer) -->
+    <footer class="bg-[#171717] text-white pt-20 pb-12 px-6 lg:px-16 overflow-hidden relative">
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-[#d4ff00] blur-[150px] opacity-20 rounded-full pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto relative z-10 text-center md:text-left">
+            <div class="flex flex-col md:flex-row justify-between items-center border-b border-neutral-800 pb-12 gap-6">
+                <div>
+                    <h4 class="text-xl font-medium uppercase tracking-tight flex items-center justify-center md:justify-start gap-1">
+                        MACHINICK &amp; CO.<span class="text-xs border border-white rounded-full w-4 h-4 flex items-center justify-center">R</span>
+                    </h4>
+                    <p class="text-xs uppercase tracking-widest text-neutral-500 font-light mt-2">
+                        Design System Pattern Library &amp; Living Documentation.
+                    </p>
+                </div>
+                <div>
+                    <a href="index.html" class="bg-[#d4ff00] text-black px-8 py-4 text-xs uppercase tracking-widest flex items-center justify-center font-medium hover:bg-white transition-colors group">
+                        Return to Site <i data-lucide="arrow-right" class="w-4 h-4 ml-3 group-hover:translate-x-1 transition-transform" stroke-width="2"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-8 flex flex-col md:flex-row justify-between items-center text-[0.65rem] uppercase tracking-widest text-neutral-600">
+                <p>© 2026 MACHINICK SYSTEMS INC. ALL RIGHTS RESERVED.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a class="hover:text-white transition-colors" href="#">Privacy Policy</a>
+                    <a class="hover:text-white transition-colors" href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE SCRIPTS -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle logic
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const spans = menuBtn.querySelectorAll('span');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            
+            // Animate hamburger to X
+            if(!mobileMenu.classList.contains('hidden')){
+                spans[0].style.transform = 'rotate(45deg) translate(2px, 4px)';
+                spans[1].style.width = '1.5rem';
+                spans[1].style.transform = 'rotate(-45deg) translate(2px, -4px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.width = '1rem';
+                spans[1].style.transform = 'none';
+            }
+        });
+
+        // Close mobile menu on link click
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                spans[0].style.transform = 'none';
+                spans[1].style.width = '1rem';
+                spans[1].style.transform = 'none';
+            });
+        });
+
+        // FAQ Accordion Toggle Logic
+        const faqButtons = document.querySelectorAll('.faq-btn');
+        faqButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const content = btn.nextElementSibling;
+                const icon = btn.querySelector('.lucide-plus');
+                
+                // Toggle current
+                content.classList.toggle('hidden');
+                if(content.classList.contains('hidden')){
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    icon.style.transform = 'rotate(45deg)';
+                }
+            });
+        });
+
+        // Motion section Reveal Simulation logic
+        const revealTarget = document.getElementById('reveal-target');
+        const triggerReveal = document.getElementById('trigger-reveal');
+        const triggerReset = document.getElementById('trigger-reset');
+
+        triggerReveal.addEventListener('click', () => {
+            revealTarget.classList.remove('opacity-0', 'translate-y-8');
+            revealTarget.classList.add('opacity-100', 'translate-y-0');
+        });
+
+        triggerReset.addEventListener('click', () => {
+            revealTarget.classList.remove('opacity-100', 'translate-y-0');
+            revealTarget.classList.add('opacity-0', 'translate-y-8');
+        });
+    </script>
+</body>
+</html>
