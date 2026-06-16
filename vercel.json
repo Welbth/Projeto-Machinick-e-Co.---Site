@@ -1,0 +1,9 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/reestruturacao-novo-site",
+      "destination": "/reestruturacao-novo-site.html"
+    }
+  ]
+}
