@@ -196,10 +196,10 @@
 <body class="bg-cream text-navy font-sans antialiased selection:bg-gold selection:text-cream overflow-x-hidden pt-24">
 
     <!-- NAVIGATION BAR (Floating Center luxury block, distinct from previous full-width version) -->
-    <nav class="fixed top-4 left-4 right-4 bg-cream/95 backdrop-blur-md z-50 border border-gold/30 shadow-md max-w-[1280px] mx-auto px-6 lg:px-10 flex justify-between items-center h-16 lg:h-20">
+    <nav class="fixed top-4 left-4 right-4 bg-cream/95 backdrop-blur-md z-50 border border-gold/30 shadow-md max-w-[1280px] mx-auto px-6 lg:px-10 flex justify-between items-center h-20 lg:h-24">
         <!-- Brand Logo -->
         <a href="#" class="flex items-center group cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
-            <img class="h-12 lg:h-15 w-auto object-contain transition-transform duration-500 group-hover:scale-[1.02]" src="Logo Machinick &amp; Co..webp" alt="Machnick &amp; Co. Logo" />
+            <img class="h-16 lg:h-20 w-auto object-contain transition-transform duration-500 group-hover:scale-[1.02]" src="Logo Machinick &amp; Co..webp" alt="Machnick &amp; Co. Logo" />
         </a>
 
         <!-- Desktop Links -->
@@ -229,7 +229,8 @@
         </button>
 
         <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-cream h-[calc(100vh-6rem)] flex flex-col p-6 border border-gold/20 shadow-lg">
+        <div id="mobile-menu" class="hidden absolute top-24 left-0 w-full bg-cream h-[calc(100vh-6rem)] flex flex-col p-6 border border-gold/20 shadow-lg">
+
             <a href="#servicos" class="text-2xl font-semibold uppercase tracking-tight py-4 border-b border-gold/10">Serviços</a>
             <a href="#academia-mac" class="text-2xl font-semibold uppercase tracking-tight py-4 border-b border-gold/10">Academia</a>
             <a href="#comunidade-mac" class="text-2xl font-semibold uppercase tracking-tight py-4 border-b border-gold/10">Comunidade</a>
@@ -252,71 +253,78 @@
         <!-- Centered content grid wrapper -->
         <div class="max-w-[1280px] mx-auto w-full px-6 lg:px-16 flex flex-col justify-center h-full relative z-10">
             <!-- Left Column Content (Limited to 46% width) -->
-            <div class="w-full lg:w-[46%] flex flex-col justify-center relative">
-                
-                <div class="flex items-center gap-3 mb-6 lg:mb-8 hero-badge">
-                    <i data-lucide="globe" class="w-3.5 h-3.5 text-gold shrink-0" stroke-width="1.5"></i>
-                    <span class="text-xs uppercase tracking-widest font-semibold text-navy-mid">Curitiba · Rio de Janeiro · Nova York</span>
-                    <div class="w-1.5 h-1.5 rounded-full bg-gold"></div>
-                </div>
+             <div class="w-full lg:w-[46%] flex flex-col justify-center relative">
+                 
+                 <div class="flex items-center gap-3 mb-6 lg:mb-8 hero-badge">
+                     <i data-lucide="globe" class="w-3.5 h-3.5 text-gold shrink-0" stroke-width="1.5"></i>
+                     <span class="text-xs uppercase tracking-widest font-semibold text-navy-mid">Atendimento em todo o Brasil</span>
+                     <div class="w-1.5 h-1.5 rounded-full bg-gold"></div>
+                 </div>
+ 
+                 <!-- Clean Solid Navy Heading as requested -->
+                 <h1 class="text-[2.2rem] leading-[1.0] lg:text-[3.2rem] xl:text-[3.8rem] font-semibold uppercase tracking-tighter mb-8 lg:mb-10 text-navy">
+                     Prosperidade<br>
+                     com propósito,<br>
+                     ordem e leveza.
+                 </h1>
+ 
+                 <div class="flex flex-col lg:flex-row gap-6 lg:items-start mb-8 lg:mb-12 hero-desc">
+                     <i data-lucide="plus" class="w-10 h-10 text-gold shrink-0" stroke-width="1.5"></i>
+                     <p class="text-xs uppercase tracking-wider leading-relaxed max-w-md font-semibold text-navy-mid">
+                         Consultoria financeira, controladoria jurídica e governança para escritórios de advocacia que querem crescer — com método e sem ruído.
+                     </p>
+                 </div>
 
-                <!-- Clean Solid Navy Heading as requested -->
-                <h1 class="text-[2.2rem] leading-[1.0] lg:text-[3.2rem] xl:text-[3.8rem] font-semibold uppercase tracking-tighter mb-8 lg:mb-10 text-navy">
-                    Prosperidade<br>
-                    com propósito,<br>
-                    ordem e leveza.
-                </h1>
+                 <!-- Eyebrow Specialties -->
+                 <div class="text-[9px] font-semibold text-navy-mid/60 uppercase tracking-widest mb-6 hero-eyebrow">
+                     CONSULTORIA ESPECIALIZADA EM ESCRITÓRIOS DE ADVOCACIA
+                 </div>
+ 
+                 <!-- CTA Group -->
+                 <div class="flex flex-wrap items-center gap-6 mb-12 lg:mb-16 hero-cta">
+                     <a href="#servicos" class="flex items-stretch w-fit group cursor-pointer btn-float">
+                         <div class="bg-navy text-gold-light px-4 sm:px-8 lg:px-10 py-4 text-xs uppercase tracking-widest flex items-center justify-center font-semibold transition-colors group-hover:bg-navy-mid btn-shimmer whitespace-nowrap">
+                             Conheça nossos serviços
+                         </div>
+                         <div class="bg-gold px-4 flex items-center justify-center text-navy border-l border-navy">
+                             <i data-lucide="arrow-up-right" class="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform animate-arrow-diagonal" stroke-width="1.5"></i>
+                         </div>
+                     </a>
+ 
+                     <a href="https://wa.me/5541999999999" target="_blank" class="group flex items-center gap-3 text-xs uppercase tracking-widest font-semibold text-navy hover:text-gold transition-colors duration-300">
+                         <span>Falar com especialista</span>
+                         <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1.5 transition-transform animate-arrow-horizontal" stroke-width="1.5"></i>
+                     </a>
+                 </div>
+ 
+                 <!-- Stats Grid at bottom of hero -->
+                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-8 border-t border-gold/20 pt-6 lg:pt-8 w-full max-w-2xl">
+                     <div class="lg:border-r border-gold/20 flex flex-col pr-6 hero-stat-card">
+                         <i data-lucide="award" class="text-gold w-5 h-5 mb-2" stroke-width="1.5"></i>
+                         <span class="text-3xl lg:text-4xl font-semibold tracking-tight text-navy metric-num" data-target="14">0</span>
+                         <span class="text-[0.65rem] uppercase tracking-widest text-navy-mid mt-2 font-normal">Anos de<br>Experiência</span>
+                     </div>
+                     <div class="lg:border-r border-gold/20 flex flex-col pr-6 lg:pl-6 hero-stat-card">
+                         <i data-lucide="building-2" class="text-gold w-5 h-5 mb-2" stroke-width="1.5"></i>
+                         <div class="flex items-start">
+                             <span class="text-3xl lg:text-4xl font-semibold tracking-tight text-navy metric-num" data-target="1000">0</span>
+                             <span class="text-lg text-gold font-semibold select-none mt-0.5">+</span>
+                         </div>
+                         <span class="text-[0.65rem] uppercase tracking-widest text-navy-mid mt-2 font-normal">Escritórios<br>Atendidos</span>
+                     </div>
+                     <div class="lg:border-r border-gold/20 flex flex-col pr-6 lg:pl-6 hero-stat-card">
+                         <i data-lucide="book-open" class="text-gold w-5 h-5 mb-2" stroke-width="1.5"></i>
+                         <span class="text-3xl lg:text-4xl font-semibold tracking-tight text-navy metric-num" data-target="5">0</span>
+                         <span class="text-[0.65rem] uppercase tracking-widest text-navy-mid mt-2 font-normal">Livros<br>Publicados</span>
+                     </div>
+                     <div class="flex flex-col lg:pl-6 hero-stat-card">
+                         <i data-lucide="map-pin" class="text-gold w-5 h-5 mb-2" stroke-width="1.5"></i>
+                         <span class="text-3xl lg:text-4xl font-semibold tracking-tight text-navy metric-num" data-target="27">0</span>
+                         <span class="text-[0.65rem] uppercase tracking-widest text-navy-mid mt-2 font-normal">Estados<br>Atendidos</span>
+                     </div>
+                 </div>
+             </div>
 
-                <div class="flex flex-col lg:flex-row gap-6 lg:items-start mb-8 lg:mb-12 hero-desc">
-                    <i data-lucide="plus" class="w-10 h-10 text-gold shrink-0" stroke-width="1.5"></i>
-                    <p class="text-xs uppercase tracking-wider leading-relaxed max-w-md font-semibold text-navy-mid">
-                        Estratégia, consultoria financeira e governança para escritórios de advocacia que querem crescer — com método e sem ruído.
-                    </p>
-                </div>
-
-                <!-- CTA Group -->
-                <div class="flex flex-wrap items-center gap-6 mb-12 lg:mb-16 hero-cta">
-                    <a href="#servicos" class="flex items-stretch w-fit group cursor-pointer btn-float">
-                        <div class="bg-navy text-gold-light px-4 sm:px-8 lg:px-10 py-4 text-xs uppercase tracking-widest flex items-center justify-center font-semibold transition-colors group-hover:bg-navy-mid btn-shimmer whitespace-nowrap">
-                            Conheça nossos serviços
-                        </div>
-                        <div class="bg-gold px-4 flex items-center justify-center text-navy border-l border-navy">
-                            <i data-lucide="arrow-up-right" class="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform animate-arrow-diagonal" stroke-width="1.5"></i>
-                        </div>
-                    </a>
-
-                    <a href="https://wa.me/5541999999999" target="_blank" class="group flex items-center gap-3 text-xs uppercase tracking-widest font-semibold text-navy hover:text-gold transition-colors duration-300">
-                        <span>Falar com especialista</span>
-                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1.5 transition-transform animate-arrow-horizontal" stroke-width="1.5"></i>
-                    </a>
-                </div>
-
-                <!-- Stats Grid at bottom of hero -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-8 border-t border-gold/20 pt-6 lg:pt-8 w-full max-w-2xl">
-                    <div class="lg:border-r border-gold/20 flex flex-col pr-6 hero-stat-card">
-                        <i data-lucide="award" class="text-gold w-5 h-5 mb-2" stroke-width="1.5"></i>
-                        <span class="text-3xl lg:text-4xl font-semibold tracking-tight text-navy metric-num" data-target="13">0</span>
-                        <span class="text-[0.65rem] uppercase tracking-widest text-navy-mid mt-2 font-normal">Anos de<br>Experiência</span>
-                    </div>
-                    <div class="lg:border-r border-gold/20 flex flex-col pr-6 lg:pl-6 hero-stat-card">
-                        <i data-lucide="building-2" class="text-gold w-5 h-5 mb-2" stroke-width="1.5"></i>
-                        <div class="flex items-start">
-                            <span class="text-3xl lg:text-4xl font-semibold tracking-tight text-navy metric-num" data-target="200">0</span>
-                            <span class="text-lg text-gold font-semibold select-none mt-0.5">+</span>
-                        </div>
-                        <span class="text-[0.65rem] uppercase tracking-widest text-navy-mid mt-2 font-normal">Escritórios<br>Atendidos</span>
-                    </div>
-                    <div class="lg:border-r border-gold/20 flex flex-col pr-6 lg:pl-6 hero-stat-card">
-                        <i data-lucide="book-open" class="text-gold w-5 h-5 mb-2" stroke-width="1.5"></i>
-                        <span class="text-3xl lg:text-4xl font-semibold tracking-tight text-navy metric-num" data-target="5">0</span>
-                        <span class="text-[0.65rem] uppercase tracking-widest text-navy-mid mt-2 font-normal">Livros<br>Publicados</span>
-                    </div>
-                    <div class="flex flex-col lg:pl-6 hero-stat-card">
-                        <i data-lucide="map-pin" class="text-gold w-5 h-5 mb-2" stroke-width="1.5"></i>
-                        <span class="text-3xl lg:text-4xl font-semibold tracking-tight text-navy metric-num" data-target="3">0</span>
-                        <span class="text-[0.65rem] uppercase tracking-widest text-navy-mid mt-2 font-normal">Cidades<br>Sedes</span>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -599,7 +607,36 @@
                         A Academia MAC é o nosso programa autoral de Modernização da Advocacia Contemporânea — uma imersão de três dias com sócios e sócias de todo o Brasil sobre estratégia, governança e crescimento.
                     </p>
 
+                    <!-- Três Pilares Block -->
+                    <div class="flex flex-col space-y-4 w-full pt-4 mb-6">
+                        <span class="text-[9px] font-semibold text-gold tracking-widest uppercase">TRÊS PILARES</span>
+                        <h4 class="text-xs font-semibold text-white uppercase tracking-wider leading-tight">
+                            A Academia MAC é ministrada a escritórios de advocacia em três pilares.
+                        </h4>
+                        <div class="grid grid-cols-3 gap-3 w-full">
+                            <div class="border border-gold/20 bg-navy/60 p-3 flex flex-col items-start text-left relative group/pillar select-none hover:border-gold/40 transition-colors">
+                                <div class="bg-gold/10 text-gold p-1.5 rounded-sm mb-2">
+                                    <i data-lucide="brain" class="w-4 h-4" stroke-width="1.5"></i>
+                                </div>
+                                <span class="text-[10px] font-semibold text-white uppercase tracking-wider leading-tight">Gestão das Emoções</span>
+                            </div>
+                            <div class="border border-gold/20 bg-navy/60 p-3 flex flex-col items-start text-left relative group/pillar select-none hover:border-gold/40 transition-colors">
+                                <div class="bg-gold/10 text-gold p-1.5 rounded-sm mb-2">
+                                    <i data-lucide="clock" class="w-4 h-4" stroke-width="1.5"></i>
+                                </div>
+                                <span class="text-[10px] font-semibold text-white uppercase tracking-wider leading-tight">Gestão do Tempo</span>
+                            </div>
+                            <div class="border border-gold/20 bg-navy/60 p-3 flex flex-col items-start text-left relative group/pillar select-none hover:border-gold/40 transition-colors">
+                                <div class="bg-gold/10 text-gold p-1.5 rounded-sm mb-2">
+                                    <i data-lucide="briefcase" class="w-4 h-4" stroke-width="1.5"></i>
+                                </div>
+                                <span class="text-[10px] font-semibold text-white uppercase tracking-wider leading-tight">Gestão dos Recursos</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Logistics grid (Outline blueprint boxes) -->
+
                     <div class="grid grid-cols-2 gap-4 w-full pt-6">
                         <div class="border border-gold/20 p-4 bg-navy/60 flex items-start gap-3">
                             <i data-lucide="map-pin" class="text-gold w-4 h-4 mt-0.5 shrink-0" stroke-width="1.5"></i>
@@ -820,15 +857,8 @@
                 </div>
 
                 <!-- Col 2: countup specifications cards -->
-                <div class="lg:col-span-3 flex flex-col space-y-6 reveal-bottom">
-                    <div class="border border-gold/20 p-6 bg-navy/60 flex flex-col items-start gap-2">
-                        <i data-lucide="heart" class="text-gold w-5 h-5" stroke-width="1.5"></i>
-                        <span class="text-2xl font-semibold text-gold font-mono leading-none">
-                            +<span id="instituto-num-1" data-target="1200">0</span>
-                        </span>
-                        <span class="text-[8px] uppercase tracking-widest text-gold-light/60 mt-1">mulheres e crianças atendidas anualmente</span>
-                    </div>
-                    <div class="border border-gold/20 p-6 bg-navy/60 flex flex-col items-start gap-2">
+                <div class="lg:col-span-3 flex flex-col justify-center items-center reveal-bottom w-full">
+                    <div class="border border-gold/20 p-6 bg-navy/60 flex flex-col items-start gap-2 w-full max-w-[280px]">
                         <i data-lucide="percent" class="text-gold w-5 h-5" stroke-width="1.5"></i>
                         <span class="text-2xl font-semibold text-gold font-mono leading-none">
                             <span id="instituto-num-2" data-target="100">0</span>%
@@ -836,6 +866,7 @@
                         <span class="text-[8px] uppercase tracking-widest text-gold-light/60 mt-1">da renda do MAC Empreendedoras destinada</span>
                     </div>
                 </div>
+
 
                 <!-- Col 3: Quote card -->
                 <div class="lg:col-span-4 flex justify-center w-full reveal-right">
@@ -1027,8 +1058,8 @@
             <!-- Redesigned bookshelf book covers mockup grid layout -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-12 w-full text-left reveal-bottom">
                 
-                <div class="border border-gold/20 bg-navy/40 hover:bg-navy-mid/60 transition-all p-5 flex flex-col justify-between h-44 select-none group relative overflow-hidden">
-                    <div class="absolute -right-4 -bottom-4 w-12 h-12 bg-gold/5 border border-gold/10 rounded-full group-hover:scale-125 transition-transform duration-500"></div>
+                <div class="bg-white/5 border border-white/10 hover:border-gold/30 hover:bg-white/[0.08] transition-all duration-300 p-6 flex flex-col justify-between h-44 select-none group relative">
+                    <div class="absolute left-0 top-0 bottom-0 w-[2px] bg-gold scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top"></div>
                     <div class="flex justify-between items-start">
                         <span class="text-gold font-mono text-base font-semibold">01</span>
                         <i data-lucide="book-open" class="text-gold/30 group-hover:text-gold transition-colors duration-300 w-4 h-4" stroke-width="1.5"></i>
@@ -1038,8 +1069,8 @@
                     </span>
                 </div>
                 
-                <div class="border border-gold/20 bg-navy/40 hover:bg-navy-mid/60 transition-all p-5 flex flex-col justify-between h-44 select-none group relative overflow-hidden">
-                    <div class="absolute -right-4 -bottom-4 w-12 h-12 bg-gold/5 border border-gold/10 rounded-full group-hover:scale-125 transition-transform duration-500"></div>
+                <div class="bg-white/5 border border-white/10 hover:border-gold/30 hover:bg-white/[0.08] transition-all duration-300 p-6 flex flex-col justify-between h-44 select-none group relative">
+                    <div class="absolute left-0 top-0 bottom-0 w-[2px] bg-gold scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top"></div>
                     <div class="flex justify-between items-start">
                         <span class="text-gold font-mono text-base font-semibold">02</span>
                         <i data-lucide="book-open" class="text-gold/30 group-hover:text-gold transition-colors duration-300 w-4 h-4" stroke-width="1.5"></i>
@@ -1049,8 +1080,8 @@
                     </span>
                 </div>
                 
-                <div class="border border-gold/20 bg-navy/40 hover:bg-navy-mid/60 transition-all p-5 flex flex-col justify-between h-44 select-none group relative overflow-hidden">
-                    <div class="absolute -right-4 -bottom-4 w-12 h-12 bg-gold/5 border border-gold/10 rounded-full group-hover:scale-125 transition-transform duration-500"></div>
+                <div class="bg-white/5 border border-white/10 hover:border-gold/30 hover:bg-white/[0.08] transition-all duration-300 p-6 flex flex-col justify-between h-44 select-none group relative">
+                    <div class="absolute left-0 top-0 bottom-0 w-[2px] bg-gold scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top"></div>
                     <div class="flex justify-between items-start">
                         <span class="text-gold font-mono text-base font-semibold">03</span>
                         <i data-lucide="book-open" class="text-gold/30 group-hover:text-gold transition-colors duration-300 w-4 h-4" stroke-width="1.5"></i>
@@ -1060,8 +1091,8 @@
                     </span>
                 </div>
                 
-                <div class="border border-gold/20 bg-navy/40 hover:bg-navy-mid/60 transition-all p-5 flex flex-col justify-between h-44 select-none group relative overflow-hidden">
-                    <div class="absolute -right-4 -bottom-4 w-12 h-12 bg-gold/5 border border-gold/10 rounded-full group-hover:scale-125 transition-transform duration-500"></div>
+                <div class="bg-white/5 border border-white/10 hover:border-gold/30 hover:bg-white/[0.08] transition-all duration-300 p-6 flex flex-col justify-between h-44 select-none group relative">
+                    <div class="absolute left-0 top-0 bottom-0 w-[2px] bg-gold scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top"></div>
                     <div class="flex justify-between items-start">
                         <span class="text-gold font-mono text-base font-semibold">04</span>
                         <i data-lucide="book-open" class="text-gold/30 group-hover:text-gold transition-colors duration-300 w-4 h-4" stroke-width="1.5"></i>
@@ -1071,8 +1102,8 @@
                     </span>
                 </div>
                 
-                <div class="border border-gold/20 bg-navy/40 hover:bg-navy-mid/60 transition-all p-5 flex flex-col justify-between h-44 select-none group relative overflow-hidden">
-                    <div class="absolute -right-4 -bottom-4 w-12 h-12 bg-gold/5 border border-gold/10 rounded-full group-hover:scale-125 transition-transform duration-500"></div>
+                <div class="bg-white/5 border border-white/10 hover:border-gold/30 hover:bg-white/[0.08] transition-all duration-300 p-6 flex flex-col justify-between h-44 select-none group relative">
+                    <div class="absolute left-0 top-0 bottom-0 w-[2px] bg-gold scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top"></div>
                     <div class="flex justify-between items-start">
                         <span class="text-gold font-mono text-base font-semibold">05</span>
                         <i data-lucide="book-open" class="text-gold/30 group-hover:text-gold transition-colors duration-300 w-4 h-4" stroke-width="1.5"></i>
@@ -1081,8 +1112,8 @@
                         Honorários Advocatícios
                     </span>
                 </div>
-
             </div>
+
 
             <!-- Footer Details row -->
             <div class="flex flex-col sm:flex-row md:items-center justify-between w-full gap-6 pt-8 mt-12 border-t border-gold/20 reveal-bottom">
@@ -1818,12 +1849,12 @@
             const instNumObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        animateNumber(document.getElementById('instituto-num-1'), 0, 1200, 1800, 300);
                         animateNumber(document.getElementById('instituto-num-2'), 0, 100, 1500, 500);
                         instNumObserver.disconnect();
                     }
                 });
             }, { threshold: 0.25 });
+
             const instSection = document.getElementById('instituto-machnick');
             if (instSection) {
                 instNumObserver.observe(instSection);
