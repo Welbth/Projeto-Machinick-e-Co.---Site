@@ -11,9 +11,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap" rel="stylesheet">
     
-    <!-- CDNs: Tailwind CSS, Lucide Icons, GSAP & ScrollTrigger -->
+    <!-- CDNs: Tailwind CSS, Lucide Icons, Iconify, GSAP & ScrollTrigger -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     
@@ -263,15 +264,15 @@
  
                  <!-- Clean Solid Navy Heading as requested -->
                  <h1 class="text-[2.2rem] leading-[1.0] lg:text-[3.2rem] xl:text-[3.8rem] font-semibold uppercase tracking-tighter mb-8 lg:mb-10 text-navy">
-                     Prosperidade<br>
-                     com propósito,<br>
-                     ordem e leveza.
+                     PROSPERE COM<br>
+                     PROPÓSITO,<br>
+                     ORDEM E LEVEZA
                  </h1>
  
                  <div class="flex flex-col lg:flex-row gap-6 lg:items-start mb-8 lg:mb-12 hero-desc">
                      <i data-lucide="plus" class="w-10 h-10 text-gold shrink-0" stroke-width="1.5"></i>
                      <p class="text-xs uppercase tracking-wider leading-relaxed max-w-md font-semibold text-navy-mid">
-                         Consultoria financeira, controladoria jurídica e governança para escritórios de advocacia que querem crescer — com método e sem ruído.
+                         Consultoria financeira, plano de carreira jurídico, controladoria e governança para escritórios de Advocacia que desejam crescer com ordem e leveza.
                      </p>
                  </div>
 
@@ -291,9 +292,9 @@
                          </div>
                      </a>
  
-                     <a href="https://wa.me/5541999999999" target="_blank" class="group flex items-center gap-3 text-xs uppercase tracking-widest font-semibold text-navy hover:text-gold transition-colors duration-300">
-                         <span>Falar com especialista</span>
-                         <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1.5 transition-transform animate-arrow-horizontal" stroke-width="1.5"></i>
+                     <a href="https://wa.me/5541991924263" target="_blank" rel="noopener" class="inline-flex items-center gap-3 bg-gold text-navy px-4 sm:px-8 lg:px-10 py-4 text-xs uppercase tracking-widest font-semibold hover:bg-gold-light hover:text-navy-mid transition-all shadow-md group btn-shimmer btn-float">
+                         <span>Fale diretamente conosco</span>
+                         <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform animate-arrow-horizontal" stroke-width="1.5"></i>
                      </a>
                  </div>
  
@@ -320,7 +321,7 @@
                      <div class="flex flex-col lg:pl-6 hero-stat-card">
                          <i data-lucide="map-pin" class="text-gold w-5 h-5 mb-2" stroke-width="1.5"></i>
                          <span class="text-3xl lg:text-4xl font-semibold tracking-tight text-navy metric-num" data-target="27">0</span>
-                         <span class="text-[0.65rem] uppercase tracking-widest text-navy-mid mt-2 font-normal">Estados<br>Atendidos</span>
+                         <span class="text-[0.65rem] uppercase tracking-widest text-navy-mid mt-2 font-normal">Estados + EUA</span>
                      </div>
                  </div>
              </div>
@@ -399,36 +400,72 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-stretch">
                 
                 <!-- Left Column: Interactive Vertical Selectors (Architectural Blueprint tabs) -->
-                <div class="lg:col-span-4 flex flex-col justify-start space-y-6 reveal-left">
+                <div class="lg:col-span-4 flex flex-col justify-start space-y-4 reveal-left">
                     <span class="text-[9px] font-semibold text-gold tracking-widest uppercase block mb-2">Selecione uma especialidade</span>
                     
-                    <button onclick="switchPanel(1)" id="menu-item-1" class="w-full text-left p-6 border-l-4 border-gold bg-white shadow-sm hover:bg-gold-light/20 transition-all focus:outline-none flex flex-row items-center gap-4">
-                        <div class="bg-gold/10 text-gold p-2.5 rounded-sm flex items-center justify-center shrink-0" id="menu-icon-1">
+                    <!-- AREA 1: Controladoria Jurídica -->
+                    <button onclick="switchPanel(1)" id="menu-item-1" class="w-full text-left p-5 border-l-4 border-gold bg-white shadow-sm hover:bg-gold-light/20 transition-all focus:outline-none flex flex-row items-center gap-4 group">
+                        <div class="bg-gold/10 text-gold p-2.5 rounded-sm flex items-center justify-center shrink-0 transition-colors duration-200 group-hover:bg-gold/10 group-hover:text-gold" id="menu-icon-1">
+                            <iconify-icon icon="mdi:file-document-multiple-outline" width="20" height="20"></iconify-icon>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-[9px] font-semibold text-gold tracking-widest uppercase transition-colors duration-200 group-hover:text-gold" id="menu-tag-1">ÁREA 01</span>
+                            <span class="text-xs font-semibold uppercase tracking-widest text-navy mt-0.5 transition-colors duration-200 group-hover:text-navy" id="menu-title-1">Controladoria Jurídica</span>
+                        </div>
+                    </button>
+                    
+                    <!-- AREA 2: Consultoria Financeira -->
+                    <button onclick="switchPanel(2)" id="menu-item-2" class="w-full text-left p-5 border-l-4 border-transparent bg-white/40 shadow-sm hover:bg-gold-light/20 transition-all focus:outline-none flex flex-row items-center gap-4 group">
+                        <div class="bg-navy-mid/10 text-navy-mid/60 p-2.5 rounded-sm flex items-center justify-center shrink-0 transition-colors duration-200 group-hover:bg-gold/10 group-hover:text-gold" id="menu-icon-2">
                             <i data-lucide="trending-up" class="w-5 h-5" stroke-width="1.5"></i>
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-[9px] font-semibold text-gold tracking-widest uppercase">MÓDULO 01</span>
-                            <span class="text-xs font-semibold uppercase tracking-widest text-navy mt-0.5">Consultoria Financeira</span>
+                            <span class="text-[9px] font-semibold text-navy-mid/40 tracking-widest uppercase transition-colors duration-200 group-hover:text-gold" id="menu-tag-2">ÁREA 02</span>
+                            <span class="text-xs font-semibold uppercase tracking-widest text-navy-mid mt-0.5 transition-colors duration-200 group-hover:text-navy" id="menu-title-2">Consultoria Financeira</span>
                         </div>
                     </button>
                     
-                    <button onclick="switchPanel(2)" id="menu-item-2" class="w-full text-left p-6 border-l-4 border-transparent bg-white/40 shadow-sm hover:bg-gold-light/20 transition-all focus:outline-none flex flex-row items-center gap-4">
-                        <div class="bg-navy-mid/10 text-navy-mid/60 p-2.5 rounded-sm flex items-center justify-center shrink-0" id="menu-icon-2">
+                    <!-- AREA 3: Societário & Governança -->
+                    <button onclick="switchPanel(3)" id="menu-item-3" class="w-full text-left p-5 border-l-4 border-transparent bg-white/40 shadow-sm hover:bg-gold-light/20 transition-all focus:outline-none flex flex-row items-center gap-4 group">
+                        <div class="bg-navy-mid/10 text-navy-mid/60 p-2.5 rounded-sm flex items-center justify-center shrink-0 transition-colors duration-200 group-hover:bg-gold/10 group-hover:text-gold" id="menu-icon-3">
+                            <iconify-icon icon="mdi:handshake-outline" width="20" height="20"></iconify-icon>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-[9px] font-semibold text-navy-mid/40 tracking-widest uppercase transition-colors duration-200 group-hover:text-gold" id="menu-tag-3">ÁREA 03</span>
+                            <span class="text-xs font-semibold uppercase tracking-widest text-navy-mid mt-0.5 transition-colors duration-200 group-hover:text-navy" id="menu-title-3">Societário &amp; Governança</span>
+                        </div>
+                    </button>
+
+                    <!-- AREA 4: Plano de Carreira -->
+                    <button onclick="switchPanel(4)" id="menu-item-4" class="w-full text-left p-5 border-l-4 border-transparent bg-white/40 shadow-sm hover:bg-gold-light/20 transition-all focus:outline-none flex flex-row items-center gap-4 group">
+                        <div class="bg-navy-mid/10 text-navy-mid/60 p-2.5 rounded-sm flex items-center justify-center shrink-0 transition-colors duration-200 group-hover:bg-gold/10 group-hover:text-gold" id="menu-icon-4">
+                            <iconify-icon icon="mdi:stairs-up" width="20" height="20"></iconify-icon>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-[9px] font-semibold text-navy-mid/40 tracking-widest uppercase transition-colors duration-200 group-hover:text-gold" id="menu-tag-4">ÁREA 04</span>
+                            <span class="text-xs font-semibold uppercase tracking-widest text-navy-mid mt-0.5 transition-colors duration-200 group-hover:text-navy" id="menu-title-4">Plano de Carreira</span>
+                        </div>
+                    </button>
+
+                    <!-- AREA 5: Terceirização Financeira -->
+                    <button onclick="switchPanel(5)" id="menu-item-5" class="w-full text-left p-5 border-l-4 border-transparent bg-white/40 shadow-sm hover:bg-gold-light/20 transition-all focus:outline-none flex flex-row items-center gap-4 group">
+                        <div class="bg-navy-mid/10 text-navy-mid/60 p-2.5 rounded-sm flex items-center justify-center shrink-0 transition-colors duration-200 group-hover:bg-gold/10 group-hover:text-gold" id="menu-icon-5">
                             <i data-lucide="wallet" class="w-5 h-5" stroke-width="1.5"></i>
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-[9px] font-semibold text-navy-mid/40 tracking-widest uppercase">MÓDULO 02</span>
-                            <span class="text-xs font-semibold uppercase tracking-widest text-navy-mid mt-0.5">Terceirização Financeira</span>
+                            <span class="text-[9px] font-semibold text-navy-mid/40 tracking-widest uppercase transition-colors duration-200 group-hover:text-gold" id="menu-tag-5">ÁREA 05</span>
+                            <span class="text-xs font-semibold uppercase tracking-widest text-navy-mid mt-0.5 transition-colors duration-200 group-hover:text-navy" id="menu-title-5">Terceirização Financeira</span>
                         </div>
                     </button>
                     
-                    <button onclick="switchPanel(3)" id="menu-item-3" class="w-full text-left p-6 border-l-4 border-transparent bg-white/40 shadow-sm hover:bg-gold-light/20 transition-all focus:outline-none flex flex-row items-center gap-4">
-                        <div class="bg-navy-mid/10 text-navy-mid/60 p-2.5 rounded-sm flex items-center justify-center shrink-0" id="menu-icon-3">
+                    <!-- AREA 6: Portal & Plataforma -->
+                    <button onclick="switchPanel(6)" id="menu-item-6" class="w-full text-left p-5 border-l-4 border-transparent bg-white/40 shadow-sm hover:bg-gold-light/20 transition-all focus:outline-none flex flex-row items-center gap-4 group">
+                        <div class="bg-navy-mid/10 text-navy-mid/60 p-2.5 rounded-sm flex items-center justify-center shrink-0 transition-colors duration-200 group-hover:bg-gold/10 group-hover:text-gold" id="menu-icon-6">
                             <i data-lucide="bar-chart-3" class="w-5 h-5" stroke-width="1.5"></i>
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-[9px] font-semibold text-navy-mid/40 tracking-widest uppercase">MÓDULO 03</span>
-                            <span class="text-xs font-semibold uppercase tracking-widest text-navy-mid mt-0.5">Portal &amp; Plataforma</span>
+                            <span class="text-[9px] font-semibold text-navy-mid/40 tracking-widest uppercase transition-colors duration-200 group-hover:text-gold" id="menu-tag-6">ÁREA 06</span>
+                            <span class="text-xs font-semibold uppercase tracking-widest text-navy-mid mt-0.5 transition-colors duration-200 group-hover:text-navy" id="menu-title-6">Portal &amp; Plataforma</span>
                         </div>
                     </button>
                 </div>
@@ -436,8 +473,60 @@
                 <!-- Right Column: Switchable details card panel -->
                 <div class="lg:col-span-8 flex flex-col justify-between reveal-right">
                     
-                    <!-- PANEL 1: Consultoria Financeira -->
+                    <!-- PANEL 1: Consultoria em Controladoria Jurídica -->
                     <div id="panel-1" class="w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-start h-full">
+                        <div class="flex flex-col items-start text-left w-full h-full justify-between py-2">
+                            <div>
+                                <span class="text-[9px] font-semibold text-gold tracking-widest uppercase block mb-3">GESTÃO OPERACIONAL / CONTROLADORIA</span>
+                                <h4 class="text-xl font-semibold tracking-tight uppercase text-navy mb-4">
+                                    Consultoria em Controladoria Jurídica
+                                </h4>
+                                <p class="text-xs font-semibold text-navy-mid leading-relaxed mb-6">
+                                    Estruturamos e padronizamos a operação do seu escritório para garantir controle absoluto de prazos, manuais jurídicos e máxima produtividade da equipe.
+                                </p>
+
+                                <ul class="flex flex-col gap-3 w-full mb-6 text-left">
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:file-document-multiple-outline" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Estruturação e padronização da leitura de publicação, agendamento de prazos e protocolos</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:file-document-multiple-outline" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Uso do sistema do escritório e ferramentas de produtividade e gestão de tempo</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:file-document-multiple-outline" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Construção dos manuais jurídicos, procedimento da controladoria, regimento interno e fluxogramas</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:file-document-multiple-outline" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Mapeamentos de funções do time jurídico</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <a href="#contato" class="flex items-stretch w-fit group cursor-pointer btn-float">
+                                <div class="bg-navy text-gold-light px-4 sm:px-8 lg:px-10 py-4 text-xs uppercase tracking-widest flex items-center justify-center font-semibold transition-colors group-hover:bg-navy-mid btn-shimmer whitespace-nowrap">
+                                    Solicitar diagnóstico
+                                </div>
+                                <div class="bg-gold px-4 flex items-center justify-center text-navy border-l border-navy">
+                                    <i data-lucide="arrow-up-right" class="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform animate-arrow-diagonal" stroke-width="1.5"></i>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Professional Consultation Workspace Image (No Mockups) -->
+                        <div class="w-full h-[340px] bg-cream border border-gold/30 shadow-[12px_12px_0px_#D4AF37] overflow-hidden relative group">
+                            <img src="workspace_luxury.png" alt="Consultoria em Controladoria Jurídica Workspace" class="w-full h-full object-cover scale-115 parallax-img grayscale hover:grayscale-0 transition-all duration-700" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-navy/35 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 text-[8px] font-semibold text-gold tracking-widest uppercase bg-navy/90 px-3 py-1.5 border border-gold/20">
+                                CONTROLADORIA E FLUXO JURÍDICO
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PANEL 2: Consultoria Financeira -->
+                    <div id="panel-2" class="w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-start h-full hidden">
                         <div class="flex flex-col items-start text-left w-full h-full justify-between py-2">
                             <div>
                                 <span class="text-[9px] font-semibold text-gold tracking-widest uppercase block mb-3">CONTRATO / ESTRATÉGIA</span>
@@ -488,8 +577,130 @@
                         </div>
                     </div>
 
-                    <!-- PANEL 2: Terceirização Financeira (Landscape Dashboard Style Layout) -->
-                    <div id="panel-2" class="w-full flex flex-col justify-between h-full hidden">
+                    <!-- PANEL 3: Societário & Governança -->
+                    <div id="panel-3" class="w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-start h-full hidden">
+                        <div class="flex flex-col items-start text-left w-full h-full justify-between py-2">
+                            <div>
+                                <span class="text-[9px] font-semibold text-gold tracking-widest uppercase block mb-3">ESTRUTURA SOCIETÁRIA / GOVERNANÇA</span>
+                                <h4 class="text-xl font-semibold tracking-tight uppercase text-navy mb-4">
+                                    Societário &amp; Governança
+                                </h4>
+                                <p class="text-xs font-semibold text-navy-mid leading-relaxed mb-6">
+                                    Alinhamos as regras da sociedade, critérios de distribuição de lucros, conselho e governança para garantir crescimento sustentável e harmonia entre os sócios.
+                                </p>
+
+                                <ul class="flex flex-col gap-2.5 w-full mb-6 text-left">
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:handshake-outline" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Definição de papéis e responsabilidade entre sócios</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:handshake-outline" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Acordo de sócios &amp; contrato social</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:handshake-outline" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Critérios e metodologia de distribuição de lucros</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:handshake-outline" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Plano de sucessão, fusões e cisões</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:handshake-outline" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Plano de carreira societário</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:handshake-outline" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Valuation — avaliação de empresas</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:handshake-outline" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Política de movimentação financeira e societária</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:handshake-outline" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Criação do Conselho Diretivo</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <a href="#contato" class="flex items-stretch w-fit group cursor-pointer btn-float">
+                                <div class="bg-navy text-gold-light px-4 sm:px-8 lg:px-10 py-4 text-xs uppercase tracking-widest flex items-center justify-center font-semibold transition-colors group-hover:bg-navy-mid btn-shimmer whitespace-nowrap">
+                                    Solicitar diagnóstico
+                                </div>
+                                <div class="bg-gold px-4 flex items-center justify-center text-navy border-l border-navy">
+                                    <i data-lucide="arrow-up-right" class="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform animate-arrow-diagonal" stroke-width="1.5"></i>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="w-full h-[340px] bg-cream border border-gold/30 shadow-[12px_12px_0px_#D4AF37] overflow-hidden relative group">
+                            <img src="meeting_corporate.png" alt="Societário & Governança Workspace" class="w-full h-full object-cover scale-115 parallax-img grayscale hover:grayscale-0 transition-all duration-700" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-navy/35 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 text-[8px] font-semibold text-gold tracking-widest uppercase bg-navy/90 px-3 py-1.5 border border-gold/20">
+                                ACORDO DE SÓCIOS E GOVERNANÇA
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PANEL 4: Plano de Carreira -->
+                    <div id="panel-4" class="w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-start h-full hidden">
+                        <div class="flex flex-col items-start text-left w-full h-full justify-between py-2">
+                            <div>
+                                <span class="text-[9px] font-semibold text-gold tracking-widest uppercase block mb-3">RECURSOS HUMANOS / ESTRUTURAÇÃO</span>
+                                <h4 class="text-xl font-semibold tracking-tight uppercase text-navy mb-4">
+                                    Plano de Carreira
+                                </h4>
+                                <p class="text-xs font-semibold text-navy-mid leading-relaxed mb-6">
+                                    Desenhamos cargos, remuneração fixa e variável e caminhos claros de crescimento para atrair, reter e engajar talentos no escritório.
+                                </p>
+
+                                <ul class="flex flex-col gap-3 w-full mb-6 text-left">
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:stairs-up" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Definição de cargos e responsabilidades</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:stairs-up" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Modelos de remuneração fixa e variável</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:stairs-up" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Referências para remuneração fixa e variável</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:stairs-up" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Estruturação da remuneração variável, bônus e participações variáveis</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5 text-[11px] text-navy font-semibold">
+                                        <iconify-icon icon="mdi:stairs-up" class="text-gold w-4 h-4 shrink-0 mt-0.5" width="16"></iconify-icon>
+                                        <span>Formas de contratação (CLT, associado, sócio de serviços, prestador de serviços)</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <a href="#contato" class="flex items-stretch w-fit group cursor-pointer btn-float">
+                                <div class="bg-navy text-gold-light px-4 sm:px-8 lg:px-10 py-4 text-xs uppercase tracking-widest flex items-center justify-center font-semibold transition-colors group-hover:bg-navy-mid btn-shimmer whitespace-nowrap">
+                                    Solicitar diagnóstico
+                                </div>
+                                <div class="bg-gold px-4 flex items-center justify-center text-navy border-l border-navy">
+                                    <i data-lucide="arrow-up-right" class="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform animate-arrow-diagonal" stroke-width="1.5"></i>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="w-full h-[340px] bg-cream border border-gold/30 shadow-[12px_12px_0px_#D4AF37] overflow-hidden relative group">
+                            <img src="office_luxury.png" alt="Plano de Carreira Workspace" class="w-full h-full object-cover scale-115 parallax-img grayscale hover:grayscale-0 transition-all duration-700" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-navy/35 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 text-[8px] font-semibold text-gold tracking-widest uppercase bg-navy/90 px-3 py-1.5 border border-gold/20">
+                                CRESCIMENTO E VALORIZAÇÃO DO TIME
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PANEL 5: Terceirização Financeira (Landscape Dashboard Style Layout) -->
+                    <div id="panel-5" class="w-full flex flex-col justify-between h-full hidden">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start w-full">
                             <div class="flex flex-col text-left">
                                 <span class="text-[9px] font-semibold text-gold tracking-widest uppercase block mb-3">BPO OPERAÇÕES</span>
@@ -545,8 +756,8 @@
                         </div>
                     </div>
 
-                    <!-- PANEL 3: Portal & Plataforma -->
-                    <div id="panel-3" class="w-full flex flex-col h-full justify-between py-2 hidden">
+                    <!-- PANEL 6: Portal & Plataforma -->
+                    <div id="panel-6" class="w-full flex flex-col h-full justify-between py-2 hidden">
                         <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
                             <!-- Pillar 1 -->
                             <div class="border border-gold/20 bg-white p-6 hover:bg-cream hover:border-gold/40 transition-all duration-300 shadow-sm flex flex-col items-start text-left group">
@@ -601,10 +812,10 @@
                 <div class="lg:col-span-5 flex flex-col justify-start items-start text-left space-y-6 reveal-left">
                     <span class="text-[9px] font-semibold text-gold tracking-widest uppercase block bg-gold/10 border border-gold/30 px-3 py-1 rounded-sm">ACADEMIA MAC · IMERSÃO PRESENCIAL</span>
                     <h2 class="text-3xl md:text-4xl lg:text-5xl font-semibold uppercase tracking-tight text-white leading-tight">
-                        A formação autoral para sócios que querem mudar o jogo.
+                        A formação autoral que fortalece a cúpula dos escritórios com técnica, resiliência e inteligência emocional.
                     </h2>
                     <p class="text-xs uppercase tracking-wider leading-relaxed text-gold-light/80">
-                        A Academia MAC é o nosso programa autoral de Modernização da Advocacia Contemporânea — uma imersão de três dias com sócios e sócias de todo o Brasil sobre estratégia, governança e crescimento.
+                        A Academia MAC é o nosso programa autoral de Modernização da Advocacia Contemporânea — uma imersão de 2 dias com sócios e sócias de todo o Brasil sobre estratégia, governança e crescimento.
                     </p>
 
                     <!-- Três Pilares Block -->
@@ -663,7 +874,7 @@
                             <i data-lucide="clock" class="text-gold w-4 h-4 mt-0.5 shrink-0" stroke-width="1.5"></i>
                             <div>
                                 <span class="text-[8px] font-semibold text-gold tracking-widest uppercase block mb-1">FORMATO</span>
-                                <span class="text-xs text-white font-semibold uppercase">Imersão 3 dias</span>
+                                <span class="text-xs text-white font-semibold uppercase">Imersão 2 dias</span>
                             </div>
                         </div>
                     </div>
@@ -749,10 +960,10 @@
 
         <div class="max-w-[1280px] mx-auto px-6 lg:px-16 relative z-10">
             <!-- Centered Header Block -->
-            <div class="max-w-3xl mx-auto text-center mb-16 space-y-4">
-                <span class="text-[9px] font-semibold text-gold tracking-widest uppercase block bg-gold-light/40 border border-gold/25 px-3 py-1 rounded-sm w-fit mx-auto">MAC EMPREENDEDORAS · ENCONTRO PRESENCIAL</span>
+            <div class="max-w-4xl mx-auto text-center mb-16 space-y-4">
+                <span class="text-xs md:text-sm font-semibold text-gold tracking-[0.2em] uppercase block bg-gold-light/40 border border-gold/30 px-5 py-2 rounded-sm w-fit mx-auto shadow-sm">MAC EMPREENDEDORAS · ENCONTRO PRESENCIAL</span>
                 <h2 class="text-3xl md:text-4xl lg:text-5xl font-semibold uppercase tracking-tight text-navy leading-tight">
-                    Um encontro de mulheres que lideram escritórios.
+                    FORMANDO MULHERES QUE ANDAM EM ORDEM E LEVEZA NA VIDA E NOS NEGÓCIOS
                 </h2>
                 <div class="w-12 h-[1.5px] bg-gold mx-auto mt-4"></div>
             </div>
@@ -770,7 +981,7 @@
                         
                         <div class="relative z-10">
                             <p class="font-serif text-lg md:text-xl text-gold-light leading-relaxed font-semibold italic">
-                                "Liderar um escritório como advogada é, antes de tudo, um ato de coragem. Esse encontro existe para que essa coragem não seja solitária."
+                                "Liderar um negócio é, antes de tudo, um ato de coragem. Esse encontro existe para que essa coragem não seja solitária."
                             </p>
                             <div class="w-8 h-[1px] bg-gold my-6"></div>
                             <span class="block text-[9px] font-semibold text-gold tracking-widest uppercase">— BEATRIZ MACHNICK, FUNDADORA</span>
@@ -779,10 +990,10 @@
 
                     <div class="space-y-4">
                         <p class="text-xs uppercase tracking-wider leading-relaxed text-navy-mid font-semibold">
-                            A vertente social do ecossistema MAC. Uma noite de mentoria, conexão e propósito, dedicada exclusivamente a advogadas empreendedoras — sem custo, com convidadas especiais.
+                            A vertente social do ecossistema MAC. Um encontro anual com conexão e propósito, dedicada exclusivamente a mulheres empreendedoras, e todo lucro do evento é destinado 100% para projetos sociais.
                         </p>
                         <p class="text-[11px] text-navy-mid/70 leading-relaxed font-medium">
-                            Nossa missão é fortalecer a liderança feminina na advocacia através da partilha de experiências práticas de negócios, planejamento estratégico de sociedade e desenvolvimento financeiro de marca.
+                            Nossa missão é fortalecer a liderança feminina através da partilha de experiências práticas de negócios, planejamento estratégico de sociedade e desenvolvimento financeiro da marca, equilibrando com excelência todos os papéis.
                         </p>
                     </div>
                 </div>
@@ -874,7 +1085,7 @@
                         <i data-lucide="quote" class="text-gold/20 w-8 h-8 absolute top-4 right-4" stroke-width="1.5"></i>
                         <span class="absolute top-2 left-4 font-serif text-[100px] text-gold/10 leading-none select-none pointer-events-none font-normal">“</span>
                         <p class="text-xs text-white/90 leading-relaxed font-semibold relative z-10 pl-6 italic">
-                            Nada do que construímos faz sentido se, no fim, não conseguir abrigar quem mais precisa.
+                            Nosso lema do instituto: não é apenas sobre fazer caridade, mas dar dignidade.
                         </p>
                         <div class="mt-4 pl-6 flex flex-col">
                             <span class="text-[9px] font-semibold text-gold tracking-widest uppercase">Beatriz Machnick</span>
@@ -1151,14 +1362,17 @@
                 <div class="flex flex-col justify-center items-start text-left reveal-right">
                     <span class="text-[9px] font-semibold text-gold tracking-widest uppercase block bg-gold-light/40 border border-gold/25 px-3 py-1 rounded-sm">SOBRE A MACHNICK &amp; CO.</span>
                     <h2 class="text-3xl md:text-4xl lg:text-5xl font-semibold uppercase tracking-tight text-navy leading-tight mt-5">
-                        Começou no chão da operação. Virou um ecossistema.
+                        De Call Center a consultoria que gerencia 1 Bi em faturamentos de escritórios de Advocacia
                     </h2>
                     <div class="mt-6 flex flex-col space-y-4">
                         <p class="text-xs uppercase tracking-wider leading-relaxed text-navy-mid font-semibold">
-                            Beatriz Machnick é referência nacional em gestão de escritórios de advocacia. Ao longo de mais de uma década, construiu um corpo de trabalho aplicado, com escritórios atendidos em todo o Brasil — e uma metodologia autoral hoje conhecida como Método MAC.
+                            Beatriz Machnick é referência nacional em gestão de escritórios de advocacia. Ao longo de mais de uma década, construiu um corpo de trabalho aplicado, pisando todos os Estados do Brasil e mais de 350 cidades presencialmente atendendo escritórios de Advocacia de forma personalizada.
                         </p>
                         <p class="text-xs uppercase tracking-wider leading-relaxed text-navy-mid font-semibold">
-                            Ao lado de Renan Rabelo e do time Machnick &amp; Co., atendemos escritórios em todo o Brasil — de Curitiba ao Rio de Janeiro, com atuação internacional em Nova York. Consultoria, terceirização, academia, comunidade, livros e plataforma de indicadores: um único ecossistema, com um único propósito — prosperidade com propósito, ordem e leveza.
+                            Ao lado de Renan Rabelo e do time Machnick &amp; Co., atendemos escritórios em todo o Brasil — com nossas bases em Curitiba e no Rio de Janeiro e atuação internacional em Nova York. Consultoria, terceirização, academia, comunidade, livros e plataforma de indicadores: um único ecossistema, com um único propósito — prosperidade com propósito, ordem e leveza.
+                        </p>
+                        <p class="text-xs uppercase tracking-wider leading-relaxed text-navy-mid font-semibold">
+                            Somamos mais de 50 mil pessoas em nossas redes sociais, considerando todas as plataformas — não apenas Instagram.
                         </p>
                     </div>
 
@@ -1188,7 +1402,7 @@
                             </div>
                             <div class="flex flex-col text-left">
                                 <span class="text-[9px] font-semibold text-navy-mid/60 uppercase tracking-widest">COMUNIDADE</span>
-                                <span class="text-[10px] text-navy font-semibold uppercase tracking-wider mt-0.5">80k+ Seguidores IG</span>
+                                <span class="text-[10px] text-navy font-semibold uppercase tracking-wider mt-0.5">50k+ em todas as redes</span>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 p-3 bg-white border border-gold/15 shadow-sm hover:border-gold/35 transition-colors duration-300">
@@ -1203,8 +1417,8 @@
                     </div>
 
                     <!-- Instagram CTA Link -->
-                    <a href="https://instagram.com/biamachnick" target="_blank" class="group flex items-center gap-3 text-xs uppercase tracking-widest font-semibold text-navy hover:text-gold transition-colors duration-300 mt-8">
-                        <span>@biamachnick — 80 mil profissionais acompanham</span>
+                    <a href="https://instagram.com/biamachnick" target="_blank" rel="noopener" class="group flex items-center gap-3 text-xs uppercase tracking-widest font-semibold text-navy hover:text-gold transition-colors duration-300 mt-8">
+                        <span>@biamachnick — 50 mil pessoas acompanham nas redes</span>
                         <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300 animate-arrow-horizontal" stroke-width="1.5"></i>
                     </a>
                 </div>
@@ -1226,7 +1440,7 @@
 
             <!-- Placards grid layout -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full reveal-bottom">
-                <!-- Placard 1 -->
+                <!-- Placard 1: Ricardo Estrela -->
                 <div class="card-glow bg-navy-mid/20 border border-gold/20 p-8 flex flex-col justify-between h-80 text-left relative select-none group hover:bg-navy-mid/45">
                     <span class="font-serif text-[100px] text-gold/15 leading-none block h-10 -mt-8 select-none pointer-events-none absolute right-4 top-4">“</span>
                     <div class="flex items-center gap-1 mb-4 relative z-10">
@@ -1237,20 +1451,20 @@
                         <i data-lucide="star" class="w-3.5 h-3.5 fill-gold text-gold" stroke-width="1"></i>
                     </div>
                     <p class="text-xs uppercase tracking-wider leading-relaxed text-white font-semibold flex-grow relative z-10">
-                        O trabalho da Machnick &amp; Co. organizou a casa. Hoje sei exatamente onde está cada real e a precificação do escritório finalmente faz sentido.
+                        "Ter a BM e os ensinamentos do Método MAC tem ajudado nosso escritório a crescer de forma mais profissional, desempenhando um papel de conselheiros na vida e nos negócios."
                     </p>
                     <div class="mt-4 flex items-center gap-3 border-t border-gold/15 pt-4 relative z-10">
                         <div class="bg-gold/10 text-gold p-1.5 rounded-full shrink-0 group-hover:scale-110 transition-transform">
                             <i data-lucide="user" class="w-4 h-4" stroke-width="1.5"></i>
                         </div>
                         <div>
-                            <span class="text-[10px] font-semibold text-white tracking-widest uppercase block">Sócio</span>
-                            <span class="text-[8px] font-semibold text-gold/70 mt-0.5 block uppercase tracking-widest">Escritório Previdenciário · SP</span>
+                            <span class="text-[10px] font-semibold text-white tracking-widest uppercase block">Ricardo Estrela</span>
+                            <span class="text-[8px] font-semibold text-gold/70 mt-0.5 block uppercase tracking-widest">Sócio Fundador · Cliente desde 2024</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Placard 2 -->
+                <!-- Placard 2: Luis Otávio Fraz -->
                 <div class="card-glow bg-navy-mid/20 border border-gold/20 p-8 flex flex-col justify-between h-80 text-left relative select-none group hover:bg-navy-mid/45">
                     <span class="font-serif text-[100px] text-gold/15 leading-none block h-10 -mt-8 select-none pointer-events-none absolute right-4 top-4">“</span>
                     <div class="flex items-center gap-1 mb-4 relative z-10">
@@ -1261,20 +1475,20 @@
                         <i data-lucide="star" class="w-3.5 h-3.5 fill-gold text-gold" stroke-width="1"></i>
                     </div>
                     <p class="text-xs uppercase tracking-wider leading-relaxed text-white font-semibold flex-grow relative z-10">
-                        Saímos de uma operação artesanal para uma controladoria de verdade. A Academia MAC foi um divisor de águas para a sociedade.
+                        "Empresa muito assertiva, tudo nosso é feito a partir da consultoria deles e orientação deles. A Bia nos ensinou a tratar o negócio como empresa e a desconstruir um ambiente familiar com organograma e funções bem definidas."
                     </p>
                     <div class="mt-4 flex items-center gap-3 border-t border-gold/15 pt-4 relative z-10">
                         <div class="bg-gold/10 text-gold p-1.5 rounded-full shrink-0 group-hover:scale-110 transition-transform">
                             <i data-lucide="user" class="w-4 h-4" stroke-width="1.5"></i>
                         </div>
                         <div>
-                            <span class="text-[10px] font-semibold text-white tracking-widest uppercase block">Sócia-gestora</span>
-                            <span class="text-[8px] font-semibold text-gold/70 mt-0.5 block uppercase tracking-widest">Escritório Empresarial · PR</span>
+                            <span class="text-[10px] font-semibold text-white tracking-widest uppercase block">Luis Otávio Fraz</span>
+                            <span class="text-[8px] font-semibold text-gold/70 mt-0.5 block uppercase tracking-widest">Juiz Aposentado · Cliente desde 2021</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Placard 3 -->
+                <!-- Placard 3: Daniela Magalhães -->
                 <div class="card-glow bg-navy-mid/20 border border-gold/20 p-8 flex flex-col justify-between h-80 text-left relative select-none group hover:bg-navy-mid/45">
                     <span class="font-serif text-[100px] text-gold/15 leading-none block h-10 -mt-8 select-none pointer-events-none absolute right-4 top-4">“</span>
                     <div class="flex items-center gap-1 mb-4 relative z-10">
@@ -1285,15 +1499,15 @@
                         <i data-lucide="star" class="w-3.5 h-3.5 fill-gold text-gold" stroke-width="1"></i>
                     </div>
                     <p class="text-xs uppercase tracking-wider leading-relaxed text-white font-semibold flex-grow relative z-10">
-                        Os dashboards são uma virada de chave. Tomamos decisões com dados — não com intuição — e crescemos 38% in um ano.
+                        "A Bia nos ajudou em várias fases e estações do nosso negócio e hoje é a principal referência no mercado em precificação de honorários."
                     </p>
                     <div class="mt-4 flex items-center gap-3 border-t border-gold/15 pt-4 relative z-10">
                         <div class="bg-gold/10 text-gold p-1.5 rounded-full shrink-0 group-hover:scale-110 transition-transform">
                             <i data-lucide="user" class="w-4 h-4" stroke-width="1.5"></i>
                         </div>
                         <div>
-                            <span class="text-[10px] font-semibold text-white tracking-widest uppercase block">Sócio-fundador</span>
-                            <span class="text-[8px] font-semibold text-gold/70 mt-0.5 block uppercase tracking-widest">Escritório Trabalhista · RJ</span>
+                            <span class="text-[10px] font-semibold text-white tracking-widest uppercase block">Daniela Magalhães</span>
+                            <span class="text-[8px] font-semibold text-gold/70 mt-0.5 block uppercase tracking-widest">Vice-Presidente OAB SP · Cliente desde 2017</span>
                         </div>
                     </div>
                 </div>
@@ -1322,23 +1536,23 @@
                     <div class="flex flex-col gap-4 w-full border-t border-gold/20 pt-8">
                         <span class="text-[8px] font-semibold text-gold tracking-widest uppercase block mb-1">CANAIS DIRETOS</span>
                         
-                        <a href="mailto:renan@bmfinancas.com.br" class="flex items-center gap-3 p-4 bg-white border border-gold/15 shadow-sm hover:border-gold/35 transition-colors group">
-                            <div class="bg-gold/10 text-gold p-2 shrink-0 group-hover:scale-110 transition-transform">
-                                <i data-lucide="mail" class="w-4 h-4" stroke-width="1.5"></i>
-                            </div>
-                            <div class="flex flex-col">
-                                <span class="text-[9px] text-navy-mid/60 uppercase tracking-widest">E-MAIL PROFISSIONAL</span>
-                                <span class="text-xs text-navy font-semibold uppercase mt-0.5">renan@bmfinancas.com.br</span>
-                            </div>
-                        </a>
-
-                        <a href="tel:+554100000000" class="flex items-center gap-3 p-4 bg-white border border-gold/15 shadow-sm hover:border-gold/35 transition-colors group">
+                        <a href="https://wa.me/5541991924263" target="_blank" rel="noopener" class="flex items-center gap-3 p-4 bg-white border border-gold/15 shadow-sm hover:border-gold/35 transition-colors group">
                             <div class="bg-gold/10 text-gold p-2 shrink-0 group-hover:scale-110 transition-transform">
                                 <i data-lucide="phone" class="w-4 h-4" stroke-width="1.5"></i>
                             </div>
                             <div class="flex flex-col">
-                                <span class="text-[9px] text-navy-mid/60 uppercase tracking-widest">WHATSAPP / TELEFONE</span>
-                                <span class="text-xs text-navy font-semibold uppercase mt-0.5">(41) 0000-0000</span>
+                                <span class="text-[9px] text-navy-mid/60 uppercase tracking-widest">TELEFONE DE CONTATO</span>
+                                <span class="text-xs text-navy font-semibold uppercase mt-0.5">41 99192-4263</span>
+                            </div>
+                        </a>
+
+                        <a href="https://wa.me/5541991924263" target="_blank" rel="noopener" class="flex items-center gap-3 p-4 bg-white border border-gold/15 shadow-sm hover:border-gold/35 transition-colors group">
+                            <div class="bg-gold/10 text-gold p-2 shrink-0 group-hover:scale-110 transition-transform">
+                                <i data-lucide="message-square" class="w-4 h-4" stroke-width="1.5"></i>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-[9px] text-navy-mid/60 uppercase tracking-widest">WHATSAPP ATENDIMENTO</span>
+                                <span class="text-xs text-navy font-semibold uppercase mt-0.5">41 99192-4263</span>
                             </div>
                         </a>
 
@@ -1432,7 +1646,7 @@
                         <img class="h-12 w-auto object-contain transition-transform duration-500 group-hover:scale-[1.02]" src="Logo Machinick &amp; Co. - White.webp" alt="Machnick &amp; Co. Logo" />
                     </a>
                     <p class="text-[11px] uppercase tracking-wider text-gold-light/65 leading-relaxed max-w-[220px] font-semibold mt-2">
-                        Prosperidade com propósito, ordem e leveza.
+                        Prospere com propósito, ordem e leveza.
                     </p>
                     <div class="w-8 h-[1.5px] bg-gold mt-6"></div>
                 </div>
@@ -1450,8 +1664,7 @@
                 <!-- Contacts info -->
                 <div class="flex flex-col items-center md:items-start">
                     <span class="text-[9px] font-semibold text-gold tracking-widest uppercase mb-4">CONTATO</span>
-                    <a href="mailto:renan@bmfinancas.com.br" class="text-[11px] uppercase tracking-wider text-gold-light/70 hover:text-gold transition-colors font-semibold">renan@bmfinancas.com.br</a>
-                    <a href="tel:+554100000000" class="text-[11px] uppercase tracking-wider text-gold-light/70 hover:text-gold transition-colors font-semibold mt-1.5">(41) 0000-0000</a>
+                    <a href="https://wa.me/5541991924263" target="_blank" rel="noopener" class="text-[11px] uppercase tracking-wider text-gold-light/70 hover:text-gold transition-colors font-semibold">41 99192-4263</a>
                     <div class="mt-6 flex flex-col gap-1.5 items-center md:items-start text-[10px] text-white/40 uppercase tracking-widest font-semibold">
                         <span>Curitiba — Sede</span>
                         <span>Rio de Janeiro — Filial</span>
@@ -1594,16 +1807,45 @@
             isTransitioning = true;
 
             // Highlight tab select updates
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 1; i <= 6; i++) {
                 const item = document.getElementById(`menu-item-${i}`);
+                const icon = document.getElementById(`menu-icon-${i}`);
+                const tag = document.getElementById(`menu-tag-${i}`);
+                const title = document.getElementById(`menu-title-${i}`);
                 if (!item) continue;
                 
                 if (i === panelNum) {
-                    item.classList.remove('border-transparent', 'text-navy-mid/60');
-                    item.classList.add('border-gold', 'text-navy');
+                    item.classList.remove('border-transparent', 'bg-white/40');
+                    item.classList.add('border-gold', 'bg-white');
+                    
+                    if (icon) {
+                        icon.classList.remove('bg-navy-mid/10', 'text-navy-mid/60');
+                        icon.classList.add('bg-gold/10', 'text-gold');
+                    }
+                    if (tag) {
+                        tag.classList.remove('text-navy-mid/40');
+                        tag.classList.add('text-gold');
+                    }
+                    if (title) {
+                        title.classList.remove('text-navy-mid');
+                        title.classList.add('text-navy');
+                    }
                 } else {
-                    item.classList.remove('border-gold', 'text-navy');
-                    item.classList.add('border-transparent', 'text-navy-mid/60');
+                    item.classList.remove('border-gold', 'bg-white');
+                    item.classList.add('border-transparent', 'bg-white/40');
+                    
+                    if (icon) {
+                        icon.classList.remove('bg-gold/10', 'text-gold');
+                        icon.classList.add('bg-navy-mid/10', 'text-navy-mid/60');
+                    }
+                    if (tag) {
+                        tag.classList.remove('text-gold');
+                        tag.classList.add('text-navy-mid/40');
+                    }
+                    if (title) {
+                        title.classList.remove('text-navy');
+                        title.classList.add('text-navy-mid');
+                    }
                 }
             }
 
@@ -1633,11 +1875,11 @@
                                 isTransitioning = false;
 
                                 // Trigger dashboards animations
-                                if (panelNum === 1) {
+                                if (panelNum === 2) {
                                     animateDashboardChart();
-                                } else if (panelNum === 2) {
+                                } else if (panelNum === 5) {
                                     animateTableRows();
-                                } else if (panelNum === 3) {
+                                } else if (panelNum === 6) {
                                     animatePillarCount();
                                 }
                             }
